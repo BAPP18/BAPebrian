@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio Bootcamp — Neural Link Portfolio">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://api.countapi.xyz; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.countapi.xyz; frame-ancestors 'none'">
+  <title>Portfolio Bootcamp | Neural Link</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="navbar">
+    <div class="nav-brand">
+      <span class="status-dot"></span>
+          <span class="status-text">👁️ <span id="visitor-count">0</span></span>
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#cyber-lab">Cyber Lab</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <div class="profile-photo-frame" id="profile-photo-frame">
+          <img id="profile-photo" class="profile-photo" src="" alt="Profile Photo" style="display:none">
+          <span id="profile-photo-placeholder" class="profile-photo-placeholder">👤</span>
+        </div>
+        <p class="hero-badge" id="hero-badge">Bootcamp Portfolio v1.0</p>
+        <h1 class="hero-name" id="hero-name">NAMA ANDA</h1>
+        <p class="hero-role">
+          <span id="typing-text"></span><span class="cursor-blink">|</span>
+        </p>
+        <p class="hero-desc" id="hero-desc">Mahasiswa Bootcamp — membangun website interaktif dengan HTML, CSS & JavaScript modern.</p>
+        <div class="hero-actions">
+          <a href="#cyber-lab" class="btn btn-primary">Explore Tools →</a>
+          <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+        </div>
+      </div>
+
+      <div class="control-panel glass-card">
+        <div class="panel-header">
+          <span>RENDER CONTROLLER</span>
+          <span class="panel-stats">FPS: <span id="fps-counter">60</span> / Canvas2D</span>
+        </div>
+        <div class="panel-body">
+          <label class="panel-label">Particle Mode</label>
+          <div class="toggle-group" id="particle-mode">
+            <button class="toggle active" data-mode="sphere">Sphere</button>
+            <button class="toggle" data-mode="network">Network</button>
+            <button class="toggle" data-mode="warp">Warp</button>
+          </div>
+          <label class="panel-label">Speed <span id="speed-value">1.0x</span></label>
+          <input type="range" id="speed-slider" min="0.2" max="2" step="0.1" value="1">
+          <label class="panel-label">Glow Intensity <span id="glow-value">1.5x</span></label>
+          <input type="range" id="glow-slider" min="0.5" max="3" step="0.1" value="1.5">
+        </div>
+      </div>
+    </section>
+
+    <!-- TERMINAL -->
+    <section id="terminal-section" class="terminal-section">
+      <div class="terminal glass-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+          <p class="terminal-line"><span class="prompt">$</span> Neural Telemetry Link established.</p>
+          <p class="terminal-line"><span class="prompt">$</span> Initializing command prompt... <span class="success">DONE</span></p>
+          <p class="terminal-line muted">Type "help" to list available commands.</p>
+        </div>
+        <form class="terminal-input-row" id="terminal-form">
+          <span class="prompt">$</span>
+          <input type="text" id="terminal-input" placeholder="Enter command (e.g. 'help')..." autocomplete="off" spellcheck="false">
+        </form>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <h2 class="section-title">👤 About Me</h2>
+      <p class="section-subtitle">Pengalaman kerja & ketertarikan di cybersecurity</p>
+      <div class="about-grid">
+        <div class="glass-card about-card about-photo-card" data-animate>
+          <div class="about-photo-frame">
+            <img id="about-photo" class="about-photo" src="" alt="Profile Photo" style="display:none">
+            <span id="about-photo-placeholder" class="about-photo-placeholder">👤</span>
+          </div>
+          <p class="about-photo-name" id="about-photo-name">NAMA ANDA</p>
+          <p class="about-photo-role" id="about-photo-role">Cybersecurity Enthusiast</p>
+        </div>
+        <div class="glass-card about-card" data-animate>
+          <h3>About Me</h3>
+          <p id="about-intro">Loading...</p>
+          <div id="about-interest" class="about-interest"></div>
+        </div>
+        <div class="glass-card about-card" data-animate>
+          <h3>Experience</h3>
+          <div id="about-experience"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <h2 class="section-title">⚡ Tech Stack</h2>
+      <p class="section-subtitle">Skills yang sedang & sudah dikuasai</p>
+      <div class="skills-grid" id="skills-grid"></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2 class="section-title">🔬 Project Gallery</h2>
+      <p class="section-subtitle">Project bootcamp — edit di <code>js/config.js</code></p>
+      <div class="projects-grid" id="projects-grid"></div>
+    </section>
+
+    <!-- CYBER SECURITY LAB (TOOLS) -->
+    <section id="cyber-lab" class="section">
+      <h2 class="section-title">🛡️ Cyber Security Lab</h2>
+      <p class="section-subtitle">Practical cybersecurity tools</p>
+
+      <div class="lab-tabs" id="cyber-tabs">
+        <button class="lab-tab active" data-tab="pwd-tool">🔐 Password Analyzer</button>
+        <button class="lab-tab" data-tab="enc-tool">🔒 Text Encryptor</button>
+        <button class="lab-tab" data-tab="port-tool">🌐 Port Reference</button>
+      </div>
+
+      <div id="pwd-tool" class="lab-content active">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🔐 Password Strength Analyzer</h3>
+          <p class="text-muted">Real-time analysis with entropy calculation & crack time estimation</p>
+          <div class="pwd-field">
+            <input type="password" id="pwd-input" class="tool-input" placeholder="Type a password..." autocomplete="off">
+            <button id="pwd-toggle" class="tool-icon-btn" type="button" aria-label="Toggle visibility">👁️</button>
+          </div>
+          <div class="pwd-bar-bg"><div class="pwd-bar-fill" id="pwd-bar"></div></div>
+          <p id="pwd-info" class="text-muted tool-hint">Strength: — | Entropy: — bits | Length: 0</p>
+          <p id="pwd-time" class="text-muted tool-hint"></p>
+        </div>
+      </div>
+
+      <div id="enc-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🔒 Text Encryptor / Decryptor</h3>
+          <p class="text-muted">Encrypt & decrypt text using common algorithms</p>
+          <div class="enc-controls">
+            <select id="enc-algo" class="tool-select">
+              <option value="base64">Base64</option>
+              <option value="caesar">Caesar Cipher</option>
+              <option value="xor">XOR Cipher</option>
+            </select>
+            <div id="enc-shift-group" class="enc-param">
+              <label>Shift: <input type="number" id="enc-shift" value="3" min="1" max="25" class="tool-input-sm"></label>
+            </div>
+            <div id="enc-key-group" class="enc-param" style="display:none">
+              <label>Key: <input type="text" id="enc-key" value="key" class="tool-input-sm"></label>
+            </div>
+          </div>
+          <textarea id="enc-input" class="tool-textarea" placeholder="Enter text to encrypt/decrypt..." rows="3"></textarea>
+          <div class="tool-btn-row">
+            <button id="enc-encrypt" class="btn btn-primary">Encrypt →</button>
+            <button id="enc-decrypt" class="btn btn-outline">Decrypt ←</button>
+          </div>
+          <div class="tool-output-row">
+            <textarea id="enc-output" class="tool-textarea" readonly placeholder="Output will appear here..." rows="3"></textarea>
+            <button id="enc-copy" class="tool-icon-btn" type="button">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="port-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🌐 Network Port Reference</h3>
+          <p class="text-muted">Common network ports and their security implications</p>
+          <select id="port-select" class="tool-select"></select>
+          <div id="port-display" class="port-detail-wrapper"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 class="section-title">📡 Contact Link</h2>
+      <p class="section-subtitle">Hubungi saya melalui channel berikut</p>
+      <div class="contact-grid" id="contact-grid"></div>
+
+      <form class="contact-form glass-card" id="contact-form" data-animate>
+        <h3>Kirim Pesan</h3>
+        <div class="form-group">
+          <label for="name">Nama</label>
+          <input type="text" id="name" name="name" required placeholder="Nama lengkap">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="message">Pesan</label>
+          <textarea id="message" name="message" rows="4" required placeholder="Tulis pesan Anda..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Transmit Message →</button>
+        <p class="form-status" id="form-status" hidden></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>BAP</p>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
