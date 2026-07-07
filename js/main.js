@@ -1,14 +1,14 @@
 import { CONFIG } from './config.js';
 import { initAllTools } from './tools.js';
 
-// ===== Theme colors (sync with css/style.css) =====
+
 const THEME = {
   accent: '#e879f9',
   accentRgb: '232, 121, 249',
   bg: '#0c0612',
 };
 
-// ===== Render dari CONFIG (single source of truth) =====
+
 function renderProfile() {
   const { profile } = CONFIG;
   document.getElementById('hero-name').textContent = profile.name;
@@ -120,7 +120,7 @@ renderSkills();
 renderProjects();
 renderContact();
 
-// ===== Scroll Animations =====
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -141,7 +141,7 @@ function observeAnimated() {
 
 observeAnimated();
 
-// ===== Particle Background =====
+
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -299,7 +299,7 @@ function typeEffect() {
 
 typeEffect();
 
-// ===== Terminal (sync dari CONFIG) =====
+
 const terminalOutput = document.getElementById('terminal-output');
 const terminalForm = document.getElementById('terminal-form');
 const terminalInput = document.getElementById('terminal-input');
@@ -374,16 +374,16 @@ terminalForm?.addEventListener('submit', (e) => {
   terminalInput.value = '';
 });
 
-// ===== Visitor Counter =====
+
 fetch('https://api.countapi.xyz/hit/BAPP18/BAPebrian')
   .then(r => r.json())
   .then(d => { document.getElementById('visitor-count').textContent = d.value; })
   .catch(() => { document.getElementById('visitor-count').textContent = '—'; });
 
-// ===== Cyber Security Tools =====
+
 initAllTools();
 
-// ===== Contact Form =====
+
 document.getElementById('contact-form')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const status = document.getElementById('form-status');
@@ -393,7 +393,7 @@ document.getElementById('contact-form')?.addEventListener('submit', (e) => {
   setTimeout(() => { status.hidden = true; }, 4000);
 });
 
-// ===== Mobile Menu =====
+
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
 
@@ -406,7 +406,7 @@ navLinks?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
 
-// ===== Theme Toggle =====
+
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme = localStorage.getItem('theme') ?? 'dark';
 document.documentElement.dataset.theme = savedTheme;
@@ -419,7 +419,7 @@ themeToggle?.addEventListener('click', () => {
   themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
 });
 
-// ===== Nav highlight =====
+
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY + 100;
