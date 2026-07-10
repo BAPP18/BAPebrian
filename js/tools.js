@@ -21,18 +21,14 @@ function initTabs(containerId) {
   });
 }
 
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(String(str)));
+  return d.innerHTML;
+}
+
 // ===== 1. Network Recon — DNS Lookup =====
 const DNS_API = 'https://dns.google/resolve';
-
-const DNS_TYPES = [
-  { type: 'A', label: 'A (IPv4)' },
-  { type: 'AAAA', label: 'AAAA (IPv6)' },
-  { type: 'MX', label: 'MX (Mail)' },
-  { type: 'NS', label: 'NS (Nameserver)' },
-  { type: 'TXT', label: 'TXT (Text)' },
-  { type: 'CNAME', label: 'CNAME (Alias)' },
-  { type: 'SOA', label: 'SOA (Authority)' },
-];
 
 function initDNSLookup() {
   const input = document.getElementById('dns-input');
@@ -60,24 +56,34 @@ function initDNSLookup() {
       const type = btn.dataset.dns;
       const label = btn.textContent.trim();
       btn.disabled = true;
-      btn.textContent = '...';
-    try {
-      const resp = await fetch(`${DNS_API}?name=${encodeURIComponent(hostname)}&type=${type}`);
-      const data = await resp.json();
-      renderDNSResult(result, hostname, type, label, data);
-    } catch {
-      result.innerHTML = `<p class="text-warning">⚠️ Query failed for ${escapeHtml(hostname)}</p>`;
-    }
+      btn.textContent = '⏳';
+      result.innerHTML = '<p class="text-muted">Querying...</p>';
+      try {
+        const resp = await fetch(`${DNS_API}?name=${encodeURIComponent(hostname)}&type=${type}`);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        renderDNSResult(result, hostname, type, label, data);
+      } catch {
+        result.innerHTML = `<p class="text-warning">⚠️ Query failed for ${escapeHtml(hostname)}. Try the CORS proxy fallback.</p>`;
+        tryFallbackDNS(result, hostname, type, label);
+      }
       btn.disabled = false;
       btn.textContent = label;
     });
   });
 }
 
-function escapeHtml(str) {
-  const d = document.createElement('div');
-  d.appendChild(document.createTextNode(String(str)));
-  return d.innerHTML;
+async function tryFallbackDNS(el, hostname, type, label) {
+  const proxy = 'https://api.cors.syrins.tech/?url=';
+  const fallback = `https://dns.google/resolve?name=${encodeURIComponent(hostname)}&type=${type}`;
+  try {
+    const resp = await fetch(proxy + encodeURIComponent(fallback));
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    renderDNSResult(el, hostname, type, label, data);
+  } catch {
+    el.innerHTML = `<p class="text-warning">⚠️ Could not resolve ${escapeHtml(hostname)}. Check the domain name.</p>`;
+  }
 }
 
 function renderDNSResult(el, hostname, type, label, data) {
@@ -87,7 +93,7 @@ function renderDNSResult(el, hostname, type, label, data) {
   }
   let rows = '';
   data.Answer.forEach(r => {
-    const val = String(type === 'MX' ? r.data : r.data);
+    const val = String(r.data);
     rows += `<div class="dns-row"><span class="dns-type">${escapeHtml(type)}</span><span class="dns-val">${escapeHtml(val)}</span><span class="dns-ttl">TTL: ${escapeHtml(String(r.TTL))}s</span></div>`;
   });
   el.innerHTML = `
@@ -97,7 +103,7 @@ function renderDNSResult(el, hostname, type, label, data) {
 }
 
 // ===== 2. Web App Security — Security Headers Analyzer =====
-const HEADERS_API = 'https://u2l.ai/api/tools/http-headers';
+const HEADERS_PROXY = 'https://api.cors.syrins.tech/?url=';
 
 const SECURITY_HEADERS = {
   'strict-transport-security': { name: 'HSTS', severity: 'high', desc: 'Enforces HTTPS connections' },
@@ -129,10 +135,14 @@ function initSecurityHeaders() {
     if (!isValidUrl(url)) { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL format.</p>'; return; }
     btn.disabled = true;
     btn.textContent = 'Scanning...';
+    result.innerHTML = '<p class="text-muted">Fetching headers...</p>';
     try {
-      const resp = await fetch(`${HEADERS_API}?url=${encodeURIComponent(url)}`);
-      const data = await resp.json();
-      renderHeadersResult(result, data);
+      const headers = await fetchHeadersViaProxy(url);
+      if (headers) {
+        renderHeadersResult(result, headers);
+      } else {
+        result.innerHTML = `<p class="text-warning">⚠️ Could not analyze ${escapeHtml(url)}. The site may block requests.</p>`;
+      }
     } catch {
       result.innerHTML = `<p class="text-warning">⚠️ Could not analyze ${escapeHtml(url)}. The site may block requests.</p>`;
     }
@@ -141,8 +151,19 @@ function initSecurityHeaders() {
   });
 }
 
-function renderHeadersResult(el, data) {
-  const headers = (data.headers || {});
+async function fetchHeadersViaProxy(url) {
+  try {
+    const resp = await fetch(HEADERS_PROXY + encodeURIComponent(url), { method: 'GET' });
+    if (!resp.ok) return null;
+    const headerMap = {};
+    resp.headers.forEach((val, key) => { headerMap[key.toLowerCase()] = val; });
+    return headerMap;
+  } catch {
+    return null;
+  }
+}
+
+function renderHeadersResult(el, headers) {
   let present = 0;
   let total = Object.keys(SECURITY_HEADERS).length;
   let rows = '';
