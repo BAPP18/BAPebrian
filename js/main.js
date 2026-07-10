@@ -1,5 +1,5 @@
 import { CONFIG } from './config.js';
-import { initAllTools } from './tools.js';
+import { initAllTools } from './tools.js?v=2';
 
 
 const THEME = {
