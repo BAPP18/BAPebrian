@@ -720,106 +720,6 @@ a.project-card {
   text-decoration: none;
 }
 
-/* Password Analyzer */
-.pwd-field {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.pwd-field .tool-input {
-  flex: 1;
-}
-
-.pwd-bar-bg {
-  height: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 0.75rem;
-}
-
-.pwd-bar-fill {
-  height: 100%;
-  width: 0;
-  border-radius: 999px;
-  transition: width 0.3s, background 0.3s;
-}
-
-/* Encryptor */
-.enc-controls {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  margin-bottom: 0.75rem;
-}
-
-.enc-controls .tool-select {
-  width: auto;
-  min-width: 160px;
-  margin-bottom: 0;
-}
-
-.enc-param label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-/* Port Reference */
-.port-detail-wrapper {
-  margin-top: 0.75rem;
-}
-
-.port-detail {
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.port-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.35rem 0;
-  font-size: 0.85rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.port-row:last-child {
-  border-bottom: none;
-}
-
-.port-row span:first-child {
-  color: var(--text-muted);
-}
-
-.port-security {
-  margin-top: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.port-security.safe {
-  background: rgba(134, 239, 172, 0.15);
-  color: #86efac;
-}
-
-.port-security.warning {
-  background: rgba(251, 191, 36, 0.15);
-  color: #fbbf24;
-}
-
-.port-security.info {
-  background: rgba(96, 165, 250, 0.15);
-  color: #60a5fa;
-}
-
 /* ===== About Experience ===== */
 .about-interest {
   margin-top: 1rem;
@@ -939,6 +839,202 @@ a.project-card {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
+
+/* ===== New Tool Styles (Recon, Headers, JWT) ===== */
+.tool-field-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.tool-field-row .tool-input { flex: 1; }
+.tool-btn-grp {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+.tool-result-box {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  min-height: 40px;
+}
+
+/* DNS */
+.dns-header {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.dns-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.8rem;
+  align-items: center;
+}
+.dns-row:last-child { border-bottom: none; }
+.dns-type {
+  min-width: 50px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.dns-val {
+  flex: 1;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+.dns-ttl {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* Headers */
+.hdr-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.hdr-grade {
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: var(--font-display);
+}
+.grade-a { color: #86efac; }
+.grade-b { color: #4ade80; }
+.grade-c { color: #fbbf24; }
+.grade-d { color: #fb923c; }
+.grade-f { color: #fb7185; }
+.hdr-stats {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.hdr-list { margin-bottom: 0.75rem; }
+.hdr-row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  font-size: 0.8rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.hdr-icon { min-width: 20px; }
+.hdr-name { min-width: 130px; font-weight: 600; }
+.hdr-sev {
+  min-width: 55px;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  text-align: center;
+}
+.hdr-sev.high { background: rgba(251, 113, 133, 0.2); color: #fb7185; }
+.hdr-sev.medium { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+.hdr-val {
+  flex: 1;
+  color: var(--text-muted);
+  word-break: break-all;
+  font-size: 0.75rem;
+}
+.hdr-ok .hdr-val { color: #86efac; }
+.hdr-miss .hdr-val { color: #fb7185; font-style: italic; }
+.hdr-recommend {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
+}
+
+/* Sub-tabs (JWT / Hash) */
+.sub-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 0.5rem;
+}
+.sub-tab {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  border-radius: 6px;
+}
+.sub-tab.active { color: var(--accent); background: var(--accent-soft); }
+.sub-tab:hover { color: var(--accent); }
+.sub-content { display: none; }
+.sub-content.active { display: block; }
+
+/* JWT */
+.jwt-section {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
+}
+.jwt-section-title {
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.05em;
+}
+.jwt-json {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  background: rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.jwt-sig {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+/* Hash ID */
+.hash-header {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.hash-row {
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hash-best {
+  background: rgba(134, 239, 172, 0.1);
+  border-radius: 4px;
+  font-weight: 600;
+}
+.hash-badge {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(134, 239, 172, 0.2);
+  color: #86efac;
+  border-radius: 4px;
+}
+
+.text-warning { color: #fbbf24; font-size: 0.85rem; }
 
 /* ===== Contact ===== */
 .contact-grid {

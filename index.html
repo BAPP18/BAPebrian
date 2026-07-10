@@ -132,70 +132,78 @@
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <h2 class="section-title">🔬 Project Gallery</h2>
-      <p class="section-subtitle">Project bootcamp — edit di <code>js/config.js</code></p>
+      <p class="section-subtitle">Project bootcamp</p>
       <div class="projects-grid" id="projects-grid"></div>
     </section>
 
     <!-- CYBER SECURITY LAB (TOOLS) -->
     <section id="cyber-lab" class="section">
       <h2 class="section-title">🛡️ Cyber Security Lab</h2>
-      <p class="section-subtitle">Practical cybersecurity tools</p>
+      <p class="section-subtitle">Advanced penetration testing tools</p>
 
       <div class="lab-tabs" id="cyber-tabs">
-        <button class="lab-tab active" data-tab="pwd-tool">🔐 Password Analyzer</button>
-        <button class="lab-tab" data-tab="enc-tool">🔒 Text Encryptor</button>
-        <button class="lab-tab" data-tab="port-tool">🌐 Port Reference</button>
+        <button class="lab-tab active" data-tab="dns-tool">🔍 Network Recon</button>
+        <button class="lab-tab" data-tab="headers-tool">🌐 Web App Security</button>
+        <button class="lab-tab" data-tab="jwt-tool">🔐 JWT & Hash Inspector</button>
       </div>
 
-      <div id="pwd-tool" class="lab-content active">
+      <!-- 1. DNS Lookup -->
+      <div id="dns-tool" class="lab-content active">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🔐 Password Strength Analyzer</h3>
-          <p class="text-muted">Real-time analysis with entropy calculation & crack time estimation</p>
-          <div class="pwd-field">
-            <input type="password" id="pwd-input" class="tool-input" placeholder="Type a password..." autocomplete="off">
-            <button id="pwd-toggle" class="tool-icon-btn" type="button" aria-label="Toggle visibility">👁️</button>
+          <h3 class="tool-title">🔍 DNS Lookup — Network Reconnaissance</h3>
+          <p class="text-muted">Query DNS records for any domain. Powered by Google DNS over HTTPS.</p>
+          <div class="tool-field-row">
+            <input type="text" id="dns-input" class="tool-input" placeholder="Enter domain (e.g. example.com)" autocomplete="off" spellcheck="false">
           </div>
-          <div class="pwd-bar-bg"><div class="pwd-bar-fill" id="pwd-bar"></div></div>
-          <p id="pwd-info" class="text-muted tool-hint">Strength: — | Entropy: — bits | Length: 0</p>
-          <p id="pwd-time" class="text-muted tool-hint"></p>
+          <div class="tool-btn-grp">
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="A">A (IPv4)</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="AAAA">AAAA (IPv6)</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="MX">MX (Mail)</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="NS">NS (Nameserver)</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="TXT">TXT</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="CNAME">CNAME</button>
+            <button class="btn btn-sm btn-primary dns-btn" data-dns="SOA">SOA</button>
+          </div>
+          <div id="dns-result" class="tool-result-box"></div>
         </div>
       </div>
 
-      <div id="enc-tool" class="lab-content">
+      <!-- 2. Security Headers Analyzer -->
+      <div id="headers-tool" class="lab-content">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🔒 Text Encryptor / Decryptor</h3>
-          <p class="text-muted">Encrypt & decrypt text using common algorithms</p>
-          <div class="enc-controls">
-            <select id="enc-algo" class="tool-select">
-              <option value="base64">Base64</option>
-              <option value="caesar">Caesar Cipher</option>
-              <option value="xor">XOR Cipher</option>
-            </select>
-            <div id="enc-shift-group" class="enc-param">
-              <label>Shift: <input type="number" id="enc-shift" value="3" min="1" max="25" class="tool-input-sm"></label>
-            </div>
-            <div id="enc-key-group" class="enc-param" style="display:none">
-              <label>Key: <input type="text" id="enc-key" value="key" class="tool-input-sm"></label>
-            </div>
+          <h3 class="tool-title">🌐 Security Headers Analyzer</h3>
+          <p class="text-muted">Check any website for missing HTTP security headers. Get a grade (A-F) and recommendations.</p>
+          <div class="tool-field-row">
+            <input type="text" id="headers-input" class="tool-input" placeholder="Enter URL (e.g. https://example.com)" autocomplete="off" spellcheck="false">
+            <button id="headers-check" class="btn btn-primary">Check Headers</button>
           </div>
-          <textarea id="enc-input" class="tool-textarea" placeholder="Enter text to encrypt/decrypt..." rows="3"></textarea>
-          <div class="tool-btn-row">
-            <button id="enc-encrypt" class="btn btn-primary">Encrypt →</button>
-            <button id="enc-decrypt" class="btn btn-outline">Decrypt ←</button>
-          </div>
-          <div class="tool-output-row">
-            <textarea id="enc-output" class="tool-textarea" readonly placeholder="Output will appear here..." rows="3"></textarea>
-            <button id="enc-copy" class="tool-icon-btn" type="button">📋 Copy</button>
-          </div>
+          <div id="headers-result" class="tool-result-box"></div>
         </div>
       </div>
 
-      <div id="port-tool" class="lab-content">
+      <!-- 3. JWT & Hash Inspector -->
+      <div id="jwt-tool" class="lab-content">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🌐 Network Port Reference</h3>
-          <p class="text-muted">Common network ports and their security implications</p>
-          <select id="port-select" class="tool-select"></select>
-          <div id="port-display" class="port-detail-wrapper"></div>
+          <h3 class="tool-title">🔐 JWT & Hash Inspector</h3>
+          <p class="text-muted">Decode JWT tokens and identify hash types</p>
+
+          <div class="sub-tabs">
+            <button class="sub-tab active" data-sub="jwt-decode-tab">JWT Decoder</button>
+            <button class="sub-tab" data-sub="hash-id-tab">Hash Identifier</button>
+          </div>
+
+          <div id="jwt-decode-tab" class="sub-content active">
+            <p class="text-muted" style="margin-bottom:0.5rem">Paste a JWT token to decode its header, payload, and signature.</p>
+            <textarea id="jwt-input" class="tool-textarea" placeholder="Paste JWT token here..." rows="3" spellcheck="false"></textarea>
+            <button id="jwt-decode" class="btn btn-primary" style="margin-top:0.75rem">Decode Token</button>
+            <div id="jwt-result" class="tool-result-box"></div>
+          </div>
+
+          <div id="hash-id-tab" class="sub-content">
+            <p class="text-muted" style="margin-bottom:0.5rem">Enter a hash string to identify possible algorithm(s). Supports 30+ hash types.</p>
+            <input type="text" id="hash-input" class="tool-input" placeholder="Paste hash here (e.g. 5d41402abc4b2a76b9719d911017c592)" autocomplete="off" spellcheck="false">
+            <div id="hash-result" class="tool-result-box"></div>
+          </div>
         </div>
       </div>
     </section>
