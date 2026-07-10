@@ -1,0 +1,11 @@
+# Security Contact
+Contact: mailto:bayuakbarpebrian@gmail.com
+
+# Disclosure Policy
+Preferred-Languages: id, en
+
+# Encryption
+Encryption: https://keybase.io/bapp18/pgp_keys.asc
+
+# Author
+Author: Bayu Akbar Pebrian
