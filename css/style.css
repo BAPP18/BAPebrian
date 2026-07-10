@@ -1,4 +1,4 @@
-/* ===== CSS Variables & Reset ===== */
+
 :root {
   --bg-primary: #0c0612;
   --bg-secondary: #160a24;
@@ -44,7 +44,7 @@ body {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-shadow: 0 0 8px var(--accent-glow); }
 
-/* ===== Background Canvas ===== */
+
 #particle-canvas {
   position: fixed;
   inset: 0;
@@ -67,7 +67,7 @@ a:hover { text-shadow: 0 0 8px var(--accent-glow); }
   );
 }
 
-/* ===== Glass Card ===== */
+
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -77,7 +77,7 @@ a:hover { text-shadow: 0 0 8px var(--accent-glow); }
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* ===== Navbar ===== */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -301,7 +301,7 @@ input[type="range"] {
   cursor: pointer;
 }
 
-/* ===== Terminal ===== */
+
 .terminal-section {
   padding: 2rem;
   max-width: 800px;
@@ -367,7 +367,7 @@ input[type="range"] {
   outline: none;
 }
 
-/* ===== Sections ===== */
+
 .section {
   padding: 5rem 2rem;
   max-width: 1100px;
@@ -388,7 +388,7 @@ input[type="range"] {
   margin-bottom: 3rem;
 }
 
-/* ===== About ===== */
+
 .about-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -433,7 +433,7 @@ input[type="range"] {
   font-weight: 600;
 }
 
-/* ===== Skills ===== */
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -479,7 +479,7 @@ input[type="range"] {
   width: var(--skill-level, 50%);
 }
 
-/* ===== Projects / Lab ===== */
+
 .lab-tabs {
   display: flex;
   gap: 1rem;
@@ -563,7 +563,7 @@ input[type="range"] {
   color: var(--text-muted);
 }
 
-/* ===== Tools (Cyber Lab) ===== */
+
 .tool-card {
   padding: 1.5rem;
   max-width: 800px;
@@ -773,7 +773,7 @@ a.project-card {
   line-height: 1.6;
 }
 
-/* ===== Profile Photo ===== */
+
 .profile-photo-frame {
   width: 120px;
   height: 120px;
@@ -1127,7 +1127,7 @@ a.project-card {
   color: var(--success);
 }
 
-/* ===== Footer ===== */
+
 .footer {
   display: flex;
   justify-content: space-between;

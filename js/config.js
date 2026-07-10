@@ -1,12 +1,4 @@
-/**
- * ============================================================
- *  PANDUAN EDIT — HANYA EDIT FILE INI untuk data personal!
- *  Semua bagian website otomatis sinkron dari file ini.
- * ============================================================
- */
-
 export const CONFIG = {
-  // ── 1. PROFIL UTAMA (Hero + Footer) ──────────────────────
   profile: {
     name: 'BAYU AKBAR PEBRIAN',
     badge: '',
@@ -42,7 +34,6 @@ export const CONFIG = {
     ],
   },
 
-  // ── 3. SKILLS (Tech Stack) ────────────────────────────────
   skills: [
     { icon: '👨🏻‍💼', name: 'IT Project Management', level: 100 },
     { icon: '🎨', name: 'CSS3', level: 85 },
@@ -51,7 +42,6 @@ export const CONFIG = {
     { icon: '📦', name: 'Git & GitHub', level: 65 },
   ],
 
-  // ── 4. PROJECTS — tambah/hapus object di array ini ───────
   projects: [
     {
       tag: 'GitHub',
@@ -76,7 +66,6 @@ export const CONFIG = {
     },
   ],
 
-  // ── 5. KONTAK ─────────────────────────────────────────────
   contact: {
     github: {
       url: 'https://github.com/BAPP18',
@@ -92,7 +81,6 @@ export const CONFIG = {
     },
   },
 
-  // ── 6. TERMINAL — skills list (muncul saat ketik "skills") ─
   terminalSkills: [
     'HTML5',
     'CSS3',
