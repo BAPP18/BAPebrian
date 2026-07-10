@@ -146,7 +146,9 @@
         <button class="lab-tab" data-tab="headers-tool">🌐 Web App Security</button>
         <button class="lab-tab" data-tab="jwt-tool">🔐 JWT & Hash Inspector</button>
         <button class="lab-tab" data-tab="enum-tool">🔎 Enumeration</button>
+        <button class="lab-tab" data-tab="as-tool">📡 Attack Surface</button>
         <button class="lab-tab" data-tab="repeater-tool">🧪 HTTP Repeater</button>
+        <button class="lab-tab" data-tab="csrf-tool">🌊 CSRF PoC</button>
       </div>
 
       <!-- 1. DNS Lookup -->
@@ -239,23 +241,79 @@
         </div>
       </div>
 
-      <!-- 5. HTTP Repeater -->
+      <!-- 5. Attack Surface Analyzer -->
+      <div id="as-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">📡 Attack Surface Analyzer</h3>
+          <p class="text-muted">Scan 12 common HTTP/HTTPS ports, detect server technologies, and get pentest guidance + mitigations.</p>
+          <div class="tool-field-row">
+            <input type="text" id="as-domain" class="tool-input" placeholder="example.com" autocomplete="off" spellcheck="false">
+            <button id="as-scan" class="btn btn-primary">Start Scan</button>
+          </div>
+          <div id="as-result" class="tool-result-box"></div>
+        </div>
+      </div>
+
+      <!-- 6. HTTP Repeater + IDOR Fuzzer -->
       <div id="repeater-tool" class="lab-content">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🧪 HTTP Request Builder / Repeater</h3>
-          <p class="text-muted">Craft and send custom HTTP requests to test endpoints.</p>
-          <div class="rep-field-row">
-            <input type="text" id="rep-url" class="tool-input" placeholder="https://target.com/api/endpoint" autocomplete="off" spellcheck="false">
-            <select id="rep-method" class="rep-method-select">
-              <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
+          <h3 class="tool-title">🧪 HTTP Request Builder / IDOR Fuzzer</h3>
+          <p class="text-muted">Craft custom requests or auto-fuzz potential IDOR vulnerabilities.</p>
+
+          <div class="rep-sub-tabs">
+            <button class="rep-sub-tab active" data-repsub="request-builder">📤 Request Builder</button>
+            <button class="rep-sub-tab" data-repsub="idor-fuzzer">🎯 IDOR Fuzzer</button>
+          </div>
+
+          <div id="request-builder" class="rep-sub-content active">
+            <div class="rep-field-row">
+              <input type="text" id="rep-url" class="tool-input" placeholder="https://target.com/api/endpoint" autocomplete="off" spellcheck="false">
+              <select id="rep-method" class="rep-method-select">
+                <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
+              </select>
+            </div>
+            <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Headers (Key: Value per line)</p>
+            <textarea id="rep-headers" class="tool-textarea" placeholder="Content-Type: application/json&#10;Authorization: Bearer token" rows="3" spellcheck="false"></textarea>
+            <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Request Body</p>
+            <textarea id="rep-body" class="tool-textarea" placeholder='{"key": "value"}' rows="4" spellcheck="false"></textarea>
+            <button id="rep-send" class="btn btn-primary" style="margin-top:0.75rem">Send Request</button>
+            <div id="rep-result" class="tool-result-box"></div>
+          </div>
+
+          <div id="idor-fuzzer" class="rep-sub-content">
+            <p class="text-muted" style="margin-bottom:0.5rem">Auto-fuzz IDOR by replacing <code>{id}</code> in the URL. Detects anomalies (different status/content-length from majority).</p>
+            <div class="tool-field-row">
+              <input type="text" id="idor-url" class="tool-input" placeholder="https://target.com/api/user/{id}" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="idor-range-row">
+              <span class="idor-range-label">Range:</span>
+              <input type="number" id="idor-start" class="idor-range-input" value="1" min="1">
+              <span class="idor-range-to">to</span>
+              <input type="number" id="idor-end" class="idor-range-input" value="20" min="1">
+              <button id="idor-fuzz" class="btn btn-primary">Start Fuzz</button>
+            </div>
+            <div id="idor-result" class="tool-result-box"></div>
+          </div>
+
+          <p class="text-muted enum-disclaimer" style="margin-top:0.5rem">⚠️ For educational purposes only. Test only websites you own.</p>
+        </div>
+      </div>
+
+      <!-- 7. CSRF PoC Generator -->
+      <div id="csrf-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🌊 CSRF PoC Generator</h3>
+          <p class="text-muted">Generate HTML proof-of-concept forms for Cross-Site Request Forgery testing.</p>
+          <div class="tool-field-row">
+            <input type="text" id="csrf-url" class="tool-input" placeholder="https://target.com/api/action" autocomplete="off" spellcheck="false">
+            <select id="csrf-method" class="rep-method-select">
+              <option>GET</option><option selected>POST</option>
             </select>
           </div>
-          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Headers (Key: Value per line)</p>
-          <textarea id="rep-headers" class="tool-textarea" placeholder="Content-Type: application/json&#10;Authorization: Bearer token" rows="3" spellcheck="false"></textarea>
-          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Request Body</p>
-          <textarea id="rep-body" class="tool-textarea" placeholder='{"key": "value"}' rows="4" spellcheck="false"></textarea>
-          <button id="rep-send" class="btn btn-primary" style="margin-top:0.75rem">Send Request</button>
-          <div id="rep-result" class="tool-result-box"></div>
+          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Parameters (Key: Value per line)</p>
+          <textarea id="csrf-params" class="tool-textarea" placeholder="user_id: 123&#10;action: delete" rows="4" spellcheck="false"></textarea>
+          <button id="csrf-gen" class="btn btn-primary" style="margin-top:0.75rem">Generate PoC</button>
+          <div id="csrf-result" class="tool-result-box"></div>
           <p class="text-muted enum-disclaimer" style="margin-top:0.5rem">⚠️ For educational purposes only. Test only websites you own.</p>
         </div>
       </div>

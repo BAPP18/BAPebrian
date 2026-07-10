@@ -5,6 +5,8 @@ export function initAllTools() {
   initJWTHashInspector();
   initEnumeration();
   initHTTPRepeater();
+  initAttackSurface();
+  initCSRFGen();
 }
 
 function initTabs(containerId) {
@@ -488,8 +490,30 @@ function initDirEnum() {
   });
 }
 
-// ===== 5. HTTP Repeater =====
+// ===== 5. HTTP Repeater + IDOR Fuzzer =====
 function initHTTPRepeater() {
+  initRepSubTabs();
+  initRequestBuilder();
+  initIDORFuzzer();
+}
+
+function initRepSubTabs() {
+  const container = document.getElementById('repeater-tool');
+  if (!container) return;
+  const tabs = container.querySelectorAll('.rep-sub-tab');
+  const contents = container.querySelectorAll('.rep-sub-content');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const content = document.getElementById(tab.dataset.repsub);
+      if (content) content.classList.add('active');
+    });
+  });
+}
+
+function initRequestBuilder() {
   const urlInput = document.getElementById('rep-url');
   const methodSelect = document.getElementById('rep-method');
   const headersInput = document.getElementById('rep-headers');
@@ -564,5 +588,265 @@ function initHTTPRepeater() {
     }
     btn.disabled = false;
     btn.textContent = 'Send Request';
+  });
+}
+
+function initIDORFuzzer() {
+  const input = document.getElementById('idor-url');
+  const startInput = document.getElementById('idor-start');
+  const endInput = document.getElementById('idor-end');
+  const btn = document.getElementById('idor-fuzz');
+  const result = document.getElementById('idor-result');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    let template = input.value.trim();
+    if (!template || !template.includes('{id}')) {
+      result.innerHTML = '<p class="text-muted">Enter a URL with <code>{id}</code> placeholder</p>'; return;
+    }
+    if (!template.startsWith('http')) template = 'https://' + template;
+    try { new URL(template.replace('{id}','1')); } catch { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL</p>'; return; }
+
+    const start = parseInt(startInput.value) || 1;
+    const end = parseInt(endInput.value) || 20;
+    if (start > end) { result.innerHTML = '<p class="text-warning">⚠️ Start must be <= End</p>'; return; }
+    const total = end - start + 1;
+
+    btn.disabled = true;
+    btn.textContent = 'Fuzzing...';
+    result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:0%"></div></div><p class="text-muted enum-status">Fuzzing IDs ${start}-${end}...</p>`;
+
+    let rows = '';
+    let statusMap = {};
+    let lengthMap = {};
+
+    for (let id = start; id <= end; id++) {
+      const url = template.replace('{id}', id);
+      const progress = Math.round(((id - start + 1) / total) * 100);
+      try {
+        const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
+        const text = await resp.text();
+        const len = text.length;
+        const status = resp.status;
+        statusMap[status] = (statusMap[status] || 0) + 1;
+        const lenKey = len < 100 ? 'small' : len < 1000 ? 'medium' : 'large';
+        lengthMap[lenKey] = (lengthMap[lenKey] || 0) + 1;
+
+        const majorityStatus = Object.entries(statusMap).sort((a,b) => b[1]-a[1])[0];
+        const isAnomaly = majorityStatus && status !== parseInt(majorityStatus[0]) && majorityStatus[1] > total * 0.3;
+        const icon = isAnomaly ? '🚩' : (status >= 200 && status < 300 ? '✅' : status >= 400 ? '❌' : '🔀');
+        const cls = isAnomaly ? 'idor-anomaly' : (status >= 200 && status < 300 ? 'idor-ok' : 'idor-err');
+
+        rows += `<div class="idor-row ${cls}"><span class="idor-icon">${icon}</span><span class="idor-id">${id}</span><span class="idor-status">${status}</span><span class="idor-len">${escapeHtml(String(len))}B</span><span class="idor-preview">${escapeHtml(text.slice(0, 80).replace(/\s+/g, ' '))}</span></div>`;
+      } catch {
+        rows += `<div class="idor-row idor-err"><span class="idor-icon">⚠️</span><span class="idor-id">${id}</span><span class="idor-status">ERR</span><span class="idor-len">-</span><span class="idor-preview">Connection failed</span></div>`;
+      }
+      result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:${progress}%"></div></div><p class="text-muted enum-status">Fuzzed ${id - start + 1}/${total}</p><div class="idor-list">${rows}</div>`;
+    }
+
+    const countAnomaly = (result.innerHTML.match(/🚩/g) || []).length;
+    const summaryAnomaly = countAnomaly > 0 ? `<div class="idor-summary idor-summary-anomaly">🚩 ${countAnomaly} potential IDOR(s) detected — different status/length from majority</div>` : '<div class="idor-summary">✅ No anomalies detected (all responses similar)</div>';
+    result.innerHTML = summaryAnomaly + `<div class="enum-progress"><div class="enum-progress-bar" style="width:100%"></div></div><p class="text-muted enum-status">Done — ${total} requests</p><div class="idor-list">${rows}</div><p class="text-muted enum-disclaimer">⚠️ For educational purposes only. Test only websites you own.</p>`;
+    btn.disabled = false;
+    btn.textContent = 'Start Fuzz';
+  });
+}
+
+// ===== 6. Attack Surface Analyzer =====
+const SCAN_PORTS = [
+  { port: 443, proto: 'https', name: 'HTTPS' },
+  { port: 80, proto: 'http', name: 'HTTP' },
+  { port: 8443, proto: 'https', name: 'HTTPS Alt' },
+  { port: 8080, proto: 'http', name: 'HTTP Alt' },
+  { port: 3000, proto: 'http', name: 'Node.js Dev' },
+  { port: 5000, proto: 'http', name: 'Flask/Express' },
+  { port: 8000, proto: 'http', name: 'Python Dev' },
+  { port: 8888, proto: 'http', name: 'Jupyter/Proxy' },
+  { port: 9090, proto: 'http', name: 'Admin Panel' },
+  { port: 9000, proto: 'http', name: 'PHP-FPM/Alt' },
+  { port: 4000, proto: 'http', name: 'React/Gatsby' },
+  { port: 4173, proto: 'http', name: 'Vite Preview' },
+];
+
+function getNextActions(port, status, techs) {
+  const actions = [];
+  const mitigations = [];
+  if (port === 443 || port === 8443) {
+    actions.push('Cek SSL/TLS cipher dan sertifikat');
+    actions.push('Tes Heartbleed jika versi SSL lawas');
+    actions.push('Cari endpoint API di /api, /v1, /graphql');
+    mitigations.push('Gunakan HSTS preload');
+    mitigations.push('Sembunyikan versi server di response headers');
+  }
+  if (port === 80) {
+    actions.push('Cek HTTP → HTTPS redirect (rentan SSLStrip)');
+    mitigations.push('Enable HSTS, redirect 301 ke HTTPS');
+  }
+  if (port === 8080 || port === 8000 || port === 3000 || port === 5000 || port === 4000 || port === 4173) {
+    actions.push('Coba path umum: /admin, /api, /.env, /config');
+    actions.push('Cek panel login default (admin:admin)');
+    actions.push('Tes IDOR di endpoint API yang ditemukan');
+    mitigations.push('Jangan expose dev server ke publik');
+    mitigations.push('Gunakan reverse proxy (nginx/caddy) dengan auth');
+  }
+  if (port === 8888) {
+    actions.push('Cek akses ke Jupyter Notebook tanpa token');
+    actions.push('Coba proxy request via SSRF');
+    mitigations.push('Gunakan auth token dan network restriction');
+  }
+  if (port === 9090) {
+    actions.push('Cek panel admin, coba default credentials');
+    mitigations.push('Gunakan VPN/firewall, jangan expose ke publik');
+  }
+  if (techs.length > 0) {
+    techs.forEach(t => {
+      if (t.toLowerCase().includes('nginx')) { actions.push('Cek misconfig nginx (path traversal, alias)'); mitigations.push('Update nginx, disable server_tokens'); }
+      if (t.toLowerCase().includes('apache')) { actions.push('Cek directory listing, .htaccess bypass'); mitigations.push('Disable directory listing, update Apache'); }
+      if (t.toLowerCase().includes('iis')) { actions.push('Cek HTTP methods, WebDAV'); mitigations.push('Disable WebDAV, limit HTTP methods'); }
+      if (t.toLowerCase().includes('php')) { actions.push('Cek PHP info leak, LFI/RFI'); mitigations.push('Disable expose_php, harden file upload'); }
+      if (t.toLowerCase().includes('express') || t.toLowerCase().includes('node')) { actions.push('Cek error stack trace, debug mode'); mitigations.push('Set NODE_ENV=production, disable x-powered-by'); }
+      if (t.toLowerCase().includes('python') || t.toLowerCase().includes('flask') || t.toLowerCase().includes('django')) { actions.push('Cek debug mode, /admin, CSRF protection'); mitigations.push('Disable debug di production, gunakan secret key kuat'); }
+    });
+  }
+  actions.push('Lanjut ke 🔎 Enumeration → directory scan di port ini');
+  if (mitigations.length === 0) mitigations.push('Review security headers, gunakan WAF');
+  return { actions: actions.slice(0, 5), mitigations: mitigations.slice(0, 3) };
+}
+
+function initAttackSurface() {
+  const input = document.getElementById('as-domain');
+  const btn = document.getElementById('as-scan');
+  const result = document.getElementById('as-result');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    let domain = input.value.trim();
+    if (!domain) { result.innerHTML = '<p class="text-muted">Enter a domain first</p>'; return; }
+    if (domain.startsWith('http')) { try { domain = new URL(domain).hostname; } catch {} }
+
+    btn.disabled = true;
+    btn.textContent = 'Scanning...';
+    result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:0%"></div></div><p class="text-muted enum-status">Scanning ${SCAN_PORTS.length} ports...</p>`;
+
+    let rows = '';
+    let openCount = 0;
+    for (let i = 0; i < SCAN_PORTS.length; i++) {
+      const p = SCAN_PORTS[i];
+      const url = `${p.proto}://${domain}:${p.port}`;
+      const progress = Math.round(((i + 1) / SCAN_PORTS.length) * 100);
+      let techs = [];
+      let status = 0;
+      let open = false;
+      try {
+        const resp = await fetch(CORS_PROXY + encodeURIComponent(url), { method: 'HEAD', signal: AbortSignal.timeout(5000) });
+        status = resp.status;
+        open = true;
+        openCount++;
+        resp.headers.forEach((v, k) => {
+          const lk = k.toLowerCase();
+          if (lk === 'server' || lk === 'x-powered-by' || lk === 'x-aspnet-version') {
+            techs.push(`${k}: ${v}`);
+          }
+        });
+        if (resp.headers.get('set-cookie')) techs.push('Set-Cookie: ' + resp.headers.get('set-cookie').split(';')[0] + ';...');
+      } catch {}
+      const icon = open ? '✅' : '❌';
+      const cls = open ? 'as-open' : 'as-closed';
+      const statusText = open ? status : '-';
+      const techText = techs.length > 0 ? escapeHtml(techs.join('<br>')) : '<span class="text-muted">None detected</span>';
+      const next = open ? getNextActions(p.port, status, techs) : null;
+      let nextHtml = '';
+      if (next) {
+        nextHtml = `<div class="as-next"><div class="as-next-title">🔧 Next Actions</div><ul>${next.actions.map(a => '<li>' + escapeHtml(a) + '</li>').join('')}</ul><div class="as-next-title">🛡️ Mitigasi</div><ul>${next.mitigations.map(m => '<li>' + escapeHtml(m) + '</li>').join('')}</ul></div>`;
+      }
+      rows += `<div class="as-row ${cls}"><div class="as-row-main"><span class="as-icon">${icon}</span><span class="as-port">${p.port}</span><span class="as-proto">${p.proto.toUpperCase()}</span><span class="as-name">${escapeHtml(p.name)}</span><span class="as-status">${statusText}</span></div><div class="as-detail"><div class="as-tech"><span class="as-tech-title">Detected:</span> ${techText}</div>${nextHtml}</div></div>`;
+      result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:${progress}%"></div></div><p class="text-muted enum-status">Port ${p.port}... (${i + 1}/${SCAN_PORTS.length})</p><div class="as-list">${rows}</div>`;
+    }
+    result.innerHTML = `<div class="as-summary">✅ ${openCount} open | ❌ ${SCAN_PORTS.length - openCount} closed</div><div class="as-list">${rows}</div><p class="text-muted enum-disclaimer">⚠️ Only HTTP/HTTPS ports can be scanned from the browser. For full port scan, use nmap.</p>`;
+    btn.disabled = false;
+    btn.textContent = 'Start Scan';
+  });
+}
+
+// ===== 7. CSRF PoC Generator =====
+function initCSRFGen() {
+  const urlInput = document.getElementById('csrf-url');
+  const methodSelect = document.getElementById('csrf-method');
+  const paramsArea = document.getElementById('csrf-params');
+  const btn = document.getElementById('csrf-gen');
+  const result = document.getElementById('csrf-result');
+  if (!btn) return;
+
+  function parseParams(str) {
+    const lines = str.split('\n').filter(l => l.trim());
+    return lines.map(line => {
+      const idx = line.indexOf(':');
+      if (idx > 0) return { key: line.slice(0, idx).trim(), value: line.slice(idx + 1).trim() };
+      return { key: line.trim(), value: '' };
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    let url = urlInput.value.trim();
+    if (!url) { result.innerHTML = '<p class="text-muted">Enter a URL first</p>'; return; }
+    if (!url.startsWith('http')) url = 'https://' + url;
+    try { new URL(url); } catch { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL</p>'; return; }
+
+    const method = methodSelect.value;
+    const params = parseParams(paramsArea.value.trim());
+    const paramFields = params.map(p => `      <input type="hidden" name="${escapeAttr(p.key)}" value="${escapeAttr(p.value)}">`).join('\n');
+
+    const html = `<!DOCTYPE html>
+<html>
+<head><title>CSRF PoC</title></head>
+<body>
+  <h3>CSRF Proof of Concept</h3>
+  <form id="csrf-form" action="${escapeAttr(url)}" method="${method}">
+${paramFields}
+  </form>
+  <script>
+    document.getElementById('csrf-form').submit();
+  <\/script>
+</body>
+</html>`;
+
+    result.innerHTML = `
+      <div class="csrf-header">📋 CSRF PoC Generated</div>
+      <p class="text-muted" style="font-size:0.75rem;margin-bottom:0.5rem">Copy HTML di bawah ke file <code>.html</code>, buka di browser untuk test.</p>
+      <div class="csrf-info">
+        <span>🔗 URL: ${escapeHtml(url)}</span>
+        <span>📤 Method: ${escapeHtml(method)}</span>
+        <span>📦 Parameters: ${escapeHtml(String(params.length))}</span>
+      </div>
+      <div class="csrf-poc-box">
+        <button class="btn btn-sm btn-primary" id="csrf-copy" style="float:right;margin-bottom:0.5rem">📋 Copy</button>
+        <pre class="csrf-pre" id="csrf-code">${escapeHtml(html)}</pre>
+      </div>
+      <div class="csrf-test-steps">
+        <div class="csrf-step-title">🧪 Cara Test</div>
+        <ol>
+          <li>Copy HTML code di atas</li>
+          <li>Simpan sebagai <code>poc.html</code></li>
+          <li>Buka di browser (bisa langsung drag ke tab)</li>
+          <li>Form akan auto-submit — lihat apakah request berhasil tanpa token CSRF</li>
+          <li>Jika berhasil → 🔴 Rentan CSRF! Tambahkan CSRF token di backend.</li>
+        </ol>
+      </div>`;
+
+    document.getElementById('csrf-copy')?.addEventListener('click', () => {
+      const code = document.getElementById('csrf-code');
+      if (code) {
+        navigator.clipboard?.writeText(html).then(() => {
+          const btn = document.getElementById('csrf-copy');
+          if (btn) btn.textContent = '✅ Copied!';
+        }).catch(() => {
+          const range = document.createRange();
+          range.selectNodeContents(code);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        });
+      }
+    });
   });
 }
