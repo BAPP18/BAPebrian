@@ -375,15 +375,30 @@ terminalForm?.addEventListener('submit', (e) => {
 });
 
 
-const today = new Date().toISOString().split('T')[0];
-fetch('https://api.countapi.xyz/hit/BAPP18/BAPebrian')
-  .then(r => r.json())
-  .then(d => { document.getElementById('visitor-count').textContent = d.value; })
-  .catch(() => { document.getElementById('visitor-count').textContent = '—'; });
-fetch(`https://api.countapi.xyz/hit/BAPP18/${today}`)
-  .then(r => r.json())
-  .then(d => { document.getElementById('visitor-daily').textContent = d.value; })
-  .catch(() => { document.getElementById('visitor-daily').textContent = '—'; });
+const VK_LIFETIME = 'bap_visitor_lifetime';
+const VK_DAILY = 'bap_visitor_daily';
+const VK_DATE = 'bap_visitor_date';
+
+(function initVisitorCounter() {
+  const today = new Date().toISOString().split('T')[0];
+  const savedDate = localStorage.getItem(VK_DATE);
+  let lifetime = parseInt(localStorage.getItem(VK_LIFETIME) || '0', 10);
+  let daily = savedDate === today ? parseInt(localStorage.getItem(VK_DAILY) || '0', 10) : 0;
+  lifetime++;
+  daily++;
+  localStorage.setItem(VK_LIFETIME, lifetime);
+  localStorage.setItem(VK_DAILY, daily);
+  localStorage.setItem(VK_DATE, today);
+  document.getElementById('visitor-count').textContent = lifetime;
+  document.getElementById('visitor-daily').textContent = daily;
+
+  fetch('https://api.countapi.xyz/hit/BAPP18/BAPebrian')
+    .then(r => r.json()).then(d => document.getElementById('visitor-count').textContent = d.value)
+    .catch(() => {});
+  fetch(`https://api.countapi.xyz/hit/BAPP18/${today}`)
+    .then(r => r.json()).then(d => document.getElementById('visitor-daily').textContent = d.value)
+    .catch(() => {});
+})();
 
 
 initAllTools();
