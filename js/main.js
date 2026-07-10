@@ -375,10 +375,15 @@ terminalForm?.addEventListener('submit', (e) => {
 });
 
 
+const today = new Date().toISOString().split('T')[0];
 fetch('https://api.countapi.xyz/hit/BAPP18/BAPebrian')
   .then(r => r.json())
   .then(d => { document.getElementById('visitor-count').textContent = d.value; })
   .catch(() => { document.getElementById('visitor-count').textContent = '—'; });
+fetch(`https://api.countapi.xyz/hit/BAPP18/${today}`)
+  .then(r => r.json())
+  .then(d => { document.getElementById('visitor-daily').textContent = d.value; })
+  .catch(() => { document.getElementById('visitor-daily').textContent = '—'; });
 
 
 initAllTools();
