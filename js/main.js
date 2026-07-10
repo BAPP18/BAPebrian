@@ -327,7 +327,12 @@ const commands = {
     `Email: ${CONFIG.contact.email.label}`,
   ],
   tools: () => [
-    'Cyber Security Lab: Password Analyzer, Text Encryptor, Port Reference',
+    'Cyber Security Lab tools:',
+    '  🔍 Network Recon — DNS Lookup',
+    '  🌐 Web App Security — Security Headers Analyzer',
+    '  🔐 JWT & Hash Inspector',
+    '  🔎 Subdomain & Directory Enumeration',
+    '  🧪 HTTP Request Builder / Repeater',
     'Scroll ke section "Cyber Lab" untuk mencoba.',
   ],
   whoami: () => [`guest → ${CONFIG.profile.name.toLowerCase().replace(/\s/g, '-')}`],

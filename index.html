@@ -145,6 +145,8 @@
         <button class="lab-tab active" data-tab="dns-tool">🔍 Network Recon</button>
         <button class="lab-tab" data-tab="headers-tool">🌐 Web App Security</button>
         <button class="lab-tab" data-tab="jwt-tool">🔐 JWT & Hash Inspector</button>
+        <button class="lab-tab" data-tab="enum-tool">🔎 Enumeration</button>
+        <button class="lab-tab" data-tab="repeater-tool">🧪 HTTP Repeater</button>
       </div>
 
       <!-- 1. DNS Lookup -->
@@ -204,6 +206,57 @@
             <input type="text" id="hash-input" class="tool-input" placeholder="Paste hash here (e.g. 5d41402abc4b2a76b9719d911017c592)" autocomplete="off" spellcheck="false">
             <div id="hash-result" class="tool-result-box"></div>
           </div>
+        </div>
+      </div>
+      <!-- 4. Enumeration -->
+      <div id="enum-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🔎 Subdomain & Directory Enumeration</h3>
+          <p class="text-muted">Discover subdomains and common directories on a target domain.</p>
+
+          <div class="enum-sub-tabs">
+            <button class="enum-sub-tab active" data-ensub="enum-subdomain">🌐 Subdomain Scan</button>
+            <button class="enum-sub-tab" data-ensub="enum-directory">📁 Directory Scan</button>
+          </div>
+
+          <div id="enum-subdomain" class="enum-sub-content active">
+            <p class="text-muted" style="margin-bottom:0.5rem">Enter a domain to scan for common subdomains (20 subdomains checked).</p>
+            <div class="tool-field-row">
+              <input type="text" id="enum-domain" class="tool-input" placeholder="example.com" autocomplete="off" spellcheck="false">
+              <button id="enum-domain-btn" class="btn btn-primary">Start Enumeration</button>
+            </div>
+            <div id="enum-domain-result" class="tool-result-box"></div>
+          </div>
+
+          <div id="enum-directory" class="enum-sub-content">
+            <p class="text-muted" style="margin-bottom:0.5rem">Enter a URL to scan for common directories and files (15 paths checked).</p>
+            <div class="tool-field-row">
+              <input type="text" id="enum-url" class="tool-input" placeholder="https://example.com" autocomplete="off" spellcheck="false">
+              <button id="enum-url-btn" class="btn btn-primary">Start Scan</button>
+            </div>
+            <div id="enum-url-result" class="tool-result-box"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. HTTP Repeater -->
+      <div id="repeater-tool" class="lab-content">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🧪 HTTP Request Builder / Repeater</h3>
+          <p class="text-muted">Craft and send custom HTTP requests to test endpoints.</p>
+          <div class="rep-field-row">
+            <input type="text" id="rep-url" class="tool-input" placeholder="https://target.com/api/endpoint" autocomplete="off" spellcheck="false">
+            <select id="rep-method" class="rep-method-select">
+              <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
+            </select>
+          </div>
+          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Headers (Key: Value per line)</p>
+          <textarea id="rep-headers" class="tool-textarea" placeholder="Content-Type: application/json&#10;Authorization: Bearer token" rows="3" spellcheck="false"></textarea>
+          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Request Body</p>
+          <textarea id="rep-body" class="tool-textarea" placeholder='{"key": "value"}' rows="4" spellcheck="false"></textarea>
+          <button id="rep-send" class="btn btn-primary" style="margin-top:0.75rem">Send Request</button>
+          <div id="rep-result" class="tool-result-box"></div>
+          <p class="text-muted enum-disclaimer" style="margin-top:0.5rem">⚠️ For educational purposes only. Test only websites you own.</p>
         </div>
       </div>
     </section>
