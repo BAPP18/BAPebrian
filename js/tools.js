@@ -44,42 +44,54 @@ function initDNSLookup() {
     try {
       const url = str.startsWith('http') ? new URL(str) : new URL('http://' + str);
       return url.hostname;
-    } catch { return str.replace(/^https?:\/\//, '').split('/')[0].split(':')[0]; }
+    } catch { return ''; }
+  }
+
+  function isInternalHost(hostname) {
+    const internal = /^(localhost|127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|0\.0\.0\.0)$/;
+    return internal.test(hostname) || hostname.endsWith('.local') || hostname.endsWith('.internal');
   }
 
   btns.forEach(btn => {
     btn.addEventListener('click', async () => {
       const hostname = getHostname(input.value.trim());
-      if (!hostname) { result.innerHTML = '<p class="text-muted">Enter a domain first</p>'; return; }
+      if (!hostname) { result.innerHTML = '<p class="text-muted">Enter a valid domain</p>'; return; }
+      if (isInternalHost(hostname)) { result.innerHTML = '<p class="text-warning">⚠️ Internal addresses are not allowed</p>'; return; }
       const type = btn.dataset.dns;
       const label = btn.textContent.trim();
       btn.disabled = true;
       btn.textContent = '...';
-      try {
-        const resp = await fetch(`${DNS_API}?name=${encodeURIComponent(hostname)}&type=${type}`);
-        const data = await resp.json();
-        renderDNSResult(result, hostname, type, label, data);
-      } catch {
-        result.innerHTML = `<p class="text-warning">⚠️ Query failed for ${hostname}</p>`;
-      }
+    try {
+      const resp = await fetch(`${DNS_API}?name=${encodeURIComponent(hostname)}&type=${type}`);
+      const data = await resp.json();
+      renderDNSResult(result, hostname, type, label, data);
+    } catch {
+      result.innerHTML = `<p class="text-warning">⚠️ Query failed for ${escapeHtml(hostname)}</p>`;
+    }
       btn.disabled = false;
       btn.textContent = label;
     });
   });
 }
 
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(String(str)));
+  return d.innerHTML;
+}
+
 function renderDNSResult(el, hostname, type, label, data) {
   if (data.Status !== 0 || !data.Answer) {
-    el.innerHTML = `<p class="text-muted">No ${label} records found for ${hostname}</p>`;
+    el.innerHTML = `<p class="text-muted">No ${escapeHtml(label)} records found for ${escapeHtml(hostname)}</p>`;
     return;
   }
   let rows = '';
   data.Answer.forEach(r => {
-    const val = type === 'MX' ? r.data : r.data;
-    rows += `<div class="dns-row"><span class="dns-type">${type}</span><span class="dns-val">${val}</span><span class="dns-ttl">TTL: ${r.TTL}s</span></div>`;
+    const val = String(type === 'MX' ? r.data : r.data);
+    rows += `<div class="dns-row"><span class="dns-type">${escapeHtml(type)}</span><span class="dns-val">${escapeHtml(val)}</span><span class="dns-ttl">TTL: ${escapeHtml(String(r.TTL))}s</span></div>`;
   });
   el.innerHTML = `
-    <div class="dns-header">${hostname} — ${label} (${data.Answer.length} records)</div>
+    <div class="dns-header">${escapeHtml(hostname)} — ${escapeHtml(label)} (${escapeHtml(String(data.Answer.length))} records)</div>
     ${rows}
   `;
 }
@@ -103,10 +115,18 @@ function initSecurityHeaders() {
   const result = document.getElementById('headers-result');
   if (!btn) return;
 
+  function isValidUrl(str) {
+    try {
+      const u = new URL(str);
+      return u.protocol === 'http:' || u.protocol === 'https:';
+    } catch { return false; }
+  }
+
   btn.addEventListener('click', async () => {
     let url = input.value.trim();
     if (!url) { result.innerHTML = '<p class="text-muted">Enter a URL first</p>'; return; }
     if (!url.startsWith('http')) url = 'https://' + url;
+    if (!isValidUrl(url)) { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL format.</p>'; return; }
     btn.disabled = true;
     btn.textContent = 'Scanning...';
     try {
@@ -114,7 +134,7 @@ function initSecurityHeaders() {
       const data = await resp.json();
       renderHeadersResult(result, data);
     } catch {
-      result.innerHTML = `<p class="text-warning">⚠️ Could not analyze ${url}. The site may block requests.</p>`;
+      result.innerHTML = `<p class="text-warning">⚠️ Could not analyze ${escapeHtml(url)}. The site may block requests.</p>`;
     }
     btn.disabled = false;
     btn.textContent = 'Check Headers';
@@ -156,7 +176,7 @@ function renderHeadersResult(el, data) {
     </div>
     <div class="hdr-list">${rows}</div>
     <div class="hdr-recommend">
-      ${present < total ? `<p>⚠️ Missing ${total - present} security header(s). Consider adding them to improve your security posture.</p>` : '<p>✅ Good security header configuration!</p>'}
+      ${present < total ? `<p>⚠️ Missing ${escapeHtml(String(total - present))} security header(s). Consider adding them to improve your security posture.</p>` : '<p>✅ Good security header configuration!</p>'}
     </div>`;
 }
 
@@ -167,7 +187,22 @@ function base64UrlDecode(str) {
   catch { try { return atob(str); } catch { return '[Invalid Base64]'; } }
 }
 
+function initSubTabs() {
+  const tabs = document.querySelectorAll('.sub-tab');
+  const contents = document.querySelectorAll('.sub-content');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const content = document.getElementById(tab.dataset.sub);
+      if (content) content.classList.add('active');
+    });
+  });
+}
+
 function initJWTHashInspector() {
+  initSubTabs();
   initJWTDecoder();
   initHashIdentifier();
 }
@@ -187,8 +222,13 @@ function initJWTDecoder() {
       return;
     }
     try {
-      const header = JSON.parse(base64UrlDecode(parts[0]));
-      const payload = JSON.parse(base64UrlDecode(parts[1]));
+      const headerStr = base64UrlDecode(parts[0]);
+      const payloadStr = base64UrlDecode(parts[1]);
+      if (headerStr === '[Invalid Base64]' || payloadStr === '[Invalid Base64]') {
+        result.innerHTML = '<p class="text-warning">⚠️ Invalid Base64 encoding in JWT parts.</p>'; return;
+      }
+      const header = JSON.parse(headerStr);
+      const payload = JSON.parse(payloadStr);
       const signature = parts[2];
       renderJWTResult(result, header, payload, signature);
     } catch {
@@ -285,7 +325,7 @@ function initHashIdentifier() {
       <div class="hash-header">Found ${matches.length} possible algorithm(s):</div>
       ${matches.map((m, i) => `
         <div class="hash-row ${i === 0 ? 'hash-best' : ''}">
-          ${i === 0 ? '⭐ ' : ''}${m}
+          ${i === 0 ? '⭐ ' : ''}${escapeHtml(m)}
           ${i === 0 ? '<span class="hash-badge">Most likely</span>' : ''}
         </div>
       `).join('')}
