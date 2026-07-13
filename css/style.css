@@ -102,20 +102,6 @@ a:hover { text-shadow: 0 0 8px var(--accent-glow); }
   color: var(--accent);
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--success);
-  box-shadow: 0 0 8px var(--success);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
 .nav-links {
   display: flex;
   gap: 1.5rem;
