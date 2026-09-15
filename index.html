@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Bayu Akbar Pebrian">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dns.google https://api.cors.syrins.tech; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dns.google https://api.cors.syrins.tech; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Bayu Akbar</title>
   <link rel="stylesheet" href="css/style.css">
@@ -29,7 +29,6 @@
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
       <a href="#cyber-lab">Cyber Lab</a>
-      <a href="#pm-lab">PM Lab</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -319,209 +318,6 @@
       </div>
     </section>
 
-    <!-- PM LAB (TOOLS) -->
-    <section id="pm-lab" class="section">
-      <h2 class="section-title">📋 Project Management Lab</h2>
-      <p class="section-subtitle">Excel Cleaner, Gantt, Risk Matrix, Sprint Board & lainnya</p>
-
-      <div class="lab-tabs" id="pm-tabs">
-        <button class="lab-tab active" data-tab="pm-tab-xlsx">📊 Excel Cleaner</button>
-        <button class="lab-tab" data-tab="pm-tab-gantt">📅 Gantt Chart</button>
-        <button class="lab-tab" data-tab="pm-tab-risk">🎯 Risk Matrix</button>
-        <button class="lab-tab" data-tab="pm-tab-sprint">🏃 Sprint Board</button>
-        <button class="lab-tab" data-tab="pm-tab-budget">💰 Budget Tracker</button>
-        <button class="lab-tab" data-tab="pm-tab-raci">🧑‍🤝‍🧑 RACI Matrix</button>
-        <button class="lab-tab" data-tab="pm-tab-stakeholder">🗺️ Stakeholder Grid</button>
-        <button class="lab-tab" data-tab="pm-tab-wbs">🌳 WBS Builder</button>
-        <button class="lab-tab" data-tab="pm-tab-comdec">🔧 Comm/Decomm Matrix</button>
-      </div>
-
-      <!-- 1. Excel Cleaner -->
-      <div id="pm-tab-xlsx" class="lab-content active">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">📊 Excel Cleaner & Organizer</h3>
-          <p class="text-muted">Upload file Excel — rapikan otomatis (hilangkan baris kosong, duplikat, spasi berlebih, kolom duplikat), preview hasilnya, rename kolom, lalu download ulang. Semua diproses di browser, file tidak pernah dikirim ke server.</p>
-
-          <div id="pm-xlsx-drop" class="pm-upload-zone">
-            <p>📂 Tarik & letakkan file Excel di sini</p>
-            <p class="text-muted" style="font-size:0.75rem">atau klik untuk memilih file (.xlsx / .xls / .csv, maks 5MB)</p>
-            <input type="file" id="pm-xlsx-file" accept=".xlsx,.xls,.csv" hidden>
-          </div>
-
-          <div class="tool-btn-grp" style="margin-top:0.75rem">
-            <button id="pm-xlsx-sample" class="btn btn-sm btn-primary">⬇️ Unduh Template Contoh</button>
-            <button id="pm-xlsx-apply" class="btn btn-sm btn-primary">🧹 Jalankan Pembersihan</button>
-            <button id="pm-xlsx-reset" class="btn btn-sm btn-outline">♻️ Reset</button>
-          </div>
-
-          <div class="pm-xlsx-options">
-            <label><input type="checkbox" class="pm-xlsx-opt" data-opt="trim" checked> Trim spasi</label>
-            <label><input type="checkbox" class="pm-xlsx-opt" data-opt="emptyRows" checked> Hapus baris kosong</label>
-            <label><input type="checkbox" class="pm-xlsx-opt" data-opt="dupRows" checked> Hapus baris duplikat</label>
-            <label><input type="checkbox" class="pm-xlsx-opt" data-opt="dupCols" checked> Hapus kolom duplikat</label>
-            <label><input type="checkbox" class="pm-xlsx-opt" data-opt="formulaWarn" checked> Deteksi formula injection</label>
-          </div>
-
-          <div id="pm-xlsx-info"></div>
-
-          <div class="pm-xlsx-dl">
-            <button id="pm-xlsx-dl-xlsx" class="btn btn-sm btn-primary">⬇️ Download .xlsx</button>
-            <button id="pm-xlsx-dl-csv" class="btn btn-sm btn-primary">⬇️ Download .csv</button>
-          </div>
-
-          <div id="pm-xlsx-preview" class="pm-xlsx-preview"></div>
-        </div>
-      </div>
-
-      <!-- 2. Gantt Chart -->
-      <div id="pm-tab-gantt" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">📅 Gantt Chart</h3>
-          <p class="text-muted">Susun jadwal tugas proyek sebagai timeline. Data tersimpan otomatis di browser (localStorage).</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-gantt-name" class="tool-input" placeholder="Nama tugas" autocomplete="off" spellcheck="false">
-            <input type="date" id="pm-gantt-start" class="tool-input" title="Tanggal mulai">
-            <input type="number" id="pm-gantt-dur" class="tool-input pm-input-narrow" placeholder="Durasi (hari)" min="1" value="5">
-            <button id="pm-gantt-add" class="btn btn-primary">➕ Tambah</button>
-          </div>
-          <div id="pm-gantt-list" class="pm-tool-body"></div>
-          <div id="pm-gantt-chart" class="pm-gantt-chart"></div>
-        </div>
-      </div>
-
-      <!-- 3. Risk Matrix -->
-      <div id="pm-tab-risk" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🎯 Risk Matrix (5×5)</h3>
-          <p class="text-muted">Cantumkan risiko proyek beserta likelihood & impact (1-5). Skor otomatis dihitung dan diwarnai.</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-risk-name" class="tool-input" placeholder="Deskripsi risiko" autocomplete="off" spellcheck="false">
-            <select id="pm-risk-like" class="tool-input pm-input-narrow" title="Likelihood"><option value="1">Likelihood 1</option><option value="2" selected>Likelihood 2</option><option value="3">Likelihood 3</option><option value="4">Likelihood 4</option><option value="5">Likelihood 5</option></select>
-            <select id="pm-risk-impact" class="tool-input pm-input-narrow" title="Impact"><option value="1">Impact 1</option><option value="2" selected>Impact 2</option><option value="3">Impact 3</option><option value="4">Impact 4</option><option value="5">Impact 5</option></select>
-            <button id="pm-risk-add" class="btn btn-primary">➕ Tambah</button>
-          </div>
-          <div id="pm-risk-list" class="pm-tool-body"></div>
-          <div id="pm-risk-grid" class="pm-risk-grid"></div>
-        </div>
-      </div>
-
-      <!-- 4. Sprint Board -->
-      <div id="pm-tab-sprint" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🏃 Sprint Board</h3>
-          <p class="text-muted">Kanban sederhana untuk sprint. Arahkan task dengan tombol ← / →.</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-sprint-input" class="tool-input" placeholder="Nama task..." autocomplete="off" spellcheck="false">
-            <select id="pm-sprint-col" class="tool-input">
-              <option value="backlog">Backlog</option>
-              <option value="progress">In Progress</option>
-              <option value="done">Done</option>
-            </select>
-            <button id="pm-sprint-add" class="btn btn-primary">➕ Add</button>
-          </div>
-          <div id="pm-sprint-board" class="pm-sprint-board"></div>
-        </div>
-      </div>
-
-      <!-- 5. Budget Tracker -->
-      <div id="pm-tab-budget" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">💰 Budget Tracker</h3>
-          <p class="text-muted">Bandingkan estimasi vs aktual per item, lengkap dengan variance & peringatan over budget.</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-budget-name" class="tool-input" placeholder="Nama item" autocomplete="off" spellcheck="false">
-            <input type="number" id="pm-budget-est" class="tool-input pm-input-narrow" placeholder="Estimasi ($)">
-            <input type="number" id="pm-budget-act" class="tool-input pm-input-narrow" placeholder="Aktual ($)">
-            <button id="pm-budget-add" class="btn btn-primary">➕ Tambah</button>
-          </div>
-          <div id="pm-budget-body" class="pm-tool-body"></div>
-          <div id="pm-budget-total" class="pm-budget-total"></div>
-        </div>
-      </div>
-
-      <!-- 6. RACI Matrix -->
-      <div id="pm-tab-raci" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🧑‍🤝‍🧑 RACI Matrix</h3>
-          <p class="text-muted">Petakan tanggung jawab tim: R (Responsible), A (Accountable), C (Consulted), I (Informed).</p>
-          <div class="pm-2col">
-            <div>
-              <p class="text-muted" style="font-size:0.75rem">Tugas / aktivitas (satu per baris)</p>
-              <textarea id="pm-raci-tasks" class="tool-textarea" rows="6" placeholder="Menyusun jadwal&#10;Migrasi data&#10;UAT : tanda tangan" spellcheck="false"></textarea>
-            </div>
-            <div>
-              <p class="text-muted" style="font-size:0.75rem">Anggota tim (satu per baris)</p>
-              <textarea id="pm-raci-people" class="tool-textarea" rows="6" placeholder="Andi P.&#10;Rani S.&#10;Deni K." spellcheck="false"></textarea>
-            </div>
-          </div>
-          <button id="pm-raci-build" class="btn btn-primary" style="margin-top:0.75rem">🔨 Bangun Matriks</button>
-          <div id="pm-raci-out" class="pm-tool-body"></div>
-        </div>
-      </div>
-
-      <!-- 7. Stakeholder Grid -->
-      <div id="pm-tab-stakeholder" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🗺️ Stakeholder Grid (Power / Interest)</h3>
-          <p class="text-muted">Plot stakeholder berdasarkan power & interest untuk menentukan strategi komunikasi.</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-stake-name" class="tool-input" placeholder="Nama stakeholder" autocomplete="off" spellcheck="false">
-            <select id="pm-stake-power" class="tool-input pm-input-narrow" title="Power"><option value="1">Power 1</option><option value="2" selected>Power 2</option><option value="3">Power 3</option><option value="4">Power 4</option><option value="5">Power 5</option></select>
-            <select id="pm-stake-interest" class="tool-input pm-input-narrow" title="Interest"><option value="1">Interest 1</option><option value="2" selected>Interest 2</option><option value="3">Interest 3</option><option value="4">Interest 4</option><option value="5">Interest 5</option></select>
-            <button id="pm-stake-add" class="btn btn-primary">➕ Tambah</button>
-          </div>
-          <div class="pm-2col">
-            <div id="pm-stake-grid" class="pm-stake-grid"></div>
-            <div id="pm-stake-list" class="pm-tool-body"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. WBS Builder -->
-      <div id="pm-tab-wbs" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🌳 WBS Builder (Work Breakdown Structure)</h3>
-          <p class="text-muted">Buat hirarki deliverable proyek: pilih parent untuk setiap item agar membentuk struktur pohon.</p>
-          <div class="pm-field-row">
-            <input type="text" id="pm-wbs-name" class="tool-input" placeholder="Nama deliverable / sub-tugas" autocomplete="off" spellcheck="false">
-            <select id="pm-wbs-parent" class="tool-input"></select>
-            <button id="pm-wbs-add" class="btn btn-primary">➕ Tambah</button>
-          </div>
-          <div id="pm-wbs-out" class="pm-tool-body"></div>
-        </div>
-      </div>
-
-      <!-- 9. Commissioning / Decommissioning Matrix -->
-      <div id="pm-tab-comdec" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🔧 Commissioning / Decommissioning Matrix</h3>
-          <p class="text-muted">Kelola aset/sistem yang masuk (commissioning) atau keluar (decommissioning) beserta jadwal, status, dan checklist.</p>
-          <div class="pm-field-row">
-            <select id="pm-comdec-type" class="tool-input pm-input-narrow">
-              <option value="comm">Commissioning</option>
-              <option value="decomm">Decommissioning</option>
-            </select>
-            <input type="text" id="pm-comdec-name" class="tool-input" placeholder="Nama aset / sistem" autocomplete="off" spellcheck="false">
-            <input type="date" id="pm-comdec-start" class="tool-input" title="Mulai">
-            <input type="date" id="pm-comdec-end" class="tool-input" title="Selesai">
-            <select id="pm-comdec-status" class="tool-input pm-input-narrow">
-              <option>Planned</option><option selected>In Progress</option><option>Completed</option><option>Verified</option>
-            </select>
-            <input type="text" id="pm-comdec-owner" class="tool-input" placeholder="Owner" autocomplete="off" spellcheck="false">
-          </div>
-          <div class="pm-field-row">
-            <label class="pm-comdec-check"><input type="checkbox" id="pm-comdec-check"> Checklist selesai</label>
-            <button id="pm-comdec-add" class="btn btn-primary">➕ Tambah</button>
-            <select id="pm-comdec-filter" class="tool-input pm-input-narrow">
-              <option value="">Semua</option>
-              <option value="comm">Commissioning</option>
-              <option value="decomm">Decommissioning</option>
-            </select>
-          </div>
-          <div id="pm-comdec-out" class="pm-tool-body"></div>
-        </div>
-      </div>
-    </section>
 
     <!-- CONTACT -->
     <section id="contact" class="section">
@@ -554,7 +350,6 @@
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="module" src="js/main.js?v=3"></script>
+  <script type="module" src="js/main.js?v=4"></script>
 </body>
 </html>

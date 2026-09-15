@@ -1,6 +1,5 @@
 import { CONFIG } from './config.js';
 import { initAllTools } from './tools.js?v=2';
-import { initPMTools } from './pm-tools.js?v=3';
 
 
 const THEME = {
@@ -336,19 +335,6 @@ const commands = {
     '  🧪 HTTP Request Builder / Repeater',
     'Scroll ke section "Cyber Lab" untuk mencoba.',
   ],
-  pmlab: () => [
-    'Project Management Lab tools:',
-    '  📊 Excel Cleaner & Organizer',
-    '  📅 Gantt Chart',
-    '  🎯 Risk Matrix (5×5)',
-    '  🏃 Sprint Board (Kanban)',
-    '  💰 Budget Tracker',
-    '  🧑‍🤝‍🧑 RACI Matrix',
-    '  🗺️ Stakeholder Grid (Power/Interest)',
-    '  🌳 WBS Builder',
-    '  🔧 Commissioning / Decommissioning Matrix',
-    'Scroll ke section "PM Lab" untuk mencoba.',
-  ],
   whoami: () => [`guest → ${CONFIG.profile.name.toLowerCase().replace(/\s/g, '-')}`],
   date: () => [new Date().toLocaleString('id-ID')],
   clear: () => {
@@ -395,7 +381,6 @@ terminalForm?.addEventListener('submit', (e) => {
 
 
 initAllTools();
-initPMTools();
 
 
 document.getElementById('contact-form')?.addEventListener('submit', (e) => {
