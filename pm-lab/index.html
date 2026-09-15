@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IT Project Management Lab — upload, parse, analyze, and report IT projects client-side.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; worker-src 'self' blob: https://cdnjs.cloudflare.com; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>PM Lab — Bayu Akbar Pebrian</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="css/pm-lab.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="pmlab-body">
+  <header class="pmlab-topbar">
+    <span class="pmlab-brand">⚙️ IT Project Management Lab</span>
+    <nav class="pmlab-topnav">
+      <a href="../">← Portfolio</a>
+      <button class="pmlab-icon-btn" id="pmlab-theme" aria-label="Toggle theme">🌙</button>
+    </nav>
+  </header>
+
+  <div class="pmlab-layout">
+    <aside class="pmlab-sidebar" id="pmlab-sidebar" aria-label="PM Lab navigation">
+      <button data-view="home">🏠 Home</button>
+      <button data-view="dashboard">📊 Dashboard</button>
+      <button data-view="analyzer">📄 Document Analyzer</button>
+      <button data-view="planner">🧭 Project Planner</button>
+      <button data-view="health">💚 Health Analyzer</button>
+      <button data-view="risk">⚠️ Risk Simulator</button>
+      <button data-view="scenario">🧪 Scenario Lab</button>
+      <button data-view="reports">📋 Reports</button>
+    </aside>
+
+    <main class="pmlab-main" id="pmlab-main">
+      <section class="pmlab-view active" id="view-home"></section>
+      <section class="pmlab-view" id="view-dashboard"></section>
+      <section class="pmlab-view" id="view-analyzer"></section>
+      <section class="pmlab-view" id="view-planner"></section>
+      <section class="pmlab-view" id="view-health"></section>
+      <section class="pmlab-view" id="view-risk"></section>
+      <section class="pmlab-view" id="view-scenario"></section>
+      <section class="pmlab-view" id="view-reports"></section>
+    </main>
+  </div>
+
+  <div id="pmlab-report-print" class="pmlab-report-print-host" aria-hidden="true"></div>
+
+  <script type="module" src="js/pm-lab.js?v=1"></script>
+</body>
+</html>

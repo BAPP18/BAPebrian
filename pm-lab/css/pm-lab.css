@@ -1,0 +1,477 @@
+/* ===== PM Lab v2 — namespaced styles (links after style.css) ===== */
+
+.pmlab-body {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(137, 88, 255, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(232, 121, 249, 0.12), transparent 55%),
+    var(--bg-primary);
+  min-height: 100vh;
+}
+
+.pmlab-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(12, 6, 18, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--glass-border);
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+}
+[data-theme="light"] .pmlab-topbar { background: rgba(255, 255, 255, 0.85); }
+
+.pmlab-brand {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.pmlab-topnav { display: flex; align-items: center; gap: 0.75rem; }
+
+.pmlab-topnav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border: 1px solid var(--glass-border);
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  transition: color .2s, border-color .2s;
+}
+.pmlab-topnav a:hover { color: var(--accent); border-color: var(--accent); }
+
+.pmlab-icon-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.pmlab-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 4rem;
+}
+
+.pmlab-sidebar {
+  position: sticky;
+  top: 84px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.9rem;
+  backdrop-filter: blur(12px);
+}
+
+.pmlab-sidebar button {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.pmlab-sidebar button:hover { background: var(--accent-soft); color: var(--text-primary); }
+.pmlab-sidebar button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.pmlab-main { min-width: 0; }
+
+.pmlab-view { display: none; }
+.pmlab-view.active { display: block; animation: pmlab-fade .22s ease; }
+
+@keyframes pmlab-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.pmlab-hero { padding: 1.25rem 0 1rem; }
+.pmlab-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 0.6rem;
+}
+.pmlab-hero-sub { color: var(--text-muted); max-width: 760px; margin: 0 0 0.9rem; }
+.pmlab-privacy {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--success);
+  background: rgba(134, 239, 172, 0.08);
+  border: 1px solid rgba(134, 239, 172, 0.3);
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+}
+.pmlab-hero-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin: 1rem 0; }
+
+.pmlab-template-row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
+.pmlab-select { max-width: 300px; }
+
+.pmlab-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.pmlab-card {
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 1.1rem;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+  color: inherit;
+  font: inherit;
+}
+.pmlab-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(137, 88, 255, 0.15);
+}
+.pmlab-card-icon { font-size: 1.6rem; }
+
+.pmlab-home-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.pmlab-panel {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+}
+.pmlab-panel-title, .pmlab-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.85rem;
+}
+.pmlab-panel-sub { font-size: 0.9rem; color: var(--text-muted); margin: 1rem 0 0.5rem; letter-spacing: 0.02em; }
+
+.pmlab-projects { display: flex; flex-direction: column; gap: 0.5rem; }
+.pmlab-project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 0, 0, 0.14);
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+}
+.pmlab-project-info { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.9rem; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.pmlab-project-actions { display: flex; gap: 0.35rem; flex-shrink: 0; }
+
+.btn-xs { font-size: 0.72rem; padding: 0.25rem 0.6rem; }
+.btn-danger { color: var(--danger); border-color: rgba(251, 113, 133, 0.5); }
+.btn-danger:hover { background: rgba(251, 113, 133, 0.12); }
+
+.pmlab-steps { margin: 0; padding-left: 1.2rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem; }
+
+.pmlab-dash-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.pmlab-dash {
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: var(--glass-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 96px;
+}
+.pmlab-dash-big {
+  min-height: 128px;
+  justify-content: center;
+  border-color: currentColor;
+}
+.pmlab-dash-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.pmlab-dash-value { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; }
+.pmlab-dash-big .pmlab-dash-value { font-size: 2.2rem; }
+
+.pmlab-tone-green { --tone: #86efac; color: var(--tone); }
+.pmlab-tone-amber { --tone: #fbbf24; color: var(--tone); }
+.pmlab-tone-red { --tone: #fb7185; color: var(--tone); }
+.pmlab-tone-accent { --tone: var(--accent); color: var(--tone); }
+
+.pmlab-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+.pmlab-tag-green { color: #86efac; background: rgba(134, 239, 172, 0.14); }
+.pmlab-tag-amber { color: #fbbf24; background: rgba(251, 191, 36, 0.14); }
+.pmlab-tag-red { color: #fb7185; background: rgba(251, 113, 133, 0.14); }
+
+.pmlab-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.pmlab-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+
+.pmlab-pbar { margin-bottom: 0.6rem; }
+.pmlab-pbar-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+.pmlab-pbar-track { height: 10px; background: rgba(0, 0, 0, 0.22); border-radius: 999px; overflow: hidden; }
+.pmlab-pbar-fill { height: 100%; border-radius: 999px; transition: width .4s ease; }
+.pmlab-pbar-accent { background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); }
+.pmlab-pbar-muted { background: rgba(176, 156, 196, 0.5); }
+
+.pmlab-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+.pmlab-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+}
+.pmlab-chip-green { color: #86efac; border-color: rgba(134, 239, 172, 0.4); }
+.pmlab-chip-red { color: #fb7185; border-color: rgba(251, 113, 133, 0.4); }
+.pmlab-chip-amber { color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
+.pmlab-chip-accent { color: var(--accent); border-color: rgba(232, 121, 249, 0.4); }
+
+.pmlab-milestone { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; font-size: 0.88rem; border-bottom: 1px dashed var(--glass-border); }
+.pmlab-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.pmlab-dot-done { background: #86efac; }
+.pmlab-dot-late { background: #fb7185; }
+.pmlab-dot-up { background: var(--accent-secondary); }
+
+.pmlab-insight {
+  background: rgba(134, 239, 172, 0.06);
+  border-left: 3px solid var(--accent);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.pmlab-view-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+
+.pmlab-drop {
+  border: 2px dashed var(--accent-secondary);
+  border-radius: 16px;
+  padding: 2.4rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+  margin: 1rem 0;
+  outline: none;
+}
+.pmlab-drop:hover, .pmlab-drop:focus { background: var(--accent-soft); border-color: var(--accent); }
+.pmlab-drop.drag { background: var(--accent-soft); border-color: var(--accent); }
+.pmlab-drop-icon { font-size: 2rem; }
+
+.pmlab-filelist { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.75rem 0; }
+.pmlab-fileitem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.14);
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+}
+.pmlab-fileitem.done .pmlab-status { color: var(--success); }
+.pmlab-file-icon { font-size: 1rem; }
+.pmlab-file-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.pmlab-status { font-family: var(--font-mono); font-size: 0.78rem; margin-left: auto; }
+.pmlab-status.ok { color: var(--success); }
+.pmlab-status.warn { color: var(--danger); }
+
+.pmlab-analyze-out { margin-top: 1rem; }
+.pmlab-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+}
+.pmlab-sum-item {
+  background: rgba(0, 0, 0, 0.14);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+}
+.pmlab-sum-label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem; }
+.pmlab-sum-val { font-size: 0.92rem; }
+
+.pmlab-warnings { margin: 0.8rem 0; }
+.pmlab-warnings p { color: #fbbf24; font-size: 0.8rem; }
+.pmlab-conf-box { min-width: 0; }
+.pmlab-conf-row { display: flex; justify-content: space-between; padding: 0.32rem 0; font-size: 0.85rem; border-bottom: 1px dashed var(--glass-border); }
+.pmlab-conf { font-family: var(--font-mono); font-size: 0.74rem; padding: 0.15rem 0.5rem; border-radius: 6px; }
+.pmlab-conf-high { color: #86efac; background: rgba(134, 239, 172, 0.12); }
+.pmlab-conf-medium { color: #fbbf24; background: rgba(251, 191, 36, 0.12); }
+.pmlab-conf-low { color: #fb7185; background: rgba(251, 113, 133, 0.12); }
+.pmlab-conf-not-found { color: var(--text-muted); background: rgba(176, 156, 196, 0.12); }
+
+.pmlab-form { display: flex; flex-direction: column; gap: 0.85rem; }
+.pmlab-field label { display: block; font-size: 0.78rem; margin-bottom: 0.3rem; color: var(--text-muted); }
+.pmlab-field .tool-input, .pmlab-field .tool-textarea { width: 100%; }
+.pmlab-select-wide { width: 100%; max-width: 520px; }
+
+.pmlab-gauge-row { display: grid; grid-template-columns: 260px 1fr; gap: 1rem; margin: 1rem 0; align-items: stretch; }
+.pmlab-gauge {
+  border-radius: 16px;
+  border: 1px solid currentColor;
+  background: var(--glass-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.4rem 1rem;
+}
+.pmlab-gauge-green { color: #86efac; }
+.pmlab-gauge-amber { color: #fbbf24; }
+.pmlab-gauge-red { color: #fb7185; }
+.pmlab-gauge-value { font-family: var(--font-display); font-size: 3rem; font-weight: 900; line-height: 1; }
+.pmlab-gauge-max { font-size: 1rem; color: var(--text-muted); }
+.pmlab-gauge-label { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.12em; margin-top: 0.6rem; }
+
+.pmlab-bar-row { display: grid; grid-template-columns: 88px 1fr auto; gap: 0.6rem; align-items: center; padding: 0.34rem 0; font-size: 0.85rem; }
+.pmlab-bar-label { text-transform: capitalize; }
+.pmlab-bar-track { background: rgba(0, 0, 0, 0.2); height: 12px; border-radius: 999px; overflow: hidden; display: flex; }
+.pmlab-bar-fill { height: 100%; border-radius: 999px; transition: width .5s ease; }
+.pmlab-bar-green { background: #86efac; }
+.pmlab-bar-amber { background: #fbbf24; }
+.pmlab-bar-red { background: #fb7185; }
+.pmlab-bar-accent { background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); }
+.pmlab-bar-score { font-family: var(--font-mono); font-size: 0.78rem; width: 58px; text-align: right; }
+
+.pmlab-rules { margin: 0.4rem 0; padding-left: 1.2rem; font-size: 0.88rem; display: flex; flex-direction: column; gap: 0.4rem; }
+
+.pmlab-risk-result { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; background: rgba(0, 0, 0, 0.14); border-radius: 12px; padding: 0.9rem; margin-top: 0.8rem; }
+.pmlab-risk-col { flex: 1; min-width: 120px; }
+.pmlab-risk-col h4 { margin: 0 0 0.3rem; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--text-muted); }
+.pmlab-risk-col p { margin: 0.15rem 0; font-size: 0.85rem; }
+.pmlab-big { font-weight: 700; font-size: 1.1rem; }
+.pmlab-risk-arrow { font-size: 1.4rem; color: var(--accent); }
+.pmlab-risk-red-box { flex-basis: 100%; border-top: 1px dashed var(--glass-border); padding-top: 0.6rem; }
+
+.pmlab-risk-item { padding: 0.6rem 0.8rem; background: rgba(0, 0, 0, 0.14); border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 0.5rem; }
+.pmlab-risk-head { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+.pmlab-risk-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.pmlab-risk-red { font-size: 0.82rem; margin-top: 0.45rem; font-family: var(--font-mono); }
+
+.pmlab-situation { font-size: 0.95rem; margin: 0.6rem 0; }
+.pmlab-options { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.6rem 0; }
+.pmlab-option { text-align: left; }
+.pmlab-option.chosen { border-color: var(--accent); color: var(--accent); }
+.pmlab-impacts { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.7rem 0; }
+.pmlab-impact { display: grid; grid-template-columns: 150px 1fr 40px; gap: 0.6rem; align-items: center; font-size: 0.85rem; }
+.pmlab-impact-bar { height: 10px; background: rgba(0, 0, 0, 0.22); border-radius: 999px; overflow: hidden; display: flex; }
+.pmlab-impact-fill { height: 100%; border-radius: 999px; }
+.pmlab-impact-fill.pos { background: #86efac; }
+.pmlab-impact-fill.neg { background: #fb7185; }
+.pmlab-impact-val { font-family: var(--font-mono); text-align: right; }
+.pmlab-impact-val.pos { color: #86efac; }
+.pmlab-impact-val.neg { color: #fb7185; }
+.pmlab-note { font-size: 0.75rem; margin-top: 0.8rem; }
+
+.pmlab-projectbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 1rem 1.2rem; margin: 1rem 0; }
+.pmlab-projectbar-name h2 { margin: 0 0 0.2rem; font-family: var(--font-display); font-size: 1.15rem; }
+.pmlab-projectbar-health { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; }
+.pmlab-minibar { width: 140px; height: 8px; background: rgba(0, 0, 0, 0.22); border-radius: 999px; overflow: hidden; }
+.pmlab-minibar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-secondary)); border-radius: 999px; }
+
+.pmlab-exec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.7rem; margin-top: 0.8rem; }
+.pmlab-exec-grid > div { background: rgba(0, 0, 0, 0.14); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0.6rem 0.8rem; font-size: 0.88rem; }
+
+.pmlab-empty { text-align: center; padding: 3rem 1rem; }
+
+.pmlab-flash {
+  position: fixed;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--glass-bg);
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  z-index: 200;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* report preview */
+.pmlab-report-doc { font-size: 0.86rem; }
+.pmlab-report-doc h1 { font-family: var(--font-display); font-size: 1.3rem; }
+.pmlab-report-doc h2 { font-size: 1rem; margin-top: 1.2rem; color: var(--accent); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.3rem; }
+.pmlab-report-doc .pmlab-report-meta { color: var(--text-muted); font-size: 0.75rem; }
+.pmlab-report-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+.pmlab-report-table th, .pmlab-report-table td { text-align: left; padding: 0.35rem 0.5rem; border: 1px solid var(--glass-border); vertical-align: top; }
+.pmlab-report-table th { background: rgba(0, 0, 0, 0.18); font-weight: 600; }
+
+/* print */
+#print-helper, .pmlab-report-print-host { display: none; }
+@media print {
+  body * { visibility: hidden; }
+  #pmlab-report-print, #pmlab-report-print * { visibility: visible; }
+  #pmlab-report-print {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 1rem;
+    color: #111;
+  }
+  #pmlab-report-print .pmlab-report-doc h2 { color: #444; border-color: #ccc; }
+  #pmlab-report-print .pmlab-report-table th { background: #eee; }
+  #pmlab-report-print .pmlab-report-table th, #pmlab-report-print .pmlab-report-table td { border-color: #bbb; }
+}
+
+@media (max-width: 860px) {
+  .pmlab-layout { grid-template-columns: 1fr; }
+  .pmlab-sidebar { position: static; flex-direction: row; overflow-x: auto; max-width: 100%; }
+  .pmlab-sidebar button { white-space: nowrap; }
+  .pmlab-grid2, .pmlab-gauge-row { grid-template-columns: 1fr; }
+  .pmlab-grid3 { grid-template-columns: 1fr; }
+  .pmlab-home-row { grid-template-columns: 1fr; }
+  .pmlab-topbar { flex-wrap: wrap; gap: 0.4rem 0.6rem; }
+}
+
+@media (max-width: 480px) {
+  body.pmlab-body { min-width: 0; overflow-x: hidden; }
+  .pmlab-topbar { padding: 0.6rem 0.8rem; }
+  .pmlab-brand { font-size: 0.78rem; }
+  .pmlab-topnav a { font-size: 0.8rem; }
+  .pmlab-impact { grid-template-columns: 100px 1fr 36px; }
+  .pmlab-card p { font-size: 0.78rem; }
+}

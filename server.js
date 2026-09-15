@@ -1,8 +1,10 @@
 const h=require('http'),f=require('fs'),p=require('path');
 const dir='C:\\Users\\User\\portfolio-bootcamp';
 h.createServer((r,s)=>{
-  let fp=p.join(dir,r.url==='/'?'index.html':r.url);
+  let u=(r.url||'').split('?')[0]||'/';
+  let fp=p.join(dir,u==='/'?'index.html':u);
   try{
+    if(f.existsSync(fp)&&f.statSync(fp).isDirectory()) fp=p.join(fp,'index.html');
     let c=f.readFileSync(fp);
     let ext=p.extname(fp).slice(1);
     let m={'html':'text/html','js':'text/javascript','css':'text/css','png':'image/png','jpg':'image/jpeg','svg':'image/svg+xml'};
