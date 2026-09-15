@@ -31,6 +31,28 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
+function isInternalHost(hostname) {
+  const h = String(hostname || '').toLowerCase().replace(/\[|\]/g, '');
+  const internal = /^(localhost|127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|0\.0\.0\.0|169\.254\.)/;
+  const v4mapped = h.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
+  const loopback6 = h === '::1' || h === '0:0:0:0:0:0:0:1';
+  const private6 = /^(f[cd][0-9a-f]{2}:|fe[89ab][0-9a-f]:)/.test(h) || h.startsWith('fe80:');
+  return internal.test(h) || (v4mapped && internal.test(v4mapped[1])) || loopback6 || private6 || h.endsWith('.local') || h.endsWith('.internal') || h === 'metadata.google.internal';
+}
+
+function isPublicUrl(urlStr) {
+  try {
+    const u = new URL(urlStr);
+    return !isInternalHost(u.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function guardPublicUrl(urlStr) {
+  return isPublicUrl(urlStr) ? null : '⚠️ Internal/private addresses are not allowed. This tool must only target public URLs.';
+}
+
 // ===== 1. Network Recon — DNS Lookup =====
 const DNS_API = 'https://dns.google/resolve';
 
@@ -409,6 +431,7 @@ function initSubdomainEnum() {
     let domain = input.value.trim();
     if (!domain) { result.innerHTML = '<p class="text-muted">Enter a domain first</p>'; return; }
     if (domain.startsWith('http')) { try { domain = new URL(domain).hostname; } catch {} }
+    if (isInternalHost(domain)) { result.innerHTML = '<p class="text-warning">⚠️ Internal/private addresses are not allowed.</p>'; return; }
     btn.disabled = true;
     btn.textContent = 'Scanning...';
     result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:0%"></div></div><p class="text-muted enum-status">Starting scan of ${SUBDOMAINS.length} subdomains...</p>`;
@@ -456,6 +479,8 @@ function initDirEnum() {
     if (!baseUrl) { result.innerHTML = '<p class="text-muted">Enter a URL first</p>'; return; }
     if (!baseUrl.startsWith('http')) baseUrl = 'https://' + baseUrl;
     try { new URL(baseUrl); } catch { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL</p>'; return; }
+    const guardErr = guardPublicUrl(baseUrl);
+    if (guardErr) { result.innerHTML = `<p class="text-warning">${guardErr}</p>`; return; }
     const base = baseUrl.replace(/\/+$/, '');
 
     btn.disabled = true;
@@ -549,6 +574,8 @@ function initRequestBuilder() {
     if (!url) { result.innerHTML = '<p class="text-muted">Enter a URL first</p>'; return; }
     if (!url.startsWith('http')) url = 'https://' + url;
     try { new URL(url); } catch { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL</p>'; return; }
+    const guardErr = guardPublicUrl(url);
+    if (guardErr) { result.innerHTML = `<p class="text-warning">${guardErr}</p>`; return; }
 
     const method = methodSelect.value;
     const headers = parseHeaders(headersInput.value);
@@ -606,6 +633,8 @@ function initIDORFuzzer() {
     }
     if (!template.startsWith('http')) template = 'https://' + template;
     try { new URL(template.replace('{id}','1')); } catch { result.innerHTML = '<p class="text-warning">⚠️ Invalid URL</p>'; return; }
+    const guardErr = guardPublicUrl(template.replace('{id}','1'));
+    if (guardErr) { result.innerHTML = `<p class="text-warning">${guardErr}</p>`; return; }
 
     const start = parseInt(startInput.value) || 1;
     const end = parseInt(endInput.value) || 20;
@@ -723,6 +752,8 @@ function initAttackSurface() {
     let domain = input.value.trim();
     if (!domain) { result.innerHTML = '<p class="text-muted">Enter a domain first</p>'; return; }
     if (domain.startsWith('http')) { try { domain = new URL(domain).hostname; } catch {} }
+
+    if (isInternalHost(domain)) { result.innerHTML = '<p class="text-warning">⚠️ Internal/private addresses are not allowed.</p>'; return; }
 
     btn.disabled = true;
     btn.textContent = 'Scanning...';
