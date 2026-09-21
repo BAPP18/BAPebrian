@@ -58,11 +58,11 @@ export const CONFIG = {
       link: 'https://github.com/BAPP18/Security-Log-IOC-Analyzer',
     },
     {
-      tag: 'GitHub',
+      tag: 'Live Demo',
       title: 'Cybersecurity Toolkit',
       description: 'Kumpulan tools keamanan siber sederhana dalam satu aplikasi untuk membantu analisis, monitoring, dan pengujian dasar keamanan sistem.',
-      tech: ['Python'],
-      link: 'https://github.com/BAPP18/CS--V1',
+      tech: ['Python', 'HTML', 'CSS', 'JAVA SCRIPT'],
+      link: 'cyber-toolkit/',
     },
   ],
 

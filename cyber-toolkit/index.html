@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cybersecurity Toolkit — web port of the Python CLI: port scanner (demo), password strength, log analyzer, NVD vulnerability scanner, phishing URL detector, and packet sniffer guide.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.cors.syrins.tech; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Cybersecurity Toolkit — Bayu Akbar Pebrian</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="css/cyber-toolkit.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="cytk-body">
+  <header class="cytk-topbar">
+    <span class="cytk-brand">🧰 Cybersecurity Toolkit</span>
+    <nav class="cytk-topnav">
+      <a href="../">← Portfolio</a>
+      <a href="https://github.com/BAPP18/CS--V1" target="_blank" rel="noopener">GitHub Repo ↗</a>
+      <button class="cytk-icon-btn" id="cytk-theme" aria-label="Toggle theme">🌙</button>
+    </nav>
+  </header>
+
+  <div class="cytk-layout">
+    <aside class="cytk-sidebar" id="cytk-sidebar" aria-label="Cybersecurity Toolkit navigation">
+      <button data-view="home">🏠 Home</button>
+      <button data-view="password">🔑 Password Checker</button>
+      <button data-view="log">📜 Log Analyzer</button>
+      <button data-view="phishing">🎣 Phishing Detector</button>
+      <button data-view="port">🌐 Port Scanner</button>
+      <button data-view="vuln">⚠️ CVE Scanner</button>
+      <button data-view="packet">📡 Packet Sniffer</button>
+    </aside>
+
+    <main class="cytk-main" id="cytk-main">
+      <section class="cytk-view active" id="view-home"></section>
+
+      <!-- 1. Password Strength Checker + Generator -->
+      <section class="cytk-view" id="view-password">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🔑 Password Strength Checker + Generator</h3>
+          <p class="text-muted">Cek kekuatan password (entropy, pola umum) atau generate password aman. Port web dari <code>password_tool.py</code>.</p>
+
+          <div class="sub-tabs">
+            <button class="sub-tab active" data-sub="pw-check-tab">Cek Password</button>
+            <button class="sub-tab" data-sub="pw-gen-tab">Generate</button>
+          </div>
+
+          <div id="pw-check-tab" class="sub-content active">
+            <div class="tool-field-row">
+              <input type="text" id="pw-input" class="tool-input" placeholder="Masukkan password untuk dicek..." autocomplete="off" spellcheck="false">
+              <button id="pw-check" class="btn btn-primary">Cek Kekuatan</button>
+            </div>
+            <div id="pw-result" class="tool-result-box"></div>
+          </div>
+
+          <div id="pw-gen-tab" class="sub-content">
+            <div class="tool-field-row">
+              <input type="number" id="pw-length" class="tool-input" value="16" min="8" max="64" style="max-width:120px">
+              <label class="text-muted" style="display:flex;align-items:center;gap:0.4rem;white-space:nowrap">
+                <input type="checkbox" id="pw-symbols" checked> Pakai simbol
+              </label>
+              <button id="pw-generate" class="btn btn-primary">Generate</button>
+            </div>
+            <div id="pw-gen-result" class="tool-result-box"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Log Analyzer -->
+      <section class="cytk-view" id="view-log">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">📜 Log Analyzer</h3>
+          <p class="text-muted">Tempel isi log (SSH auth atau web access log). Deteksi brute force SSH & directory scanning. Port web dari <code>log_analyzer.py</code>.</p>
+          <textarea id="log-input" class="tool-textarea" rows="10" placeholder="Tempel baris log di sini...
+Contoh SSH log:
+Nov 12 09:15:03 server sshd[1234]: Failed password for invalid user root from 203.0.113.5 port 51234 ssh2
+Nov 12 09:15:04 server sshd[1235]: Failed password for invalid user admin from 203.0.113.5 port 51236 ssh2" spellcheck="false"></textarea>
+          <button id="log-analyze" class="btn btn-primary" style="margin-top:0.75rem">Analisis Log</button>
+          <div id="log-result" class="tool-result-box"></div>
+        </div>
+      </section>
+
+      <!-- 3. Phishing URL Detector -->
+      <section class="cytk-view" id="view-phishing">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🎣 Phishing URL Detector</h3>
+          <p class="text-muted">Analisis heuristik URL: IP sebagai domain, shortener, kata mencurigakan, redirect trick. Port web dari <code>phishing_detector.py</code>.</p>
+          <div class="tool-field-row">
+            <input type="text" id="phish-input" class="tool-input" placeholder="https://secure-login-verify.example.com@192.168.1.1/index.php" autocomplete="off" spellcheck="false">
+            <button id="phish-analyze" class="btn btn-primary">Analisis URL</button>
+          </div>
+          <div id="phish-result" class="tool-result-box"></div>
+        </div>
+      </section>
+
+      <!-- 4. Port Scanner (demo) -->
+      <section class="cytk-view" id="view-port">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">🌐 Port Scanner</h3>
+          <p class="text-muted">Port web (demo edukatif) dari <code>port_scanner.py</code>. Browser <b>tidak bisa</b> melakukan TCP connect langsung, jadi hasil scan di sini adalah simulasi berdasarkan hostname.</p>
+          <div class="tool-field-row">
+            <input type="text" id="port-target" class="tool-input" placeholder="Target IP/hostname (mis. scanme.nmap.org)" autocomplete="off" spellcheck="false">
+            <button id="port-scan" class="btn btn-primary">Start Scan</button>
+          </div>
+          <div id="port-result" class="tool-result-box"></div>
+        </div>
+      </section>
+
+      <!-- 5. Vulnerability Scanner (NVD API) -->
+      <section class="cytk-view" id="view-vuln">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">⚠️ CVE Scanner (NVD API)</h3>
+          <p class="text-muted">Cari CVE terkait software/versi via NVD REST API. Port web dari <code>vuln_scanner.py</code>. Contoh: <code>apache 2.4.49</code> atau <code>openssl 1.0.1</code>.</p>
+          <div class="tool-field-row">
+            <input type="text" id="vuln-input" class="tool-input" placeholder="Software/keyword (mis. apache 2.4.49)" autocomplete="off" spellcheck="false">
+            <button id="vuln-search" class="btn btn-primary">Cari CVE</button>
+          </div>
+          <div id="vuln-result" class="tool-result-box"></div>
+        </div>
+      </section>
+
+      <!-- 6. Packet Sniffer (guide) -->
+      <section class="cytk-view" id="view-packet">
+        <div class="tool-card glass-card">
+          <h3 class="tool-title">📡 Network Packet Sniffer — Panduan</h3>
+          <p class="text-muted">Tool <code>packet_sniffer.py</code> menangkap traffic jaringan secara real-time (TCP/UDP) menggunakan <b>Scapy</b>. Ini butuh akses socket raw + hak admin — <b>tidak bisa dijalankan di browser</b>. Berikut cara kerja & cara menjalankannya.</p>
+
+          <div class="pkt-info">
+            <div class="pkt-line"><b>Kebutuhan:</b> Python 3, Scapy, dan root/admin (untuk raw socket).</div>
+            <div class="pkt-line"><b>Instalasi:</b> <code>pip install scapy</code></div>
+            <div class="pkt-line"><b>Jalankan:</b> <code>sudo python main.py</code> → pilih menu 6 (Network Packet Sniffer)</div>
+          </div>
+
+          <p class="pkt-title">Cara kerja</p>
+          <ol class="pkt-list">
+            <li>Program memilih interface network (kosongkan = interface default).</li>
+            <li>Scapy melakukan <code>sniff()</code> — menangkap paket raw dari interface.</li>
+            <li>Setiap paket dicek: apakah mengandung lapisan IP, lalu apakah TCP/UDP.</li>
+            <li>Untuk setiap paket TCP/UDP dicetak <code>[TCP] src:port → dst:port</code> atau <code>[UDP] ...</code></li>
+            <li>Default menangkap 20 paket (bisa diubah di menu).</li>
+          </ol>
+
+          <div class="pkt-note">⚠️ Sniffing tanpa izin atas jaringan orang lain adalah ilegal. Gunakan hanya pada jaringan milik Anda / lab Anda.</div>
+          <div class="pkt-note pkt-note-alt">💡 Karena keterbatasan browser, port ini menampilkan panduan & tidak menjalankan sniffing langsung.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/cyber-toolkit.js?v=1"></script>
+</body>
+</html>

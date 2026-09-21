@@ -1,0 +1,213 @@
+/* ===== Cybersecurity Toolkit — namespaced styles (links after style.css) ===== */
+
+.cytk-body {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(34, 110, 225, 0.18), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(16, 185, 129, 0.12), transparent 55%),
+    var(--bg-primary);
+  min-height: 100vh;
+}
+
+.cytk-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(12, 6, 18, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--glass-border);
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+}
+[data-theme="light"] .cytk-topbar { background: rgba(255, 255, 255, 0.85); }
+
+.cytk-brand {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.cytk-topnav { display: flex; align-items: center; gap: 0.75rem; }
+
+.cytk-topnav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border: 1px solid var(--glass-border);
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  transition: color .2s, border-color .2s;
+}
+.cytk-topnav a:hover { color: var(--accent); border-color: var(--accent); }
+
+.cytk-icon-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cytk-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 1.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 4rem;
+}
+
+.cytk-sidebar {
+  position: sticky;
+  top: 84px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.9rem;
+  backdrop-filter: blur(12px);
+}
+
+.cytk-sidebar button {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.cytk-sidebar button:hover { background: var(--accent-soft); color: var(--text-primary); }
+.cytk-sidebar button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.cytk-main { min-width: 0; }
+
+.cytk-view { display: none; }
+.cytk-view.active { display: block; animation: cytk-fade .22s ease; }
+
+@keyframes cytk-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.cytk-hero { padding: 1.25rem 0 1rem; }
+.cytk-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 0.6rem;
+}
+.cytk-hero-sub { color: var(--text-muted); max-width: 760px; margin: 0 0 0.9rem; }
+
+.cytk-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.cytk-card {
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 1.1rem;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+  color: inherit;
+  font: inherit;
+}
+.cytk-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(34, 110, 225, 0.15);
+}
+.cytk-card-icon { font-size: 1.6rem; }
+
+/* Packet sniffer guide */
+.pkt-info {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.pkt-info code { color: var(--accent); }
+.pkt-title {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0.5rem 0 0.35rem;
+}
+.pkt-list { margin: 0 0 0.75rem; padding-left: 1.2rem; }
+.pkt-list li { margin-bottom: 0.25rem; }
+.pkt-note {
+  font-size: 0.78rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 3px solid #fbbf24;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+.pkt-note-alt {
+  background: rgba(134, 239, 172, 0.08);
+  border-left-color: #86efac;
+}
+
+/* Score bar for password strength */
+.pw-scorebar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+.pw-scorebar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s, background 0.3s;
+}
+.pw-weak { color: #fb7185; }
+.pw-weak .pw-scorebar-fill { width: 25%; background: #fb7185; }
+.pw-medium { color: #fbbf24; }
+.pw-medium .pw-scorebar-fill { width: 50%; background: #fbbf24; }
+.pw-strong { color: #a3e635; }
+.pw-strong .pw-scorebar-fill { width: 75%; background: #a3e635; }
+.pw-very-strong { color: #4ade80; }
+.pw-very-strong .pw-scorebar-fill { width: 100%; background: #4ade80; }
+
+@media (max-width: 860px) {
+  .cytk-layout { grid-template-columns: 1fr; }
+  .cytk-sidebar { position: static; flex-direction: row; overflow-x: auto; max-width: 100%; }
+  .cytk-sidebar button { white-space: nowrap; }
+  .cytk-topbar { flex-wrap: wrap; gap: 0.4rem 0.6rem; }
+}
+
+@media (max-width: 480px) {
+  body.cytk-body { min-width: 0; overflow-x: hidden; }
+  .cytk-topbar { padding: 0.6rem 0.8rem; }
+  .cytk-brand { font-size: 0.78rem; }
+  .cytk-topnav a { font-size: 0.8rem; }
+}
