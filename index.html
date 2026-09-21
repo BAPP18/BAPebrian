@@ -29,7 +29,7 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
-      <a href="#cyber-lab">Cyber Lab</a>
+      <a href="cyber-lab/">Cyber Lab</a>
       <a href="pm-lab/">PM Lab</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -50,7 +50,7 @@
         </p>
         <p class="hero-desc" id="hero-desc">IT Project Management & Cybersecurirty Enthusiast</p>
         <div class="hero-actions">
-          <a href="#cyber-lab" class="btn btn-primary">Explore Tools →</a>
+          <a href="cyber-lab/" class="btn btn-primary">Explore Tools →</a>
           <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
         </div>
       </div>
@@ -136,190 +136,6 @@
       <p class="section-subtitle">Project bootcamp</p>
       <div class="projects-grid" id="projects-grid"></div>
     </section>
-
-    <!-- CYBER SECURITY LAB (TOOLS) -->
-    <section id="cyber-lab" class="section">
-      <h2 class="section-title">🛡️ Cyber Security Lab</h2>
-      <p class="section-subtitle">Advanced penetration testing tools</p>
-
-      <div class="lab-tabs" id="cyber-tabs">
-        <button class="lab-tab active" data-tab="dns-tool">🔍 Network Recon</button>
-        <button class="lab-tab" data-tab="headers-tool">🌐 Web App Security</button>
-        <button class="lab-tab" data-tab="jwt-tool">🔐 JWT & Hash Inspector</button>
-        <button class="lab-tab" data-tab="enum-tool">🔎 Enumeration</button>
-        <button class="lab-tab" data-tab="as-tool">📡 Attack Surface</button>
-        <button class="lab-tab" data-tab="repeater-tool">🧪 HTTP Repeater</button>
-        <button class="lab-tab" data-tab="csrf-tool">🌊 CSRF PoC</button>
-      </div>
-
-      <!-- 1. DNS Lookup -->
-      <div id="dns-tool" class="lab-content active">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🔍 DNS Lookup — Network Reconnaissance</h3>
-          <p class="text-muted">Query DNS records for any domain. Powered by Google DNS over HTTPS.</p>
-          <div class="tool-field-row">
-            <input type="text" id="dns-input" class="tool-input" placeholder="Enter domain (e.g. example.com)" autocomplete="off" spellcheck="false">
-          </div>
-          <div class="tool-btn-grp">
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="A">A (IPv4)</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="AAAA">AAAA (IPv6)</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="MX">MX (Mail)</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="NS">NS (Nameserver)</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="TXT">TXT</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="CNAME">CNAME</button>
-            <button class="btn btn-sm btn-primary dns-btn" data-dns="SOA">SOA</button>
-          </div>
-          <div id="dns-result" class="tool-result-box"></div>
-        </div>
-      </div>
-
-      <!-- 2. Security Headers Analyzer -->
-      <div id="headers-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🌐 Security Headers Analyzer</h3>
-          <p class="text-muted">Check any website for missing HTTP security headers. Get a grade (A-F) and recommendations.</p>
-          <div class="tool-field-row">
-            <input type="text" id="headers-input" class="tool-input" placeholder="Enter URL (e.g. https://example.com)" autocomplete="off" spellcheck="false">
-            <button id="headers-check" class="btn btn-primary">Check Headers</button>
-          </div>
-          <div id="headers-result" class="tool-result-box"></div>
-        </div>
-      </div>
-
-      <!-- 3. JWT & Hash Inspector -->
-      <div id="jwt-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🔐 JWT & Hash Inspector</h3>
-          <p class="text-muted">Decode JWT tokens and identify hash types</p>
-
-          <div class="sub-tabs">
-            <button class="sub-tab active" data-sub="jwt-decode-tab">JWT Decoder</button>
-            <button class="sub-tab" data-sub="hash-id-tab">Hash Identifier</button>
-          </div>
-
-          <div id="jwt-decode-tab" class="sub-content active">
-            <p class="text-muted" style="margin-bottom:0.5rem">Paste a JWT token to decode its header, payload, and signature.</p>
-            <textarea id="jwt-input" class="tool-textarea" placeholder="Paste JWT token here..." rows="3" spellcheck="false"></textarea>
-            <button id="jwt-decode" class="btn btn-primary" style="margin-top:0.75rem">Decode Token</button>
-            <div id="jwt-result" class="tool-result-box"></div>
-          </div>
-
-          <div id="hash-id-tab" class="sub-content">
-            <p class="text-muted" style="margin-bottom:0.5rem">Enter a hash string to identify possible algorithm(s). Supports 30+ hash types.</p>
-            <input type="text" id="hash-input" class="tool-input" placeholder="Paste hash here (e.g. 5d41402abc4b2a76b9719d911017c592)" autocomplete="off" spellcheck="false">
-            <div id="hash-result" class="tool-result-box"></div>
-          </div>
-        </div>
-      </div>
-      <!-- 4. Enumeration -->
-      <div id="enum-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🔎 Subdomain & Directory Enumeration</h3>
-          <p class="text-muted">Discover subdomains and common directories on a target domain.</p>
-
-          <div class="enum-sub-tabs">
-            <button class="enum-sub-tab active" data-ensub="enum-subdomain">🌐 Subdomain Scan</button>
-            <button class="enum-sub-tab" data-ensub="enum-directory">📁 Directory Scan</button>
-          </div>
-
-          <div id="enum-subdomain" class="enum-sub-content active">
-            <p class="text-muted" style="margin-bottom:0.5rem">Enter a domain to scan for common subdomains (20 subdomains checked).</p>
-            <div class="tool-field-row">
-              <input type="text" id="enum-domain" class="tool-input" placeholder="example.com" autocomplete="off" spellcheck="false">
-              <button id="enum-domain-btn" class="btn btn-primary">Start Enumeration</button>
-            </div>
-            <div id="enum-domain-result" class="tool-result-box"></div>
-          </div>
-
-          <div id="enum-directory" class="enum-sub-content">
-            <p class="text-muted" style="margin-bottom:0.5rem">Enter a URL to scan for common directories and files (15 paths checked).</p>
-            <div class="tool-field-row">
-              <input type="text" id="enum-url" class="tool-input" placeholder="https://example.com" autocomplete="off" spellcheck="false">
-              <button id="enum-url-btn" class="btn btn-primary">Start Scan</button>
-            </div>
-            <div id="enum-url-result" class="tool-result-box"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Attack Surface Analyzer -->
-      <div id="as-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">📡 Attack Surface Analyzer</h3>
-          <p class="text-muted">Scan 12 common HTTP/HTTPS ports, detect server technologies, and get pentest guidance + mitigations.</p>
-          <div class="tool-field-row">
-            <input type="text" id="as-domain" class="tool-input" placeholder="example.com" autocomplete="off" spellcheck="false">
-            <button id="as-scan" class="btn btn-primary">Start Scan</button>
-          </div>
-          <div id="as-result" class="tool-result-box"></div>
-        </div>
-      </div>
-
-      <!-- 6. HTTP Repeater + IDOR Fuzzer -->
-      <div id="repeater-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🧪 HTTP Request Builder / IDOR Fuzzer</h3>
-          <p class="text-muted">Craft custom requests or auto-fuzz potential IDOR vulnerabilities.</p>
-
-          <div class="rep-sub-tabs">
-            <button class="rep-sub-tab active" data-repsub="request-builder">📤 Request Builder</button>
-            <button class="rep-sub-tab" data-repsub="idor-fuzzer">🎯 IDOR Fuzzer</button>
-          </div>
-
-          <div id="request-builder" class="rep-sub-content active">
-            <div class="rep-field-row">
-              <input type="text" id="rep-url" class="tool-input" placeholder="https://target.com/api/endpoint" autocomplete="off" spellcheck="false">
-              <select id="rep-method" class="rep-method-select">
-                <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
-              </select>
-            </div>
-            <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Headers (Key: Value per line)</p>
-            <textarea id="rep-headers" class="tool-textarea" placeholder="Content-Type: application/json&#10;Authorization: Bearer token" rows="3" spellcheck="false"></textarea>
-            <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Request Body</p>
-            <textarea id="rep-body" class="tool-textarea" placeholder='{"key": "value"}' rows="4" spellcheck="false"></textarea>
-            <button id="rep-send" class="btn btn-primary" style="margin-top:0.75rem">Send Request</button>
-            <div id="rep-result" class="tool-result-box"></div>
-          </div>
-
-          <div id="idor-fuzzer" class="rep-sub-content">
-            <p class="text-muted" style="margin-bottom:0.5rem">Auto-fuzz IDOR by replacing <code>{id}</code> in the URL. Detects anomalies (different status/content-length from majority).</p>
-            <div class="tool-field-row">
-              <input type="text" id="idor-url" class="tool-input" placeholder="https://target.com/api/user/{id}" autocomplete="off" spellcheck="false">
-            </div>
-            <div class="idor-range-row">
-              <span class="idor-range-label">Range:</span>
-              <input type="number" id="idor-start" class="idor-range-input" value="1" min="1">
-              <span class="idor-range-to">to</span>
-              <input type="number" id="idor-end" class="idor-range-input" value="20" min="1">
-              <button id="idor-fuzz" class="btn btn-primary">Start Fuzz</button>
-            </div>
-            <div id="idor-result" class="tool-result-box"></div>
-          </div>
-
-          <p class="text-muted enum-disclaimer" style="margin-top:0.5rem">⚠️ For educational purposes only. Test only websites you own.</p>
-        </div>
-      </div>
-
-      <!-- 7. CSRF PoC Generator -->
-      <div id="csrf-tool" class="lab-content">
-        <div class="tool-card glass-card">
-          <h3 class="tool-title">🌊 CSRF PoC Generator</h3>
-          <p class="text-muted">Generate HTML proof-of-concept forms for Cross-Site Request Forgery testing.</p>
-          <div class="tool-field-row">
-            <input type="text" id="csrf-url" class="tool-input" placeholder="https://target.com/api/action" autocomplete="off" spellcheck="false">
-            <select id="csrf-method" class="rep-method-select">
-              <option>GET</option><option selected>POST</option>
-            </select>
-          </div>
-          <p class="text-muted" style="font-size:0.75rem;margin:0.5rem 0 0.25rem">Parameters (Key: Value per line)</p>
-          <textarea id="csrf-params" class="tool-textarea" placeholder="user_id: 123&#10;action: delete" rows="4" spellcheck="false"></textarea>
-          <button id="csrf-gen" class="btn btn-primary" style="margin-top:0.75rem">Generate PoC</button>
-          <div id="csrf-result" class="tool-result-box"></div>
-          <p class="text-muted enum-disclaimer" style="margin-top:0.5rem">⚠️ For educational purposes only. Test only websites you own.</p>
-        </div>
-      </div>
-    </section>
-
 
     <!-- CONTACT -->
     <section id="contact" class="section">

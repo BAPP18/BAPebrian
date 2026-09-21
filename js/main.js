@@ -1,5 +1,4 @@
 import { CONFIG } from './config.js';
-import { initAllTools } from './tools.js?v=2';
 
 
 const THEME = {
@@ -334,7 +333,7 @@ const commands = {
     '  🔐 JWT & Hash Inspector',
     '  🔎 Subdomain & Directory Enumeration',
     '  🧪 HTTP Request Builder / Repeater',
-    'Scroll ke section "Cyber Lab" untuk mencoba.',
+    'Buka halaman "Cyber Lab" untuk mencoba.',
   ],
   pmlab: () => [
     'IT Project Management Lab:',
@@ -389,9 +388,6 @@ terminalForm?.addEventListener('submit', (e) => {
   }
   terminalInput.value = '';
 });
-
-
-initAllTools();
 
 
 document.getElementById('contact-form')?.addEventListener('submit', (e) => {
