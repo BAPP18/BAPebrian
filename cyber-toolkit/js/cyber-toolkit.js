@@ -3,15 +3,15 @@ import { initAllTools } from './tools/index.js?v=1';
 const VIEWS = ['home', 'password', 'log', 'phishing', 'port', 'vuln', 'packet'];
 
 const TOOL_CARDS = [
-  ['password', 'Password Strength', 'Check entropy & common patterns, or generate a secure password.'],
-  ['log', 'Log Analyzer', 'Detect SSH brute-force attempts and directory scanning in logs.'],
-  ['phishing', 'Phishing URL Detector', 'Heuristic analysis of URLs for phishing indicators.'],
-  ['port', 'Port Scanner', 'Educational demo scan of common ports on a target.'],
-  ['vuln', 'CVE Scanner', 'Search the NVD API for known CVEs of a software & version.'],
-  ['packet', 'Packet Sniffer Guide', 'How the Scapy-based sniffer works & how to run it.'],
+  ['password', 'Password Strength', 'Entropy check + secure generator.'],
+  ['log', 'Log Analyzer', 'Spot brute-force & scans in logs.'],
+  ['phishing', 'Phishing URL Detector', 'Score URLs for phishing signs.'],
+  ['port', 'Port Scanner', 'Demo scan of common ports.'],
+  ['vuln', 'CVE Scanner', 'CVEs by software & version.'],
+  ['packet', 'Packet Sniffer Guide', 'Capture packets with Scapy — setup & how it works.'],
 ];
 
-const PRIVACY = 'Tools that can run in a browser run client-side. Only use them on targets you own or are authorized to test.';
+const PRIVACY = 'Client-side only. Test only systems you may test.';
 
 export function boot() {
   // Dark-only site.
@@ -22,6 +22,17 @@ export function boot() {
   });
   renderView('home');
   initAllTools();
+  // Sub-tab switching (password check/generate) scoped per tool card.
+  document.querySelectorAll('.sub-tabs').forEach((bar) => {
+    const card = bar.closest('.tool-card') || document;
+    bar.querySelectorAll('.sub-tab').forEach((tab) => tab.addEventListener('click', () => {
+      bar.querySelectorAll('.sub-tab').forEach((t) => t.classList.remove('active'));
+      card.querySelectorAll('.sub-content').forEach((c) => c.classList.remove('active'));
+      tab.classList.add('active');
+      const pane = card.querySelector('#' + tab.dataset.sub);
+      if (pane) pane.classList.add('active');
+    }));
+  });
 }
 
 export function setView(view) {
@@ -42,7 +53,7 @@ function renderHome(host) {
   host.innerHTML = `
     <div class="cytk-hero">
       <h1 class="cytk-hero-title">Cybersecurity Toolkit</h1>
-      <p class="cytk-hero-sub">Web port of a Python CLI project — password security, log analysis, phishing detection, vulnerability lookup, and network scanning guides.</p>
+      <p class="cytk-hero-sub">Password, log, phishing, CVE & network tools — in your browser.</p>
       <p class="text-muted" style="font-size:0.78rem">${PRIVACY}</p>
     </div>
     <div class="cytk-cards">

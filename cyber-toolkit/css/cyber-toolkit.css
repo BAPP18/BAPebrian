@@ -2,8 +2,8 @@
 
 .cytk-body {
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(34, 110, 225, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 0% 110%, rgba(16, 185, 129, 0.12), transparent 55%),
+    radial-gradient(1200px 600px at 80% -10%, rgba(34, 211, 238, 0.1), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(14, 165, 233, 0.08), transparent 55%),
     var(--bg-primary);
   min-height: 100vh;
 }
@@ -42,6 +42,170 @@
   transition: color .2s, border-color .2s;
 }
 .cytk-topnav a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Packet sniffer guide */
+.pkt-req { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.9rem 0 0.25rem; }
+.pkt-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid var(--glass-border);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+.pkt-cmd {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+}
+.pkt-cmd code {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.pkt-steps {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  counter-reset: pkt-step;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+}
+.pkt-steps li {
+  counter-increment: pkt-step;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  line-height: 1.55;
+}
+.pkt-steps li::before {
+  content: counter(pkt-step);
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+}
+
+/* ===== Shared tool UI (same set as cyber-lab) ===== */
+
+.cytk-main .text-muted { color: var(--text-muted); }
+
+.tool-card {
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tool-title {
+  color: var(--accent);
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.tool-card .text-muted {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.tool-field-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tool-field-row .tool-input { flex: 1; min-width: 200px; }
+.tool-btn-grp {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+.tool-result-box {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  min-height: 40px;
+}
+.sub-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 0.5rem;
+}
+.sub-tab {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  border-radius: 6px;
+}
+.sub-tab.active { color: var(--accent); background: var(--accent-soft); }
+.sub-tab:hover { color: var(--accent); }
+.sub-content { display: none; }
+.sub-content.active { display: block; }
+
+/* Key/value rows (password report) */
+.dns-header {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.dns-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  font-size: 0.85rem;
+}
+.dns-type { min-width: 110px; color: var(--text-muted); }
+.dns-val { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.jwt-json {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Password generator controls sit in one tidy row (only when its tab is active) */
+#pw-gen-tab.active {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+#pw-gen-result { flex-basis: 100%; min-width: 0; }
 
 
 .cytk-layout {

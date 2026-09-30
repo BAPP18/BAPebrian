@@ -24,10 +24,27 @@ export function initVulnScanner() {
     result.innerHTML = '<p class="text-muted">Searching CVEs for <b>' + escapeHtml(keyword) + '</b> via the NVD API...</p>';
 
     const url = `${NVD_API}?keywordSearch=${encodeURIComponent(keyword)}&resultsPerPage=10`;
+    // The public CORS proxy is unreliable — try NVD directly first, fall back to the proxy.
+    // Both legs have timeouts so a hanging route always ends in a clean error, never a stuck spinner.
+    async function fetchNVD(u, timeoutMs) {
+      const c = new AbortController();
+      const t = setTimeout(() => c.abort(), timeoutMs);
+      try {
+        const r = await fetch(u, { signal: c.signal });
+        clearTimeout(t);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return await r.json();
+      } catch (e) {
+        clearTimeout(t);
+        if (u === url) {
+          result.innerHTML = '<p class="text-muted">Direct NVD request slow — retrying via alternate route…</p>';
+          return fetchNVD(CORS_PROXY + encodeURIComponent(url), 15000);
+        }
+        throw e;
+      }
+    }
     try {
-      const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const data = await resp.json();
+      const data = await fetchNVD(url, 25000);
 
       const vulnerabilities = data.vulnerabilities || [];
       const total = data.totalResults || 0;

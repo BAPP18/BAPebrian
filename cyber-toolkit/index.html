@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Cybersecurity Toolkit — web port of the Python CLI: port scanner (demo), password strength, log analyzer, NVD vulnerability scanner, phishing URL detector, and packet sniffer guide.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.cors.syrins.tech; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://services.nvd.nist.gov https://api.cors.syrins.tech; base-uri 'self'; form-action 'self'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Cybersecurity Toolkit — Bayu Akbar Pebrian</title>
   <link rel="icon" href="data:,">
@@ -122,29 +122,38 @@ Nov 12 09:15:04 server sshd[1235]: Failed password for invalid user admin from 2
         </div>
       </section>
 
-      <!-- 6. Packet Sniffer (guide) -->
+      <!-- 6. Packet Sniffer guide -->
       <section class="cytk-view" id="view-packet">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">Network Packet Sniffer — Guide</h3>
-          <p class="text-muted">The <code>packet_sniffer.py</code> tool captures live network traffic (TCP/UDP) with <b>Scapy</b>. That needs raw socket access + admin rights — <b>impossible inside a browser</b>. How it works and how to run it:</p>
+          <h3 class="tool-title">Packet Sniffer Guide</h3>
+          <p class="text-muted">Capture live network packets with Python + Scapy — from your own terminal. Raw sockets need admin rights, so browsers can't do this; this guide gets you running in minutes.</p>
 
-          <div class="pkt-info">
-            <div class="pkt-line"><b>Requirements:</b> Python 3, Scapy, and root/admin (for raw sockets).</div>
-            <div class="pkt-line"><b>Install:</b> <code>pip install scapy</code></div>
-            <div class="pkt-line"><b>Run:</b> <code>sudo python main.py</code> → menu 6 (Network Packet Sniffer)</div>
+          <div class="pkt-req">
+            <span class="pkt-chip">Python 3</span>
+            <span class="pkt-chip">Scapy</span>
+            <span class="pkt-chip">root / admin</span>
           </div>
 
+          <div class="pkt-cmd">
+            <code id="pkt-cmd-install">pip install scapy</code>
+            <button class="btn btn-sm btn-outline" data-copy="#pkt-cmd-install">Copy</button>
+          </div>
+          <div class="pkt-cmd">
+            <code id="pkt-cmd-run">sudo python main.py</code>
+            <button class="btn btn-sm btn-outline" data-copy="#pkt-cmd-run">Copy</button>
+          </div>
+          <p class="text-muted" style="font-size:0.78rem">…then pick menu 6 (Network Packet Sniffer).</p>
+
           <p class="pkt-title">How it works</p>
-          <ol class="pkt-list">
-            <li>The program picks a network interface (blank = default).</li>
-            <li>Scapy calls <code>sniff()</code> — capturing raw packets from the interface.</li>
+          <ol class="pkt-steps">
+            <li>Pick a network interface (blank = default).</li>
+            <li>Scapy calls <code>sniff()</code> — capturing raw packets.</li>
             <li>Each packet is checked for an IP layer, then TCP/UDP.</li>
-            <li>Every TCP/UDP packet prints <code>[TCP] src:port → dst:port</code> or <code>[UDP] ...</code></li>
-            <li>Captures 20 packets by default (configurable in the menu).</li>
+            <li>Every TCP/UDP packet prints <code>[TCP] src:port → dst:port</code>.</li>
+            <li>Captures 20 packets by default (configurable).</li>
           </ol>
 
           <div class="pkt-note">Sniffing networks you are not authorized for is illegal. Only use it on your own networks / lab.</div>
-          <div class="pkt-note pkt-note-alt">Because of browser limitations, this page is a guide and does not run live sniffing.</div>
         </div>
       </section>
     </main>
