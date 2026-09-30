@@ -389,10 +389,17 @@ document.getElementById('contact-form')?.addEventListener('submit', (e) => {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    status.hidden = false;
+    status.textContent = 'Please enter a valid email address.';
+    status.style.color = 'var(--danger)';
+    return;
+  }
   const to = CONFIG.contact.email.label;
   const subject = encodeURIComponent(`Portfolio contact from ${name || 'a visitor'}`);
   const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
   status.hidden = false;
+  status.style.color = '';
   status.textContent = 'Opening your email app to send the message…';
   window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
   setTimeout(() => { status.hidden = true; }, 5000);
