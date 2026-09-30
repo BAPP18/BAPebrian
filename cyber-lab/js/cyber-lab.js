@@ -15,18 +15,9 @@ const TOOL_CARDS = [
 const PRIVACY = 'Runs 100% in your browser. Only test systems you own or may test.';
 
 export function boot() {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.dataset.theme = savedTheme;
-  const tb = document.getElementById('cylab-theme');
-  if (tb) {
-    tb.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-    tb.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem('theme', next);
-      tb.textContent = next === 'dark' ? '🌙' : '☀️';
-    });
-  }
+  // Dark-only site.
+  document.documentElement.dataset.theme = 'dark';
+  try { localStorage.removeItem('theme'); } catch {}
   document.querySelectorAll('#cylab-sidebar [data-view]').forEach((btn) => {
     btn.addEventListener('click', () => setView(btn.dataset.view));
   });

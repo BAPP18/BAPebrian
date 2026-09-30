@@ -14,18 +14,9 @@ const TOOL_CARDS = [
 const PRIVACY = 'Tools that can run in a browser run client-side. Only use them on targets you own or are authorized to test.';
 
 export function boot() {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.dataset.theme = savedTheme;
-  const tb = document.getElementById('cytk-theme');
-  if (tb) {
-    tb.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-    tb.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem('theme', next);
-      tb.textContent = next === 'dark' ? '🌙' : '☀️';
-    });
-  }
+  // Dark-only site.
+  document.documentElement.dataset.theme = 'dark';
+  try { localStorage.removeItem('theme'); } catch {}
   document.querySelectorAll('#cytk-sidebar [data-view]').forEach((btn) => {
     btn.addEventListener('click', () => setView(btn.dataset.view));
   });

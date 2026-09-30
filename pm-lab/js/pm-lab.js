@@ -35,18 +35,9 @@ export function setProject(project) {
 }
 
 export function boot() {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.dataset.theme = savedTheme;
-  const tb = document.getElementById('pmlab-theme');
-  if (tb) {
-    tb.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-    tb.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem('theme', next);
-      tb.textContent = next === 'dark' ? '🌙' : '☀️';
-    });
-  }
+  // Dark-only site.
+  document.documentElement.dataset.theme = 'dark';
+  try { localStorage.removeItem('theme'); } catch {}
   document.querySelectorAll('#pmlab-sidebar [data-view]').forEach((btn) => {
     btn.addEventListener('click', () => setView(btn.dataset.view));
   });
@@ -125,7 +116,7 @@ function renderHome(host) {
                 <button class="btn btn-xs btn-outline" data-dup="${p.id}">Copy</button>
                 <button class="btn btn-xs btn-danger" data-del="${p.id}">Delete</button>
               </div>
-            </div>`).join('') : '<p class="text-muted">No saved projects yet.</p>'}
+            </div>`).join('') : '<p class="text-muted">No saved projects yet. Start with the demo:</p><div class="pmlab-view-actions"><button class="btn btn-sm btn-primary" id="pmlab-empty-demo">Use Demo Project</button></div>'}
         </div>
       </div>
       <div class="glass-card pmlab-panel">
@@ -141,6 +132,10 @@ function renderHome(host) {
 
   host.querySelectorAll('.pmlab-card[data-card]').forEach((c) => c.addEventListener('click', () => setView(c.dataset.card)));
   host.querySelector('#pmlab-demo').addEventListener('click', () => {
+    setProject(JSON.parse(JSON.stringify(DEMO_PROJECT)));
+    setView('dashboard');
+  });
+  host.querySelector('#pmlab-empty-demo')?.addEventListener('click', () => {
     setProject(JSON.parse(JSON.stringify(DEMO_PROJECT)));
     setView('dashboard');
   });

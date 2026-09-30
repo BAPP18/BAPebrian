@@ -33,11 +33,11 @@ export const CONFIG = {
   },
 
   skills: [
-    { badge: 'PM', name: 'IT Project Management', level: 'Proficient' },
-    { badge: 'CSS', name: 'CSS3', level: 'Intermediate' },
-    { badge: 'JS', name: 'JavaScript', level: 'Intermediate' },
+    { badge: 'briefcase', name: 'IT Project Management', level: 'Proficient' },
+    { badge: 'palette', name: 'CSS3', level: 'Intermediate' },
+    { badge: 'code', name: 'JavaScript', level: 'Intermediate' },
     { badge: 'shield', name: 'Cybersecurity', level: 'Intermediate' },
-    { badge: 'Git', name: 'Git & GitHub', level: 'Intermediate' },
+    { badge: 'git', name: 'Git & GitHub', level: 'Intermediate' },
   ],
 
   projects: [

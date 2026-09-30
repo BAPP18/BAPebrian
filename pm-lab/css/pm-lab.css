@@ -23,8 +23,6 @@
   font-family: var(--font-display);
   letter-spacing: 0.06em;
 }
-[data-theme="light"] .pmlab-topbar { background: rgba(255, 255, 255, 0.85); }
-
 .pmlab-brand {
   font-size: 0.95rem;
   font-weight: 700;
@@ -45,15 +43,6 @@
 }
 .pmlab-topnav a:hover { color: var(--accent); border-color: var(--accent); }
 
-.pmlab-icon-btn {
-  background: transparent;
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
-  width: 34px;
-  height: 34px;
-  cursor: pointer;
-  font-size: 1rem;
-}
 
 .pmlab-layout {
   display: grid;
