@@ -197,7 +197,45 @@
 .btn-danger { color: var(--danger); border-color: rgba(251, 113, 133, 0.5); }
 .btn-danger:hover { background: rgba(251, 113, 133, 0.12); }
 
-.pmlab-steps { margin: 0; padding-left: 1.2rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.pmlab-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: pmlab-step;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.pmlab-steps li {
+  counter-increment: pmlab-step;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  line-height: 1.55;
+}
+.pmlab-steps li::before {
+  content: counter(pmlab-step);
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+}
+.pmlab-libraries-note {
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--glass-border);
+  font-size: 0.8rem;
+}
 
 .pmlab-dash-cards {
   display: grid;

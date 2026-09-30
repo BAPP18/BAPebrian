@@ -3,16 +3,16 @@ import { initAllTools } from './tools/index.js?v=1';
 const VIEWS = ['home', 'dns', 'headers', 'jwt', 'enum', 'as', 'repeater', 'csrf'];
 
 const TOOL_CARDS = [
-  ['dns', 'DNS Lookup', 'Network recon: query A, AAAA, MX, NS, TXT, CNAME, SOA records.'],
-  ['headers', 'Security Headers', 'Scan missing HTTP security headers, get a grade (A-F) and recommendations.'],
-  ['jwt', 'JWT & Hash Inspector', 'Decode JWT tokens and identify 30+ hash algorithms.'],
-  ['enum', 'Enumeration', 'Discover subdomains and scan common directories on a target.'],
-  ['as', 'Attack Surface', 'Scan 12 common HTTP/HTTPS ports with pentest guidance + mitigations.'],
-  ['repeater', 'HTTP Repeater', 'Craft custom requests + auto-fuzz potential IDOR vulnerabilities.'],
-  ['csrf', 'CSRF PoC Generator', 'Generate HTML proof-of-concept forms for CSRF testing.'],
+  ['dns', 'DNS Lookup', 'Query A, AAAA, MX, NS, TXT, CNAME, SOA.'],
+  ['headers', 'Security Headers', 'Grade a site\u2019s HTTP headers, A\u2013F.'],
+  ['jwt', 'JWT & Hash Inspector', 'Decode JWTs, identify 30+ hashes.'],
+  ['enum', 'Enumeration', 'Find subdomains & hidden paths.'],
+  ['as', 'Attack Surface', 'Scan 12 ports + hardening tips.'],
+  ['repeater', 'HTTP Repeater', 'Send requests, fuzz for IDOR.'],
+  ['csrf', 'CSRF PoC Generator', 'Build CSRF proof-of-concept forms.'],
 ];
 
-const PRIVACY = 'All tools run in your browser (client-side). Only use them on targets you own or are authorized to test.';
+const PRIVACY = 'Runs 100% in your browser. Only test systems you own or may test.';
 
 export function boot() {
   const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -52,7 +52,7 @@ function renderHome(host) {
   host.innerHTML = `
     <div class="cylab-hero">
       <h1 class="cylab-hero-title">Cyber Security Lab</h1>
-      <p class="cylab-hero-sub">Hands-on tools for reconnaissance, web app security, enumeration, request crafting, and testing.</p>
+      <p class="cylab-hero-sub">Hands-on browser tools for security testing.</p>
       <p class="text-muted" style="font-size:0.78rem">${PRIVACY}</p>
     </div>
     <div class="cylab-cards">

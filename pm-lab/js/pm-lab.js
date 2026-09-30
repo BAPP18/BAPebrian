@@ -102,12 +102,12 @@ function renderHome(host) {
     </div>
 
     <div class="pmlab-cards">
-      ${homeCard('planner', 'Project Planner', 'Generate WBS, tasks, and a full project plan from templates.')}
-      ${homeCard('analyzer', 'Project Document Analyzer', 'Parse XLSX, PDF, DOCX and TXT to extract project data.')}
-      ${homeCard('health', 'Project Health Analyzer', 'Score schedule, budget, scope, risk, resource and quality.')}
-      ${homeCard('risk', 'Risk Simulator', 'Rate probability x impact and measure mitigation effect.')}
-      ${homeCard('scenario', 'PM Scenario Lab', 'Test realistic decisions: delay, vendor, resources, incidents.')}
-      ${homeCard('dashboard', 'Executive Dashboard', 'KPI cards, charts and an executive project summary.')}
+      ${homeCard('planner', 'Project Planner', 'WBS, tasks & full plan from templates.')}
+      ${homeCard('analyzer', 'Project Document Analyzer', 'Pull project data from XLSX, PDF, DOCX, TXT.')}
+      ${homeCard('health', 'Project Health Analyzer', 'Score schedule, budget, scope & risk.')}
+      ${homeCard('risk', 'Risk Simulator', 'Probability × impact, before & after mitigation.')}
+      ${homeCard('scenario', 'PM Scenario Lab', 'Practice tough project decisions safely.')}
+      ${homeCard('dashboard', 'Executive Dashboard', 'KPIs, charts & one-page summary.')}
     </div>
 
     <div class="pmlab-home-row">
@@ -135,7 +135,7 @@ function renderHome(host) {
           <li>The system parses and normalizes tasks, milestones, risks, and budget.</li>
           <li>Analyze health, simulate risks and decisions, then export a report.</li>
         </ol>
-        <p class="text-muted">Libraries (Excel/PDF/DOCX/Chart) are loaded lazily only when needed.</p>
+        <p class="text-muted pmlab-libraries-note">Libraries (Excel/PDF/DOCX/Chart) are loaded lazily only when needed.</p>
       </div>
     </div>`;
 
