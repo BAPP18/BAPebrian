@@ -98,11 +98,10 @@ a:hover { color: var(--accent-secondary); }
 }
 
 .nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
   color: var(--accent);
 }
 
@@ -180,8 +179,8 @@ a:hover { color: var(--accent-secondary); }
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6rem 2rem 3rem;
-  gap: 3rem;
+  padding: 4.5rem 2rem 2rem;
+  gap: 2rem;
   text-align: center;
 }
 
@@ -858,11 +857,25 @@ a.project-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
   padding: 2rem;
   border-top: 1px solid var(--glass-border);
   font-size: 0.75rem;
   color: var(--text-muted);
 }
+
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.footer-links a:hover { color: var(--accent-secondary); }
 
 .theme-toggle {
   background: transparent;

@@ -4,7 +4,7 @@ export const CONFIG = {
     badge: 'JAKARTA, ID · OPEN TO WORK',
     photo: 'img/Foto-Bayu.png',
     tagline:
-      'IT Project Coordinator & cybersecurity practitioner based in Jakarta. I keep IT projects on track by day and study practical security by night.',
+      'I help teams ship IT projects on time — and probe them for security holes before attackers do.',
     roles: [
       'IT Project Coordinator & Cybersecurity Enthusiast',
     ],
@@ -44,22 +44,22 @@ export const CONFIG = {
     {
       tag: 'GitHub',
       title: 'IT Asset Tracker & Document Management System',
-      description: 'Centralized platform for IT asset inventory, project documents, and maintenance activity — built to replace scattered spreadsheets.',
-      tech: ['HTML', 'CSS', 'PYTHON', 'JAVA SCRIPT'],
+      description: 'Centralized platform for IT asset inventory, project documents, and maintenance activity — replacing scattered spreadsheets.',
+      tech: ['HTML', 'CSS', 'Python', 'JavaScript'],
       link: 'https://github.com/BAPP18/Automation-Hardware-Asset-Tracking-and-Maintenance-Management-System',
     },
     {
       tag: 'GitHub',
       title: 'Security Log & IOC Analyzer',
-      description: 'Parses security logs and flags indicators of compromise to speed up monitoring triage and incident investigation.',
-      tech: ['HTML', 'CSS', 'PYTHON', 'JAVA SCRIPT'],
+      description: 'Upload security logs, flag indicators of compromise, and triage incidents faster.',
+      tech: ['HTML', 'CSS', 'Python', 'JavaScript'],
       link: 'https://github.com/BAPP18/Security-Log-IOC-Analyzer',
     },
     {
       tag: 'Live Demo',
       title: 'Cybersecurity Toolkit',
       description: 'Web port of my Python security toolkit: log analysis, password strength, phishing URL checks, port reference, and CVE lookup — all running in the browser.',
-      tech: ['Python', 'HTML', 'CSS', 'JAVA SCRIPT'],
+      tech: ['Python', 'HTML', 'CSS', 'JavaScript'],
       link: 'cyber-toolkit/',
     },
   ],

@@ -26,17 +26,15 @@ function renderProfile() {
   if (aboutRole) aboutRole.textContent = profile.roles[0] || '';
 
   if (photoSrc) {
-    heroImg.src = photoSrc;
-    heroImg.style.display = '';
-    heroPlaceholder.style.display = 'none';
-    aboutImg.src = photoSrc;
-    aboutImg.style.display = '';
-    aboutPlaceholder.style.display = 'none';
+    if (heroImg) { heroImg.src = photoSrc; heroImg.style.display = ''; }
+    if (heroPlaceholder) heroPlaceholder.style.display = 'none';
+    if (aboutImg) { aboutImg.src = photoSrc; aboutImg.style.display = ''; }
+    if (aboutPlaceholder) aboutPlaceholder.style.display = 'none';
   } else {
-    heroImg.style.display = 'none';
-    heroPlaceholder.style.display = '';
-    aboutImg.style.display = 'none';
-    aboutPlaceholder.style.display = '';
+    if (heroImg) heroImg.style.display = 'none';
+    if (heroPlaceholder) heroPlaceholder.style.display = '';
+    if (aboutImg) aboutImg.style.display = 'none';
+    if (aboutPlaceholder) aboutPlaceholder.style.display = '';
   }
 }
 
@@ -94,7 +92,7 @@ function renderProjects() {
       <div class="project-tech">
         ${p.tech.map((t) => `<span>${escapeHtml(t)}</span>`).join('')}
       </div>
-      ${p.link ? '<span class="project-link">Lihat project →</span>' : ''}
+      ${p.link ? '<span class="project-link">View project →</span>' : ''}
     ${linkEnd}`;
     })
     .join('');
@@ -372,10 +370,16 @@ terminalForm?.addEventListener('submit', (e) => {
 document.getElementById('contact-form')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const status = document.getElementById('form-status');
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const to = CONFIG.contact.email.label;
+  const subject = encodeURIComponent(`Portfolio contact from ${name || 'a visitor'}`);
+  const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
   status.hidden = false;
-  status.textContent = '✓ Message sent! (Demo — connect a backend to actually receive messages)';
-  e.target.reset();
-  setTimeout(() => { status.hidden = true; }, 4000);
+  status.textContent = 'Opening your email app to send the message…';
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  setTimeout(() => { status.hidden = true; }, 5000);
 });
 
 
