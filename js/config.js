@@ -1,66 +1,64 @@
 export const CONFIG = {
   profile: {
     name: 'BAYU AKBAR PEBRIAN',
-    badge: '',
+    badge: 'JAKARTA, ID · OPEN TO WORK',
     photo: 'img/Foto-Bayu.png',
     tagline:
-      '',
+      'IT Project Coordinator & cybersecurity practitioner based in Jakarta. I keep IT projects on track by day and study practical security by night.',
     roles: [
-      'Cybersecurity Enthusiast',
-      'Web Developer Enthusiast',
-      'IT Project Coordinator',
+      'IT Project Coordinator & Cybersecurity Enthusiast',
     ],
   },
 
   // ── 2. ABOUT ME ───────────────────────────────────────────
   about: {
     intro:
-      'Saya seorang IT Project Coordinator yang juga memiliki ketertarikan besar di dunia cybersecurity. Berpengalaman dalam mengelola project IT, dokumentasi sistem, dan koordinasi tim.',
+      "I'm an IT Project Coordinator with a strong interest in cybersecurity. I manage IT projects, track assets, maintain system documentation, and keep teams aligned — and I bring a security mindset into every project I run.",
     interest:
-      'Saya tertarik pada cybersecurity sejak melihat dampak besar keamanan informasi dalam project yang saya kelola. Saat ini saya aktif belajar network security, password analysis, dan encryption basics untuk memperkuat skill di bidang ini.',
+      'I got into cybersecurity after seeing how much information security affects the projects I manage. Right now I focus on network security, password analysis, and encryption basics, and I practice with the hands-on tools in the Cyber Lab below.',
     experience: [
       {
         role: 'IT Project Coordinator',
         company: 'PT Mastersystem Infotama Tbk',
-        period: 'Juni 2024 - Juni 2026',
-        desc: 'Mengelola project IT, tracking asset, dokumentasi sistem, dan koordinasi antar tim.',
+        period: 'June 2024 - June 2026',
+        desc: 'Ran IT projects end to end: asset tracking, system documentation, maintenance scheduling, and coordination across teams.',
       },
       {
-        role: 'Cybersecurity Enthusiast',
+        role: 'Cybersecurity Practitioner',
         company: 'Self-Learning',
-        period: '2024 — Sekarang',
-        desc: 'Belajar network security, password analysis, encryption, dan praktik keamanan sistem.',
+        period: '2024 — Present',
+        desc: 'Studying network security, password analysis, and encryption through labs, CTF-style exercises, and small security tools.',
       },
     ],
   },
 
   skills: [
-    { icon: '👨🏻‍💼', name: 'IT Project Management', level: 100 },
-    { icon: '🎨', name: 'CSS3', level: 85 },
-    { icon: '⚙️', name: 'JavaScript', level: 75 },
-    { icon: '🛡️', name: 'Cybersecurity', level: 70 },
-    { icon: '📦', name: 'Git & GitHub', level: 65 },
+    { badge: 'PM', name: 'IT Project Management', level: 'Proficient' },
+    { badge: 'CSS', name: 'CSS3', level: 'Intermediate' },
+    { badge: 'JS', name: 'JavaScript', level: 'Intermediate' },
+    { badge: 'shield', name: 'Cybersecurity', level: 'Intermediate' },
+    { badge: 'Git', name: 'Git & GitHub', level: 'Intermediate' },
   ],
 
   projects: [
     {
       tag: 'GitHub',
       title: 'IT Asset Tracker & Document Management System',
-      description: 'Sistem untuk mengelola aset IT, dokumen proyek, dan aktivitas maintenance dalam satu platform terpusat.',
+      description: 'Centralized platform for IT asset inventory, project documents, and maintenance activity — built to replace scattered spreadsheets.',
       tech: ['HTML', 'CSS', 'PYTHON', 'JAVA SCRIPT'],
       link: 'https://github.com/BAPP18/Automation-Hardware-Asset-Tracking-and-Maintenance-Management-System',
     },
     {
       tag: 'GitHub',
       title: 'Security Log & IOC Analyzer',
-      description: 'Membantu analisis log keamanan serta deteksi IOC untuk mendukung monitoring dan investigasi keamanan siber.',
+      description: 'Parses security logs and flags indicators of compromise to speed up monitoring triage and incident investigation.',
       tech: ['HTML', 'CSS', 'PYTHON', 'JAVA SCRIPT'],
       link: 'https://github.com/BAPP18/Security-Log-IOC-Analyzer',
     },
     {
       tag: 'Live Demo',
       title: 'Cybersecurity Toolkit',
-      description: 'Kumpulan tools keamanan siber sederhana dalam satu aplikasi untuk membantu analisis, monitoring, dan pengujian dasar keamanan sistem.',
+      description: 'Web port of my Python security toolkit: log analysis, password strength, phishing URL checks, port reference, and CVE lookup — all running in the browser.',
       tech: ['Python', 'HTML', 'CSS', 'JAVA SCRIPT'],
       link: 'cyber-toolkit/',
     },
@@ -88,7 +86,7 @@ export const CONFIG = {
     'Network Security',
     'Password Analysis',
     'Encryption Basics',
-    'Git & GitHub Pages',
+    'Git & GitHub',
     'IT Project Management',
   ],
 };

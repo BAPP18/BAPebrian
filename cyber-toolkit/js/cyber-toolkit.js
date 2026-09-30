@@ -3,15 +3,15 @@ import { initAllTools } from './tools/index.js?v=1';
 const VIEWS = ['home', 'password', 'log', 'phishing', 'port', 'vuln', 'packet'];
 
 const TOOL_CARDS = [
-  ['password', '🔑', 'Password Strength', 'Check entropy & common patterns, or generate a secure password.'],
-  ['log', '📜', 'Log Analyzer', 'Detect SSH brute-force attempts and directory scanning in logs.'],
-  ['phishing', '🎣', 'Phishing URL Detector', 'Heuristic analysis of URLs for phishing indicators.'],
-  ['port', '🌐', 'Port Scanner', 'Educational demo scan of common ports on a target.'],
-  ['vuln', '⚠️', 'CVE Scanner', 'Search the NVD API for known CVEs of a software & version.'],
-  ['packet', '📡', 'Packet Sniffer Guide', 'How the Scapy-based sniffer works & how to run it.'],
+  ['password', 'Password Strength', 'Check entropy & common patterns, or generate a secure password.'],
+  ['log', 'Log Analyzer', 'Detect SSH brute-force attempts and directory scanning in logs.'],
+  ['phishing', 'Phishing URL Detector', 'Heuristic analysis of URLs for phishing indicators.'],
+  ['port', 'Port Scanner', 'Educational demo scan of common ports on a target.'],
+  ['vuln', 'CVE Scanner', 'Search the NVD API for known CVEs of a software & version.'],
+  ['packet', 'Packet Sniffer Guide', 'How the Scapy-based sniffer works & how to run it.'],
 ];
 
-const PRIVACY = 'Tool yang bisa berjalan di browser dijalankan client-side. Gunakan hanya untuk target yang Anda miliki.';
+const PRIVACY = 'Tools that can run in a browser run client-side. Only use them on targets you own or are authorized to test.';
 
 export function boot() {
   const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -51,13 +51,12 @@ function renderHome(host) {
   host.innerHTML = `
     <div class="cytk-hero">
       <h1 class="cytk-hero-title">Cybersecurity Toolkit</h1>
-      <p class="cytk-hero-sub">Web port dari proyek CLI Python — password security, security log analysis, phishing detection, vulnerability lookup, dan panduan network scanning.</p>
-      <p class="text-muted" style="font-size:0.78rem">🔒 ${PRIVACY}</p>
+      <p class="cytk-hero-sub">Web port of a Python CLI project — password security, log analysis, phishing detection, vulnerability lookup, and network scanning guides.</p>
+      <p class="text-muted" style="font-size:0.78rem">${PRIVACY}</p>
     </div>
     <div class="cytk-cards">
-      ${TOOL_CARDS.map(([view, icon, title, desc]) => `
+      ${TOOL_CARDS.map(([view, title, desc]) => `
         <button class="cytk-card glass-card" data-view="${view}">
-          <span class="cytk-card-icon">${icon}</span>
           <h3>${esc(title)}</h3>
           <p class="text-muted">${esc(desc)}</p>
         </button>`).join('')}

@@ -83,7 +83,7 @@ function initRequestBuilder() {
 
       result.innerHTML = `
         <div class="rep-status-bar">
-          <span class="rep-status-code ${resp.ok ? 'rep-ok' : resp.status >= 400 ? 'rep-err' : 'rep-warn'}">${resp.status} ${resp.statusText}</span>
+          <span class="rep-status-code ${resp.ok ? 'rep-ok' : resp.status >= 400 ? 'rep-err' : 'rep-warn'}">${resp.status} ${escapeHtml(resp.statusText)}</span>
           <span class="rep-meta">⏱ ${elapsed}s | 📦 ${escapeHtml(String(respText.length))} bytes</span>
         </div>
         <div class="rep-section">

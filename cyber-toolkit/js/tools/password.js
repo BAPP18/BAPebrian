@@ -35,15 +35,15 @@ function strengthReport(password) {
 
   const isCommon = COMMON_PATTERNS.includes(password.toLowerCase());
   let rating;
-  if (isCommon) rating = 'SANGAT LEMAH (password umum/mudah ditebak)';
-  else if (score <= 2) rating = 'LEMAH';
-  else if (score === 3) rating = 'SEDANG';
-  else if (score === 4) rating = 'KUAT';
-  else rating = 'SANGAT KUAT';
+  if (isCommon) rating = 'VERY WEAK (common/easily guessed password)';
+  else if (score <= 2) rating = 'WEAK';
+  else if (score === 3) rating = 'MEDIUM';
+  else if (score === 4) rating = 'STRONG';
+  else rating = 'VERY STRONG';
 
   const suggestions = [];
-  if (length < 12) suggestions.push('gunakan minimal 12 karakter.');
-  if (!hasSymbol) suggestions.push('tambahkan simbol seperti ! @ # $ %.');
+  if (length < 12) suggestions.push('use at least 12 characters.');
+  if (!hasSymbol) suggestions.push('add symbols like ! @ # $ %.');
 
   return { length, hasLower, hasUpper, hasDigit, hasSymbol, entropy, score, rating, isCommon, suggestions };
 }
@@ -56,24 +56,24 @@ export function initPasswordTool() {
 
   checkBtn.addEventListener('click', () => {
     const password = input.value;
-    if (!password) { result.innerHTML = '<p class="text-warning">Masukkan password terlebih dahulu.</p>'; return; }
+    if (!password) { result.innerHTML = '<p class="text-warning">Enter a password first.</p>'; return; }
 
     const r = strengthReport(password);
     const cls = r.isCommon || r.score <= 2 ? 'pw-weak' : r.score === 3 ? 'pw-medium' : r.score === 4 ? 'pw-strong' : 'pw-very-strong';
-    const label = r.isCommon || r.score <= 2 ? 'Rendah' : r.score === 3 ? 'Sedang' : r.score === 4 ? 'Kuat' : 'Sangat Kuat';
+    const label = r.isCommon || r.score <= 2 ? 'Low' : r.score === 3 ? 'Medium' : r.score === 4 ? 'Strong' : 'Very Strong';
 
     result.innerHTML = `
       <div class="pw-scorebar"><div class="pw-scorebar-fill"></div></div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
-        <span class="text-muted" style="font-size:0.8rem">Panjang: <b>${r.length}</b> karakter</span>
+        <span class="text-muted" style="font-size:0.8rem">Length: <b>${r.length}</b> characters</span>
         <span class="${cls}" style="font-weight:700">${escapeHtml(r.rating)}</span>
       </div>
-      <div class="dns-row"><span class="dns-type">Huruf kecil</span><span class="dns-val">${r.hasLower ? 'Ya' : 'Tidak'}</span></div>
-      <div class="dns-row"><span class="dns-type">Huruf besar</span><span class="dns-val">${r.hasUpper ? 'Ya' : 'Tidak'}</span></div>
-      <div class="dns-row"><span class="dns-type">Angka</span><span class="dns-val">${r.hasDigit ? 'Ya' : 'Tidak'}</span></div>
-      <div class="dns-row"><span class="dns-type">Simbol</span><span class="dns-val">${r.hasSymbol ? 'Ya' : 'Tidak'}</span></div>
+      <div class="dns-row"><span class="dns-type">Lowercase</span><span class="dns-val">${r.hasLower ? 'Yes' : 'No'}</span></div>
+      <div class="dns-row"><span class="dns-type">Uppercase</span><span class="dns-val">${r.hasUpper ? 'Yes' : 'No'}</span></div>
+      <div class="dns-row"><span class="dns-type">Digits</span><span class="dns-val">${r.hasDigit ? 'Yes' : 'No'}</span></div>
+      <div class="dns-row"><span class="dns-type">Symbols</span><span class="dns-val">${r.hasSymbol ? 'Yes' : 'No'}</span></div>
       <div class="dns-row"><span class="dns-type">Entropy</span><span class="dns-val">~${r.entropy.toFixed(1)} bits</span></div>
-      ${r.suggestions.length ? `<div class="hdr-recommend" style="margin-top:0.75rem">💡 Saran: ${escapeHtml(r.suggestions.join(' '))}</div>` : ''}`;
+      ${r.suggestions.length ? `<div class="hdr-recommend" style="margin-top:0.75rem">Suggestions: ${escapeHtml(r.suggestions.join(' '))}</div>` : ''}`;
     const fill = result.querySelector('.pw-scorebar-fill');
     fill.style.width = (r.isCommon || r.score <= 1 ? 15 : r.score === 2 ? 35 : r.score === 3 ? 55 : r.score === 4 ? 80 : 100) + '%';
     fill.style.background = r.isCommon || r.score <= 2 ? '#fb7185' : r.score === 3 ? '#fbbf24' : r.score === 4 ? '#a3e635' : '#4ade80';
@@ -93,20 +93,20 @@ export function initPasswordTool() {
     const r = strengthReport(pwd);
     const cls = r.isCommon || r.score <= 2 ? 'pw-weak' : r.score === 3 ? 'pw-medium' : r.score === 4 ? 'pw-strong' : 'pw-very-strong';
     genResult.innerHTML = `
-      <p class="dns-header">Password baru</p>
+      <p class="dns-header">New password</p>
       <div class="jwt-json" style="font-size:1rem;user-select:all">${escapeHtml(pwd)}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem">
-        <span class="text-muted" style="font-size:0.8rem">${r.length} karakter · entropy ~${r.entropy.toFixed(1)} bits</span>
+        <span class="text-muted" style="font-size:0.8rem">${r.length} characters · entropy ~${r.entropy.toFixed(1)} bits</span>
         <span class="${cls}" style="font-weight:700">${escapeHtml(r.rating)}</span>
       </div>
-      <button class="btn btn-sm btn-primary" id="pw-copy" style="margin-top:0.75rem">📋 Salin</button>`;
+      <button class="btn btn-sm btn-primary" id="pw-copy" style="margin-top:0.75rem">Copy</button>`;
     const copyBtn = genResult.querySelector('#pw-copy');
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
         navigator.clipboard.writeText(pwd).then(() => {
-          copyBtn.textContent = '✓ Tersalin';
+          copyBtn.textContent = '✓ Copied';
         }).catch(() => {
-          copyBtn.textContent = 'Gagal menyalin';
+          copyBtn.textContent = 'Copy failed';
         });
       });
     }

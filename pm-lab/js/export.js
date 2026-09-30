@@ -20,7 +20,7 @@ export function exportProjectJSON(project) {
 
 export function exportTasksCSV(project) {
   const cols = ['ID', 'Task', 'Owner', 'Status', 'Priority', 'Start Date', 'End Date', 'Duration', 'Progress %', 'Dependency', 'Milestone'];
-  const esc = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
+  const esc = (v) => `"${String(safeCell(v)).replace(/"/g, '""')}"`;
   const rows = (project.tasks || []).map((t) => cols.map((c) => { const m = { ID: t.id, Task: t.name, Owner: t.owner, Status: t.status, Priority: t.priority, 'Start Date': t.startDate, 'End Date': t.endDate, Duration: t.duration, 'Progress %': t.progress, Dependency: t.dependency, Milestone: t.milestone ? 'Yes' : '' }; return m[c]; }).map(esc).join(','));
   const csv = [cols.map((c) => esc(c)).join(','), ...rows].join('\n');
   download(safeName(project) + '-tasks.csv', csv, 'text/csv;charset=utf-8');
@@ -30,9 +30,9 @@ export function exportTasksXLSX(project) {
   if (!window.XLSX) return 'No XLSX runtime loaded.';
   const wb = window.XLSX.utils.book_new();
   const ws = window.XLSX.utils.json_to_sheet((project.tasks || []).map((t) => ({
-    ID: t.id, Task: t.name, Owner: t.owner, Status: t.status, Priority: t.priority,
-    'Start Date': t.startDate, 'End Date': t.endDate, Duration: t.duration, 'Progress %': t.progress,
-    Dependency: t.dependency, Milestone: t.milestone ? 'Yes' : '',
+    ID: safeCell(t.id), Task: safeCell(t.name), Owner: safeCell(t.owner), Status: safeCell(t.status), Priority: safeCell(t.priority),
+    'Start Date': safeCell(t.startDate), 'End Date': safeCell(t.endDate), Duration: safeCell(t.duration), 'Progress %': safeCell(t.progress),
+    Dependency: safeCell(t.dependency), Milestone: t.milestone ? 'Yes' : '',
   })));
   window.XLSX.utils.book_append_sheet(wb, ws, 'Tasks');
   window.XLSX.writeFile(wb, safeName(project) + '-tasks.xlsx');
@@ -94,3 +94,12 @@ function esc(s) {
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 function safeName(p) { return String(p.name || 'project').replace(/[^a-z0-9_-]/gi, '_').slice(0, 40); }
+
+// OWASP A03: neutralize spreadsheet formula injection. Cells starting with
+// = + - @ (or tab/CR) are prefixed with a single quote so Excel/Sheets treat
+// them as plain text, even when the data came from untrusted uploads.
+function safeCell(v) {
+  if (v == null) return '';
+  const s = String(v);
+  return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
+}

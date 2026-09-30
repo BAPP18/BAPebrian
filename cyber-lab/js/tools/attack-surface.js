@@ -19,44 +19,44 @@ function getNextActions(port, status, techs) {
   const actions = [];
   const mitigations = [];
   if (port === 443 || port === 8443) {
-    actions.push('Cek SSL/TLS cipher dan sertifikat');
-    actions.push('Tes Heartbleed jika versi SSL lawas');
-    actions.push('Cari endpoint API di /api, /v1, /graphql');
-    mitigations.push('Gunakan HSTS preload');
-    mitigations.push('Sembunyikan versi server di response headers');
+    actions.push('Check SSL/TLS ciphers and certificate');
+    actions.push('Test Heartbleed if running an old SSL version');
+    actions.push('Look for API endpoints at /api, /v1, /graphql');
+    mitigations.push('Use HSTS preload');
+    mitigations.push('Hide server version in response headers');
   }
   if (port === 80) {
-    actions.push('Cek HTTP → HTTPS redirect (rentan SSLStrip)');
-    mitigations.push('Enable HSTS, redirect 301 ke HTTPS');
+    actions.push('Check HTTP → HTTPS redirect (SSLStrip risk)');
+    mitigations.push('Enable HSTS, 301 redirect to HTTPS');
   }
   if (port === 8080 || port === 8000 || port === 3000 || port === 5000 || port === 4000 || port === 4173) {
-    actions.push('Coba path umum: /admin, /api, /.env, /config');
-    actions.push('Cek panel login default (admin:admin)');
-    actions.push('Tes IDOR di endpoint API yang ditemukan');
-    mitigations.push('Jangan expose dev server ke publik');
-    mitigations.push('Gunakan reverse proxy (nginx/caddy) dengan auth');
+    actions.push('Try common paths: /admin, /api, /.env, /config');
+    actions.push('Check for default login panels (admin:admin)');
+    actions.push('Test IDOR on any API endpoints found');
+    mitigations.push('Do not expose dev servers publicly');
+    mitigations.push('Use a reverse proxy (nginx/caddy) with auth');
   }
   if (port === 8888) {
-    actions.push('Cek akses ke Jupyter Notebook tanpa token');
-    actions.push('Coba proxy request via SSRF');
-    mitigations.push('Gunakan auth token dan network restriction');
+    actions.push('Check for tokenless Jupyter Notebook access');
+    actions.push('Try proxy requests via SSRF');
+    mitigations.push('Use auth tokens and network restrictions');
   }
   if (port === 9090) {
-    actions.push('Cek panel admin, coba default credentials');
-    mitigations.push('Gunakan VPN/firewall, jangan expose ke publik');
+    actions.push('Check admin panels, try default credentials');
+    mitigations.push('Use VPN/firewall, do not expose publicly');
   }
   if (techs.length > 0) {
     techs.forEach(t => {
-      if (t.toLowerCase().includes('nginx')) { actions.push('Cek misconfig nginx (path traversal, alias)'); mitigations.push('Update nginx, disable server_tokens'); }
-      if (t.toLowerCase().includes('apache')) { actions.push('Cek directory listing, .htaccess bypass'); mitigations.push('Disable directory listing, update Apache'); }
-      if (t.toLowerCase().includes('iis')) { actions.push('Cek HTTP methods, WebDAV'); mitigations.push('Disable WebDAV, limit HTTP methods'); }
-      if (t.toLowerCase().includes('php')) { actions.push('Cek PHP info leak, LFI/RFI'); mitigations.push('Disable expose_php, harden file upload'); }
-      if (t.toLowerCase().includes('express') || t.toLowerCase().includes('node')) { actions.push('Cek error stack trace, debug mode'); mitigations.push('Set NODE_ENV=production, disable x-powered-by'); }
-      if (t.toLowerCase().includes('python') || t.toLowerCase().includes('flask') || t.toLowerCase().includes('django')) { actions.push('Cek debug mode, /admin, CSRF protection'); mitigations.push('Disable debug di production, gunakan secret key kuat'); }
+      if (t.toLowerCase().includes('nginx')) { actions.push('Check nginx misconfig (path traversal, alias)'); mitigations.push('Update nginx, disable server_tokens'); }
+      if (t.toLowerCase().includes('apache')) { actions.push('Check directory listing, .htaccess bypass'); mitigations.push('Disable directory listing, update Apache'); }
+      if (t.toLowerCase().includes('iis')) { actions.push('Check HTTP methods, WebDAV'); mitigations.push('Disable WebDAV, limit HTTP methods'); }
+      if (t.toLowerCase().includes('php')) { actions.push('Check PHP info leaks, LFI/RFI'); mitigations.push('Disable expose_php, harden file upload'); }
+      if (t.toLowerCase().includes('express') || t.toLowerCase().includes('node')) { actions.push('Check error stack traces, debug mode'); mitigations.push('Set NODE_ENV=production, disable x-powered-by'); }
+      if (t.toLowerCase().includes('python') || t.toLowerCase().includes('flask') || t.toLowerCase().includes('django')) { actions.push('Check debug mode, /admin, CSRF protection'); mitigations.push('Disable debug in production, use a strong secret key'); }
     });
   }
-  actions.push('Lanjut ke 🔎 Enumeration → directory scan di port ini');
-  if (mitigations.length === 0) mitigations.push('Review security headers, gunakan WAF');
+  actions.push('Next: Enumeration → directory scan on this port');
+  if (mitigations.length === 0) mitigations.push('Review security headers, consider a WAF');
   return { actions: actions.slice(0, 5), mitigations: mitigations.slice(0, 3) };
 }
 
@@ -102,11 +102,11 @@ export function initAttackSurface() {
       const icon = open ? '✅' : '❌';
       const cls = open ? 'as-open' : 'as-closed';
       const statusText = open ? status : '-';
-      const techText = techs.length > 0 ? escapeHtml(techs.join('<br>')) : '<span class="text-muted">None detected</span>';
+      const techText = techs.length > 0 ? techs.map((t) => escapeHtml(t)).join('<br>') : '<span class="text-muted">None detected</span>';
       const next = open ? getNextActions(p.port, status, techs) : null;
       let nextHtml = '';
       if (next) {
-        nextHtml = `<div class="as-next"><div class="as-next-title">🔧 Next Actions</div><ul>${next.actions.map(a => '<li>' + escapeHtml(a) + '</li>').join('')}</ul><div class="as-next-title">🛡️ Mitigasi</div><ul>${next.mitigations.map(m => '<li>' + escapeHtml(m) + '</li>').join('')}</ul></div>`;
+        nextHtml = `<div class="as-next"><div class="as-next-title">Next Actions</div><ul>${next.actions.map(a => '<li>' + escapeHtml(a) + '</li>').join('')}</ul><div class="as-next-title">Mitigations</div><ul>${next.mitigations.map(m => '<li>' + escapeHtml(m) + '</li>').join('')}</ul></div>`;
       }
       rows += `<div class="as-row ${cls}"><div class="as-row-main"><span class="as-icon">${icon}</span><span class="as-port">${p.port}</span><span class="as-proto">${p.proto.toUpperCase()}</span><span class="as-name">${escapeHtml(p.name)}</span><span class="as-status">${statusText}</span></div><div class="as-detail"><div class="as-tech"><span class="as-tech-title">Detected:</span> ${techText}</div>${nextHtml}</div></div>`;
       result.innerHTML = `<div class="enum-progress"><div class="enum-progress-bar" style="width:${progress}%"></div></div><p class="text-muted enum-status">Port ${p.port}... (${i + 1}/${SCAN_PORTS.length})</p><div class="as-list">${rows}</div>`;

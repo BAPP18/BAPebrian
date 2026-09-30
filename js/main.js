@@ -2,9 +2,9 @@ import { CONFIG } from './config.js';
 
 
 const THEME = {
-  accent: '#e879f9',
-  accentRgb: '232, 121, 249',
-  bg: '#0c0612',
+  accent: '#22d3ee',
+  accentRgb: '34, 211, 238',
+  bg: '#060b14',
 };
 
 
@@ -45,7 +45,7 @@ function renderAbout() {
   document.getElementById('about-intro').textContent = about.intro;
   const interestEl = document.getElementById('about-interest');
   if (interestEl && about.interest) {
-    interestEl.innerHTML = `<div class="interest-badge">🛡️ Cybersecurity Interest</div><p>${escapeHtml(about.interest)}</p>`;
+    interestEl.innerHTML = `<div class="interest-badge">Security Focus</div><p>${escapeHtml(about.interest)}</p>`;
   }
   const expEl = document.getElementById('about-experience');
   if (expEl && about.experience) {
@@ -58,15 +58,22 @@ function renderAbout() {
   }
 }
 
+function skillBadge(badge) {
+  if (badge === 'shield') {
+    return `<span class="skill-3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></span>`;
+  }
+  return `<span class="skill-3d">${escapeHtml(badge)}</span>`;
+}
+
 function renderSkills() {
   const grid = document.getElementById('skills-grid');
   grid.innerHTML = CONFIG.skills
     .map(
       (s) => `
-    <div class="skill-card glass-card" data-animate data-skill="${escapeAttr(s.level)}">
-      <div class="skill-icon">${s.icon}</div>
+    <div class="skill-card glass-card" data-animate>
+      <div class="skill-icon">${skillBadge(s.badge)}</div>
       <h3>${escapeHtml(s.name)}</h3>
-      <div class="skill-bar"><div class="skill-fill"></div></div>
+      <div class="skill-level">${escapeHtml(s.level)}</div>
     </div>`
     )
     .join('');
@@ -97,17 +104,17 @@ function renderContact() {
   const { contact } = CONFIG;
   document.getElementById('contact-grid').innerHTML = `
     <a href="${escapeAttr(contact.github.url)}" target="_blank" rel="noopener" class="contact-card glass-card" data-animate>
-      <span class="contact-icon"><img src="img/github-logo.png" alt="GitHub" class="contact-logo"></span>
+      <span class="contact-icon"><span class="contact-monogram">GH</span></span>
       <h3>GitHub</h3>
       <p>${escapeHtml(contact.github.label)}</p>
     </a>
     <a href="${escapeAttr(contact.linkedin.url)}" target="_blank" rel="noopener" class="contact-card glass-card" data-animate>
-      <span class="contact-icon"><img src="img/linkedin-logo.jpg" alt="LinkedIn" class="contact-logo"></span>
+      <span class="contact-icon"><span class="contact-monogram">in</span></span>
       <h3>LinkedIn</h3>
       <p>${escapeHtml(contact.linkedin.label)}</p>
     </a>
     <a href="${escapeAttr(contact.email.url)}" class="contact-card glass-card" data-animate>
-      <span class="contact-icon"><img src="img/gmail-logo.jpg" alt="Email" class="contact-logo"></span>
+      <span class="contact-icon"><span class="contact-monogram">@</span></span>
       <h3>Email</h3>
       <p>${escapeHtml(contact.email.label)}</p>
     </a>`;
@@ -147,8 +154,6 @@ let particles = [];
 let particleMode = 'sphere';
 let speedMultiplier = 1;
 let glowIntensity = 1.5;
-let lastTime = performance.now();
-let frameCount = 0;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -196,9 +201,9 @@ class Particle {
   draw() {
     const scale = canvas.width / (this.z || 1);
     const size = this.baseSize * scale * 0.001 * glowIntensity;
-    const alpha = Math.min(1, glowIntensity * 0.4);
+    const alpha = Math.min(0.55, glowIntensity * 0.35);
     ctx.beginPath();
-    ctx.arc(this.x, this.y, Math.max(0.5, size * 100), 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, Math.min(3, Math.max(0.5, size * 100)), 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${THEME.accentRgb}, ${alpha})`;
     ctx.fill();
   }
@@ -229,15 +234,7 @@ function drawConnections() {
   }
 }
 
-function animateParticles(now) {
-  frameCount++;
-  if (now - lastTime >= 1000) {
-    const fps = frameCount;
-    frameCount = 0;
-    lastTime = now;
-    const fpsEl = document.getElementById('fps-counter');
-    if (fpsEl) fpsEl.textContent = fps;
-  }
+function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach((p) => {
     p.update();
@@ -250,24 +247,6 @@ function animateParticles(now) {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 animateParticles(performance.now());
-
-document.querySelectorAll('#particle-mode .toggle').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#particle-mode .toggle').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    particleMode = btn.dataset.mode;
-  });
-});
-
-document.getElementById('speed-slider')?.addEventListener('input', (e) => {
-  speedMultiplier = parseFloat(e.target.value);
-  document.getElementById('speed-value').textContent = `${speedMultiplier.toFixed(1)}x`;
-});
-
-document.getElementById('glow-slider')?.addEventListener('input', (e) => {
-  glowIntensity = parseFloat(e.target.value);
-  document.getElementById('glow-value').textContent = `${glowIntensity.toFixed(1)}x`;
-});
 
 // ===== Typing Effect =====
 const typingEl = document.getElementById('typing-text');
@@ -320,7 +299,7 @@ const commands = {
   about: () => [CONFIG.about.intro],
   skills: () => CONFIG.terminalSkills,
   projects: () =>
-    CONFIG.projects.map((p, i) => `${i + 1}. ${p.title} — ${p.description.slice(0, 50)}...`),
+    CONFIG.projects.map((p, i) => `${i + 1}. ${p.title} — ${p.description.slice(0, 60)}...`),
   contact: () => [
     `GitHub: ${CONFIG.contact.github.url}`,
     `LinkedIn: ${CONFIG.contact.linkedin.url}`,
@@ -328,25 +307,25 @@ const commands = {
   ],
   tools: () => [
     'Cyber Security Lab tools:',
-    '  🔍 Network Recon — DNS Lookup',
-    '  🌐 Web App Security — Security Headers Analyzer',
-    '  🔐 JWT & Hash Inspector',
-    '  🔎 Subdomain & Directory Enumeration',
-    '  🧪 HTTP Request Builder / Repeater',
-    'Buka halaman "Cyber Lab" untuk mencoba.',
+    '  Network Recon — DNS Lookup',
+    '  Web App Security — Security Headers Analyzer',
+    '  JWT & Hash Inspector',
+    '  Subdomain & Directory Enumeration',
+    '  HTTP Request Builder / Repeater',
+    'Open the "Cyber Lab" page to try them.',
   ],
   pmlab: () => [
     'IT Project Management Lab:',
-    '  📄 Document Analyzer — upload XLSX/PDF/DOCX/TXT',
-    '  🧭 Project Planner — WBS & task generation',
-    '  💚 Health Analyzer — project health score (0-100)',
-    '  ⚠️ Risk Simulator — probability x impact',
-    '  🧪 Scenario Lab — PM decision simulator',
-    '  📋 Reports — executive report & export',
-    'Buka halaman "PM Lab" untuk mencoba.',
+    '  Document Analyzer — upload XLSX/PDF/DOCX/TXT',
+    '  Project Planner — WBS & task generation',
+    '  Health Analyzer — project health score (0-100)',
+    '  Risk Simulator — probability x impact',
+    '  Scenario Lab — PM decision simulator',
+    '  Reports — executive report & export',
+    'Open the "PM Lab" page to try them.',
   ],
   whoami: () => [`guest → ${CONFIG.profile.name.toLowerCase().replace(/\s/g, '-')}`],
-  date: () => [new Date().toLocaleString('id-ID')],
+  date: () => [new Date().toLocaleString('en-US')],
   clear: () => {
     terminalOutput.innerHTML = '';
     return [];
@@ -394,7 +373,7 @@ document.getElementById('contact-form')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const status = document.getElementById('form-status');
   status.hidden = false;
-  status.textContent = '✓ Message transmitted successfully! (Demo — connect to backend later)';
+  status.textContent = '✓ Message sent! (Demo — connect a backend to actually receive messages)';
   e.target.reset();
   setTimeout(() => { status.hidden = true; }, 4000);
 });

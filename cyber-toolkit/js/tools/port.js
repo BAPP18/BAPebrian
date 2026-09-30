@@ -30,14 +30,14 @@ export function initPortScanner() {
 
   btn.addEventListener('click', () => {
     const target = input.value.trim();
-    if (!target) { result.innerHTML = '<p class="text-warning">Masukkan target IP/hostname.</p>'; return; }
+    if (!target) { result.innerHTML = '<p class="text-warning">Enter a target IP/hostname.</p>'; return; }
 
     result.innerHTML = `
       <div class="rep-status-bar">
         <span class="text-muted" style="font-size:0.8rem">Scanning target: <b>${escapeHtml(target)}</b></span>
         <span class="rep-meta">demo scan (13 common ports)</span>
       </div>
-      <p class="text-muted" style="font-size:0.75rem;margin:0 0 0.5rem">Browser tidak bisa melakukan TCP connect langsung — hasil di bawah adalah simulasi deterministik untuk tujuan edukasi. Jalankan <code>port_scanner.py</code> asli via CLI/Socket untuk hasil nyata.</p>`;
+      <p class="text-muted" style="font-size:0.75rem;margin:0 0 0.5rem">Browsers cannot open raw TCP connections — results below are a deterministic simulation for education. Run the real <code>port_scanner.py</code> via CLI/sockets for actual results.</p>`;
 
     const seed = hashSeed(target) || 1;
     const openPorts = [];
@@ -47,17 +47,16 @@ export function initPortScanner() {
     }
 
     result.innerHTML += `
-      <div class="dns-header">Hasil scan (simulasi)</div>
+      <div class="dns-header">Scan results (simulated)</div>
       ${openPorts.length
         ? `<div class="hdr-list">
             ${openPorts.map(([port, svc]) => `
               <div class="hdr-row hdr-ok">
-                <span class="hdr-icon">📡</span>
                 <span class="hdr-name">Port ${port}</span>
                 <span class="hdr-val">→ ${escapeHtml(svc)} (<b>OPEN</b>)</span>
               </div>`).join('')}
           </div>`
-        : '<div class="hdr-row"><span class="hdr-val">Tidak ada port terbuka yang terdeteksi pada simulasi ini.</span></div>'}
-      ${openPorts.length ? `<p class="hdr-recommend" style="margin-top:0.5rem">Total open ports: <b>${openPorts.length}</b>. Coba ganti target untuk melihat kombinasi port berbeda.</p>` : ''}`;
+        : '<div class="hdr-row"><span class="hdr-val">No open ports detected in this simulation.</span></div>'}
+      ${openPorts.length ? `<p class="hdr-recommend" style="margin-top:0.5rem">Total open ports: <b>${openPorts.length}</b>. Try a different target to see other combinations.</p>` : ''}`;
   });
 }

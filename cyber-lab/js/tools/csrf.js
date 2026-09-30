@@ -42,25 +42,25 @@ ${paramFields}
 </html>`;
 
     result.innerHTML = `
-      <div class="csrf-header">📋 CSRF PoC Generated</div>
-      <p class="text-muted" style="font-size:0.75rem;margin-bottom:0.5rem">Copy HTML di bawah ke file <code>.html</code>, buka di browser untuk test.</p>
+      <div class="csrf-header">CSRF PoC Generated</div>
+      <p class="text-muted" style="font-size:0.75rem;margin-bottom:0.5rem">Copy the HTML below into a <code>.html</code> file and open it in a browser to test.</p>
       <div class="csrf-info">
-        <span>🔗 URL: ${escapeHtml(url)}</span>
-        <span>📤 Method: ${escapeHtml(method)}</span>
-        <span>📦 Parameters: ${escapeHtml(String(params.length))}</span>
+        <span>URL: ${escapeHtml(url)}</span>
+        <span>Method: ${escapeHtml(method)}</span>
+        <span>Parameters: ${escapeHtml(String(params.length))}</span>
       </div>
       <div class="csrf-poc-box">
-        <button class="btn btn-sm btn-primary" id="csrf-copy" style="float:right;margin-bottom:0.5rem">📋 Copy</button>
+        <button class="btn btn-sm btn-primary" id="csrf-copy" style="float:right;margin-bottom:0.5rem">Copy</button>
         <pre class="csrf-pre" id="csrf-code">${escapeHtml(html)}</pre>
       </div>
       <div class="csrf-test-steps">
-        <div class="csrf-step-title">🧪 Cara Test</div>
+        <div class="csrf-step-title">How to Test</div>
         <ol>
-          <li>Copy HTML code di atas</li>
-          <li>Simpan sebagai <code>poc.html</code></li>
-          <li>Buka di browser (bisa langsung drag ke tab)</li>
-          <li>Form akan auto-submit — lihat apakah request berhasil tanpa token CSRF</li>
-          <li>Jika berhasil → 🔴 Rentan CSRF! Tambahkan CSRF token di backend.</li>
+          <li>Copy the HTML code above</li>
+          <li>Save it as <code>poc.html</code></li>
+          <li>Open it in a browser (you can drag it into a tab)</li>
+          <li>The form auto-submits — check whether the request succeeds without a CSRF token</li>
+          <li>If it succeeds → vulnerable to CSRF! Add a CSRF token on the backend.</li>
         </ol>
       </div>`;
 

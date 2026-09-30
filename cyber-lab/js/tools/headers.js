@@ -73,7 +73,7 @@ function renderHeadersResult(el, headers) {
         <span class="hdr-icon">${icon}</span>
         <span class="hdr-name">${meta.name}</span>
         <span class="hdr-sev ${meta.severity}">${meta.severity}</span>
-        <span class="hdr-val">${found ? val : 'MISSING'}</span>
+        <span class="hdr-val">${found ? escapeHtml(val) : 'MISSING'}</span>
       </div>`;
   }
 

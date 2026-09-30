@@ -88,7 +88,7 @@ function renderHome(host) {
     <div class="pmlab-hero">
       <h1 class="pmlab-hero-title">IT Project Management Lab</h1>
       <p class="pmlab-hero-sub">Interactive tools for planning, monitoring, risk analysis, project control, and IT project decision-making.</p>
-      <p class="pmlab-privacy">🔒 ${PRIVACY}</p>
+      <p class="pmlab-privacy">${PRIVACY}</p>
       <div class="pmlab-hero-actions">
         <button class="btn btn-primary" id="pmlab-demo">Use Demo Project</button>
         <button class="btn btn-outline" id="pmlab-goto-analyzer">Upload Project Documents</button>
@@ -102,12 +102,12 @@ function renderHome(host) {
     </div>
 
     <div class="pmlab-cards">
-      ${homeCard('planner', '🧭', 'AI Project Planner', 'Generate WBS, tasks, and a full project plan from templates.')}
-      ${homeCard('analyzer', '📄', 'Project Document Analyzer', 'Parse XLSX, PDF, DOCX and TXT to extract project data.')}
-      ${homeCard('health', '💚', 'Project Health Analyzer', 'Score schedule, budget, scope, risk, resource and quality.')}
-      ${homeCard('risk', '⚠️', 'Risk Simulator', 'Rate probability x impact and measure mitigation effect.')}
-      ${homeCard('scenario', '🧪', 'PM Scenario Lab', 'Test realistic decisions: delay, vendor, resources, incidents.')}
-      ${homeCard('dashboard', '📊', 'Executive Dashboard', 'KPI cards, charts and an executive project summary.')}
+      ${homeCard('planner', 'Project Planner', 'Generate WBS, tasks, and a full project plan from templates.')}
+      ${homeCard('analyzer', 'Project Document Analyzer', 'Parse XLSX, PDF, DOCX and TXT to extract project data.')}
+      ${homeCard('health', 'Project Health Analyzer', 'Score schedule, budget, scope, risk, resource and quality.')}
+      ${homeCard('risk', 'Risk Simulator', 'Rate probability x impact and measure mitigation effect.')}
+      ${homeCard('scenario', 'PM Scenario Lab', 'Test realistic decisions: delay, vendor, resources, incidents.')}
+      ${homeCard('dashboard', 'Executive Dashboard', 'KPI cards, charts and an executive project summary.')}
     </div>
 
     <div class="pmlab-home-row">
@@ -162,9 +162,8 @@ function createProjectFromTemplate(key, label) {
   setView('dashboard');
 }
 
-function homeCard(view, icon, title, desc) {
+function homeCard(view, title, desc) {
   return `<button class="pmlab-card glass-card" data-card="${view}">
-    <span class="pmlab-card-icon">${icon}</span>
     <h3>${esc(title)}</h3>
     <p class="text-muted">${esc(desc)}</p>
   </button>`;
@@ -220,7 +219,7 @@ function renderDashboard(host) {
       <p class="pmlab-insight" id="pmlab-insight">Loading insight…</p>
     </div>
     <div class="pmlab-view-actions">
-      <button class="btn btn-primary" id="pmlab-save">💾 Save Project</button>
+      <button class="btn btn-primary" id="pmlab-save">Save Project</button>
       <button class="btn btn-outline" id="pmlab-open-risk">Risk Simulator</button>
       <button class="btn btn-outline" id="pmlab-open-reports">Generate Report</button>
     </div>`;
@@ -268,9 +267,8 @@ function renderAnalyzer(host) {
   host.innerHTML = `
     <h2 class="pmlab-title">Project Document Analyzer</h2>
     <p class="text-muted">Drag & drop project files, or browse. Supported: <strong>.xlsx .xls .csv .pdf .docx .txt</strong>. Maximum recommended file size 10–20 MB.</p>
-    <p class="pmlab-privacy">🔒 ${PRIVACY}</p>
+    <p class="pmlab-privacy">${PRIVACY}</p>
     <div class="pmlab-drop" id="pmlab-drop" tabindex="0" role="button" aria-label="Upload project documents">
-      <span class="pmlab-drop-icon">📂</span>
       <p><strong>Drag & Drop files here</strong> or click to browse</p>
       <input type="file" id="pmlab-files" accept=".xlsx,.xls,.csv,.pdf,.docx,.doc,.txt" multiple hidden>
     </div>
@@ -353,7 +351,7 @@ function summaryHTML(project, res) {
       </div>
     </div>
     <div class="pmlab-view-actions">
-      <button class="btn btn-primary" id="pmlab-save-analyzed">💾 Save Project</button>
+      <button class="btn btn-primary" id="pmlab-save-analyzed">Save Project</button>
       <button class="btn btn-outline" id="pmlab-go-dash">Open Dashboard</button>
     </div>`;
 }
@@ -375,7 +373,7 @@ function renderFileList(host) {
   const list = host.querySelector('#pmlab-filelist');
   if (!list) return;
   if (!PM.files.length) { list.innerHTML = ''; return; }
-  list.innerHTML = PM.files.map((f, i) => `<div class="pmlab-fileitem"><span class="pmlab-file-icon">📄</span><span class="pmlab-file-name">${esc(f.name)}</span><span class="text-muted">${fmtSize(f.size)} · ${esc(fileType(f.name))}</span><span class="pmlab-status ok">✓ Queued</span></div>`).join('');
+  list.innerHTML = PM.files.map((f, i) => `<div class="pmlab-fileitem"><span class="pmlab-file-name">${esc(f.name)}</span><span class="text-muted">${fmtSize(f.size)} · ${esc(fileType(f.name))}</span><span class="pmlab-status ok">✓ Queued</span></div>`).join('');
 }
 
 function animateFiles(host) {
@@ -578,7 +576,7 @@ function renderScenarioBox(host) {
         ${scenario.options.map((o) => `<button class="pmlab-option btn btn-outline" data-opt="${o.key}">${esc(o.label)}</button>`).join('')}
       </div>
       <div id="scenario-decision"></div>
-      <p class="text-muted pmlab-note">⚠️ This simulator evaluates trade-offs, not a single “correct” PM answer.</p>
+      <p class="text-muted pmlab-note">This simulator evaluates trade-offs, not a single “correct” PM answer.</p>
     </div>`;
   box.querySelectorAll('.pmlab-option').forEach((b) => b.addEventListener('click', () => {
     const res = evaluateScenario(scenario, b.dataset.opt);
@@ -632,7 +630,7 @@ function renderReports(host) {
     </div>
     <div id="pmlab-report-preview"></div>
     <div class="pmlab-view-actions">
-      <button class="btn btn-primary" id="pmlab-save2">💾 Save Project</button>
+      <button class="btn btn-primary" id="pmlab-save2">Save Project</button>
     </div>`;
   host.querySelector('#pmlab-save2').addEventListener('click', () => { PMStorage.save(project); saveFlash('Project saved.'); });
   host.querySelector('#pmlab-print').addEventListener('click', () => {

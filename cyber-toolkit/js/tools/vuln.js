@@ -19,9 +19,9 @@ export function initVulnScanner() {
 
   btn.addEventListener('click', async () => {
     const keyword = input.value.trim();
-    if (!keyword) { result.innerHTML = '<p class="text-warning">Keyword tidak boleh kosong.</p>'; return; }
+    if (!keyword) { result.innerHTML = '<p class="text-warning">Keyword must not be empty.</p>'; return; }
 
-    result.innerHTML = '<p class="text-muted">Mencari CVE untuk <b>' + escapeHtml(keyword) + '</b> di NVD API...</p>';
+    result.innerHTML = '<p class="text-muted">Searching CVEs for <b>' + escapeHtml(keyword) + '</b> via the NVD API...</p>';
 
     const url = `${NVD_API}?keywordSearch=${encodeURIComponent(keyword)}&resultsPerPage=10`;
     try {
@@ -32,12 +32,12 @@ export function initVulnScanner() {
       const vulnerabilities = data.vulnerabilities || [];
       const total = data.totalResults || 0;
       if (!vulnerabilities.length) {
-        result.innerHTML = `<p class="text-muted">Tidak ada CVE ditemukan untuk keyword "${escapeHtml(keyword)}".</p>`;
+        result.innerHTML = `<p class="text-muted">No CVEs found for "${escapeHtml(keyword)}".</p>`;
         return;
       }
 
       result.innerHTML = `
-        <p class="dns-header" style="margin-bottom:0.5rem">Ditemukan ${total} CVE untuk "${escapeHtml(keyword)}" — menampilkan ${vulnerabilities.length} teratas</p>
+        <p class="dns-header" style="margin-bottom:0.5rem">Found ${total} CVEs for "${escapeHtml(keyword)}" — showing top ${vulnerabilities.length}</p>
         <div class="hdr-list">
           ${vulnerabilities.map((item) => {
             const cve = item.cve || {};
@@ -69,9 +69,9 @@ export function initVulnScanner() {
               </div>`;
           }).join('')}
         </div>
-        <p class="hdr-recommend" style="margin-top:0.5rem">📡 Data dari NVD. Severity per CVSS v3.1 (fallback v2).</p>`;
+        <p class="hdr-recommend" style="margin-top:0.5rem">Data from NVD. Severity per CVSS v3.1 (fallback v2).</p>`;
     } catch (e) {
-      result.innerHTML = `<p class="text-warning">Gagal mengambil data dari NVD: ${escapeHtml(e.message)}. API mungkin sedang menurun atau koneksi diblokir. Coba lagi beberapa saat.</p>`;
+      result.innerHTML = `<p class="text-warning">Failed to fetch NVD data: ${escapeHtml(e.message)}. The API may be down or the connection blocked. Try again in a moment.</p>`;
     }
   });
 }

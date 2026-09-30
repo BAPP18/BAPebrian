@@ -60,11 +60,11 @@ function renderJWTResult(el, header, payload, signature) {
   el.innerHTML = `
     <div class="jwt-section">
       <div class="jwt-section-title">HEADER: ALGORITHM & TOKEN TYPE</div>
-      <pre class="jwt-json">${JSON.stringify(header, null, 2)}</pre>
+      <pre class="jwt-json">${escapeHtml(JSON.stringify(header, null, 2))}</pre>
     </div>
     <div class="jwt-section">
       <div class="jwt-section-title">PAYLOAD: DATA</div>
-      <pre class="jwt-json">${JSON.stringify(payload, null, 2)}</pre>
+      <pre class="jwt-json">${escapeHtml(JSON.stringify(payload, null, 2))}</pre>
     </div>
     <div class="jwt-section">
       <div class="jwt-section-title">SIGNATURE</div>

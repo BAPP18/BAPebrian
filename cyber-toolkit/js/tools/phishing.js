@@ -15,61 +15,61 @@ function analyzeURL(url) {
   try {
     parsed = new URL(url.includes('://') ? url : 'http://' + url);
   } catch {
-    return { score: 5, reasons: ['URL tidak valid / tidak bisa di-parse'], verdict: 'SEDANG - patut dicurigai' };
+    return { score: 5, reasons: ['Invalid URL / cannot be parsed'], verdict: 'MEDIUM - suspicious' };
   }
   const domain = parsed.hostname;
   const path = parsed.pathname.toLowerCase();
 
   if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(domain)) {
     score += 3;
-    reasons.push('Domain menggunakan IP address langsung (mencurigakan)');
+    reasons.push('Domain is a raw IP address (suspicious)');
   }
 
   if (url.length > 75) {
     score += 1;
-    reasons.push('URL sangat panjang');
+    reasons.push('Very long URL');
   }
 
   if (domain.split('.').length > 4) {
     score += 2;
-    reasons.push('Terlalu banyak subdomain');
+    reasons.push('Too many subdomains');
   }
 
   if (url.includes('@')) {
     score += 3;
-    reasons.push("Mengandung karakter '@' (teknik penyamaran redirect)");
+    reasons.push("Contains '@' (redirect disguise technique)");
   }
 
   if ((domain.match(/-/g) || []).length >= 2) {
     score += 1;
-    reasons.push('Domain mengandung banyak tanda hubung (-)');
+    reasons.push('Domain contains many hyphens (-)');
   }
 
   if (SHORTENER_DOMAINS.some((s) => domain.includes(s))) {
     score += 2;
-    reasons.push('Menggunakan URL shortener (menyembunyikan tujuan asli)');
+    reasons.push('Uses a URL shortener (hides the real destination)');
   }
 
   const found = SUSPICIOUS_KEYWORDS.filter((kw) => url.toLowerCase().includes(kw));
   if (found.length) {
     score += found.length;
-    reasons.push(`Mengandung kata mencurigakan: ${found.join(', ')}`);
+    reasons.push(`Contains suspicious words: ${found.join(', ')}`);
   }
 
   if (parsed.protocol !== 'https:') {
     score += 1;
-    reasons.push('Tidak menggunakan HTTPS');
+    reasons.push('Does not use HTTPS');
   }
 
   if (path.includes('//')) {
     score += 1;
-    reasons.push("Path mengandung '//' (kemungkinan open redirect)");
+    reasons.push("Path contains '//' (possible open redirect)");
   }
 
   let verdict;
-  if (score >= 6) verdict = 'TINGGI - kemungkinan besar PHISHING';
-  else if (score >= 3) verdict = 'SEDANG - patut dicurigai';
-  else verdict = 'RENDAH - kemungkinan aman';
+  if (score >= 6) verdict = 'HIGH - likely PHISHING';
+  else if (score >= 3) verdict = 'MEDIUM - suspicious';
+  else verdict = 'LOW - likely safe';
 
   return { score, reasons, verdict };
 }
@@ -82,7 +82,7 @@ export function initPhishingDetector() {
 
   btn.addEventListener('click', () => {
     const url = input.value.trim();
-    if (!url) { result.innerHTML = '<p class="text-warning">URL tidak boleh kosong.</p>'; return; }
+    if (!url) { result.innerHTML = '<p class="text-warning">URL must not be empty.</p>'; return; }
 
     const r = analyzeURL(url);
     const tone = r.score >= 6 ? 'hdr-miss' : r.score >= 3 ? 'hdr-warn' : 'hdr-ok';
@@ -95,10 +95,10 @@ export function initPhishingDetector() {
       </div>
       <div class="${tone}" style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem">Verdict: ${escapeHtml(r.verdict)}</div>
       ${r.reasons.length ? `
-        <p class="text-muted" style="margin:0 0 0.35rem">Alasan:</p>
+        <p class="text-muted" style="margin:0 0 0.35rem">Reasons:</p>
         <div class="hdr-list">
           ${r.reasons.map((rs) => `
             <div class="hdr-row"><span class="hdr-icon">•</span><span class="hdr-val">${escapeHtml(rs)}</span></div>`).join('')}
-        </div>` : '<p class="text-muted">Tidak ditemukan indikator mencurigakan.</p>'}`;
+        </div>` : '<p class="text-muted">No suspicious indicators found.</p>'}`;
   });
 }

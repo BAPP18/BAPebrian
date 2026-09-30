@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="css/cyber-lab.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="cylab-body">
   <header class="cylab-topbar">
-    <span class="cylab-brand">🛡️ Cyber Security Lab</span>
+    <span class="cylab-brand">Cyber Security Lab</span>
     <nav class="cylab-topnav">
       <a href="../">← Portfolio</a>
       <button class="cylab-icon-btn" id="cylab-theme" aria-label="Toggle theme">🌙</button>
@@ -25,14 +25,14 @@
 
   <div class="cylab-layout">
     <aside class="cylab-sidebar" id="cylab-sidebar" aria-label="Cyber Lab navigation">
-      <button data-view="home">🏠 Home</button>
-      <button data-view="dns">🔍 DNS Lookup</button>
-      <button data-view="headers">🌐 Security Headers</button>
-      <button data-view="jwt">🔐 JWT & Hash</button>
-      <button data-view="enum">🔎 Enumeration</button>
-      <button data-view="as">📡 Attack Surface</button>
-      <button data-view="repeater">🧪 HTTP Repeater</button>
-      <button data-view="csrf">🌊 CSRF PoC</button>
+      <button data-view="home">Home</button>
+      <button data-view="dns">DNS Lookup</button>
+      <button data-view="headers">Security Headers</button>
+      <button data-view="jwt">JWT & Hash</button>
+      <button data-view="enum">Enumeration</button>
+      <button data-view="as">Attack Surface</button>
+      <button data-view="repeater">HTTP Repeater</button>
+      <button data-view="csrf">CSRF PoC</button>
     </aside>
 
     <main class="cylab-main" id="cylab-main">
@@ -41,7 +41,7 @@
       <!-- 1. DNS Lookup -->
       <section class="cylab-view" id="view-dns">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🔍 DNS Lookup — Network Reconnaissance</h3>
+          <h3 class="tool-title">DNS Lookup — Network Reconnaissance</h3>
           <p class="text-muted">Query DNS records for any domain. Powered by Google DNS over HTTPS.</p>
           <div class="tool-field-row">
             <input type="text" id="dns-input" class="tool-input" placeholder="Enter domain (e.g. example.com)" autocomplete="off" spellcheck="false">
@@ -62,7 +62,7 @@
       <!-- 2. Security Headers Analyzer -->
       <section class="cylab-view" id="view-headers">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🌐 Security Headers Analyzer</h3>
+          <h3 class="tool-title">Security Headers Analyzer</h3>
           <p class="text-muted">Check any website for missing HTTP security headers. Get a grade (A-F) and recommendations.</p>
           <div class="tool-field-row">
             <input type="text" id="headers-input" class="tool-input" placeholder="Enter URL (e.g. https://example.com)" autocomplete="off" spellcheck="false">
@@ -75,7 +75,7 @@
       <!-- 3. JWT & Hash Inspector -->
       <section class="cylab-view" id="view-jwt">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🔐 JWT & Hash Inspector</h3>
+          <h3 class="tool-title">JWT & Hash Inspector</h3>
           <p class="text-muted">Decode JWT tokens and identify hash types</p>
 
           <div class="sub-tabs">
@@ -101,12 +101,12 @@
       <!-- 4. Enumeration -->
       <section class="cylab-view" id="view-enum">
         <div id="enum-tool" class="tool-card glass-card">
-          <h3 class="tool-title">🔎 Subdomain & Directory Enumeration</h3>
+          <h3 class="tool-title">Subdomain & Directory Enumeration</h3>
           <p class="text-muted">Discover subdomains and common directories on a target domain.</p>
 
           <div class="enum-sub-tabs">
-            <button class="enum-sub-tab active" data-ensub="enum-subdomain">🌐 Subdomain Scan</button>
-            <button class="enum-sub-tab" data-ensub="enum-directory">📁 Directory Scan</button>
+          <button class="enum-sub-tab active" data-ensub="enum-subdomain">Subdomain Scan</button>
+          <button class="enum-sub-tab" data-ensub="enum-directory">Directory Scan</button>
           </div>
 
           <div id="enum-subdomain" class="enum-sub-content active">
@@ -132,7 +132,7 @@
       <!-- 5. Attack Surface Analyzer -->
       <section class="cylab-view" id="view-as">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">📡 Attack Surface Analyzer</h3>
+          <h3 class="tool-title">Attack Surface Analyzer</h3>
           <p class="text-muted">Scan 12 common HTTP/HTTPS ports, detect server technologies, and get pentest guidance + mitigations.</p>
           <div class="tool-field-row">
             <input type="text" id="as-domain" class="tool-input" placeholder="example.com" autocomplete="off" spellcheck="false">
@@ -145,12 +145,12 @@
       <!-- 6. HTTP Repeater + IDOR Fuzzer -->
       <section class="cylab-view" id="view-repeater">
         <div id="repeater-tool" class="tool-card glass-card">
-          <h3 class="tool-title">🧪 HTTP Request Builder / IDOR Fuzzer</h3>
+          <h3 class="tool-title">HTTP Request Builder / IDOR Fuzzer</h3>
           <p class="text-muted">Craft custom requests or auto-fuzz potential IDOR vulnerabilities.</p>
 
           <div class="rep-sub-tabs">
-            <button class="rep-sub-tab active" data-repsub="request-builder">📤 Request Builder</button>
-            <button class="rep-sub-tab" data-repsub="idor-fuzzer">🎯 IDOR Fuzzer</button>
+          <button class="rep-sub-tab active" data-repsub="request-builder">Request Builder</button>
+          <button class="rep-sub-tab" data-repsub="idor-fuzzer">IDOR Fuzzer</button>
           </div>
 
           <div id="request-builder" class="rep-sub-content active">
@@ -190,7 +190,7 @@
       <!-- 7. CSRF PoC Generator -->
       <section class="cylab-view" id="view-csrf">
         <div class="tool-card glass-card">
-          <h3 class="tool-title">🌊 CSRF PoC Generator</h3>
+          <h3 class="tool-title">CSRF PoC Generator</h3>
           <p class="text-muted">Generate HTML proof-of-concept forms for Cross-Site Request Forgery testing.</p>
           <div class="tool-field-row">
             <input type="text" id="csrf-url" class="tool-input" placeholder="https://target.com/api/action" autocomplete="off" spellcheck="false">

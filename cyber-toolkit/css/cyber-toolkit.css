@@ -139,9 +139,9 @@
 .cytk-card:hover {
   transform: translateY(-3px);
   border-color: var(--accent);
-  box-shadow: 0 12px 32px rgba(34, 110, 225, 0.15);
+  box-shadow: 0 12px 32px rgba(34, 211, 238, 0.1);
 }
-.cytk-card-icon { font-size: 1.6rem; }
+.cytk-card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
 
 /* Packet sniffer guide */
 .pkt-info {

@@ -2,8 +2,8 @@
 
 .cylab-body {
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(137, 88, 255, 0.18), transparent 60%),
-    radial-gradient(900px 500px at 0% 110%, rgba(232, 121, 249, 0.12), transparent 55%),
+    radial-gradient(1200px 600px at 80% -10%, rgba(34, 211, 238, 0.1), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(14, 165, 233, 0.08), transparent 55%),
     var(--bg-primary);
   min-height: 100vh;
 }
@@ -139,9 +139,9 @@
 .cylab-card:hover {
   transform: translateY(-3px);
   border-color: var(--accent);
-  box-shadow: 0 12px 32px rgba(137, 88, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(34, 211, 238, 0.1);
 }
-.cylab-card-icon { font-size: 1.6rem; }
+.cylab-card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
 
 /* ===== Tool UI (moved from style.css) ===== */
 
